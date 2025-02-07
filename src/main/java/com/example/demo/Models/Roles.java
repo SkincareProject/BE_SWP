@@ -24,7 +24,7 @@ public class Roles {
 
     private String description;
 
-    @OneToMany(mappedBy = "roles")
+    @OneToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     private List<Users> Users;
 
 

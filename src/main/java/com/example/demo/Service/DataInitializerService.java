@@ -45,11 +45,6 @@ public class DataInitializerService {
         esthetician.setName("ESTHETICIAN");
         esthetician.setDescription("ROLE ESTHETICIAN");
 
-        _rolesRepository.save(admin);
-        _rolesRepository.save(customer);
-        _rolesRepository.save(staff);
-        _rolesRepository.save(esthetician);
-
         // Users
 
         Users usersAdmin = new Users("admin","123","admin@gmail.com");
@@ -62,13 +57,6 @@ public class DataInitializerService {
         usersCustomer.setRoles(customer);
         Users usersCustomer1 = new Users("customer1","123","customer@gmail.com");
         usersCustomer1.setRoles(customer);
-
-        _usersRepository.save(usersAdmin);
-        _usersRepository.save(usersCustomer);
-        _usersRepository.save(usersCustomer1);
-        _usersRepository.save(usersStaff);
-        _usersRepository.save(usersEsthetician);
-
 
         List<Users> adminList = new ArrayList<>();
         adminList.add(usersAdmin);
@@ -95,8 +83,10 @@ public class DataInitializerService {
 
 //        _usersRepository.save(usersAdmin);
 //        _usersRepository.save(usersCustomer);
+//        _usersRepository.save(usersCustomer1);
 //        _usersRepository.save(usersStaff);
 //        _usersRepository.save(usersEsthetician);
+
     }
 
 }
