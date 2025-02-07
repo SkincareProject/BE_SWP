@@ -1,7 +1,9 @@
 package com.example.demo.Service;
 
+import com.example.demo.Models.Customers;
 import com.example.demo.Models.Roles;
 import com.example.demo.Models.Users;
+import com.example.demo.Repository.CustomersRepository;
 import com.example.demo.Repository.RolesRepository;
 import com.example.demo.Repository.UsersRepository;
 import jakarta.annotation.PostConstruct;
@@ -16,11 +18,13 @@ public class DataInitializerService {
 
     private final RolesRepository _rolesRepository;
     private final UsersRepository _usersRepository;
+    private final CustomersRepository _customerRepository;
 
-    public DataInitializerService (RolesRepository repository, UsersRepository usersRepository){
+    public DataInitializerService (RolesRepository repository, UsersRepository usersRepository, CustomersRepository customerRepository){
 
         _rolesRepository = repository;
         _usersRepository = usersRepository;
+        _customerRepository = customerRepository;
     }
 
 
@@ -86,6 +90,11 @@ public class DataInitializerService {
 //        _usersRepository.save(usersCustomer1);
 //        _usersRepository.save(usersStaff);
 //        _usersRepository.save(usersEsthetician);
+        Customers customers = new Customers(usersCustomer.getId(),usersCustomer.getUsername(),usersCustomer.getEmail());
+        Customers customers1 = new Customers(usersCustomer1.getId(),usersCustomer1.getUsername(),usersCustomer1.getEmail());
+
+        _customerRepository.save(customers1);
+        _customerRepository.save(customers);
 
     }
 
