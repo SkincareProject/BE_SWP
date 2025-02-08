@@ -1,11 +1,7 @@
-package com.example.demo.Models;
+package com.example.be_swp.Models;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 public class Users {

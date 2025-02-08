@@ -1,6 +1,6 @@
-package com.example.demo.Repository;
+package com.example.be_swp.Repository;
 
-import com.example.demo.Models.Customers;
+import com.example.be_swp.Models.Customers;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
