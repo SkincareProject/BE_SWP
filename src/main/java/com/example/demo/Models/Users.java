@@ -20,8 +20,14 @@ public class Users {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "fullName")
+    private String fullName;
+
     @Column(name = "email")
     private String email;
+
+    @Column(name = "phone")
+    private String phone;
 
     @ManyToOne
     @JoinColumn(name = "roleID")
@@ -31,10 +37,28 @@ public class Users {
 
     }
 
-    public Users(String username, String password, String email) {
+    public Users(String username, String password, String fullName, String email, String phone) {
         this.username = username;
         this.password = password;
+        this.fullName = fullName;
         this.email = email;
+        this.phone = phone;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public int getId() {

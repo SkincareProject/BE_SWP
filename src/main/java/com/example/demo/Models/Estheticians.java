@@ -11,6 +11,8 @@ public class Estheticians {
     @Id
     private int estheticianID;
 
+    private String fullName;
+
     private String specializeIn;
 
     private int yearOfExperiences;
@@ -20,10 +22,19 @@ public class Estheticians {
     public Estheticians() {
     }
 
-    public Estheticians(String specializeIn, int yearOfExperiences, String email) {
+    public Estheticians(String fullName, String specializeIn, int yearOfExperiences, String email) {
+        this.fullName = fullName;
         this.specializeIn = specializeIn;
         this.yearOfExperiences = yearOfExperiences;
         this.email = email;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public int getEstheticianID() {

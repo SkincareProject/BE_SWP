@@ -51,15 +51,15 @@ public class DataInitializerService {
 
         // Users
 
-        Users usersAdmin = new Users("admin","123","admin@gmail.com");
+        Users usersAdmin = new Users("admin","123","admin","admin@gmail.com","0123456789");
         usersAdmin.setRoles(admin);
-        Users usersStaff = new Users("staff","123","staff@gmail.com");
+        Users usersStaff = new Users("staff","123","staff","staff@gmail.com","0123456789");
         usersStaff.setRoles(staff);
-        Users usersEsthetician = new Users("esthetician","123","esthetician@gmail.com");
+        Users usersEsthetician = new Users("esthetician","123","esthe","esthetician@gmail.com","0123456789");
         usersEsthetician.setRoles(esthetician);
-        Users usersCustomer = new Users("customer","123","customer@gmail.com");
+        Users usersCustomer = new Users("customer","123","customer","customer@gmail.com","0123456789");
         usersCustomer.setRoles(customer);
-        Users usersCustomer1 = new Users("customer1","123","customer@gmail.com");
+        Users usersCustomer1 = new Users("customer1","123","customer1","customer@gmail.com","0123456789");
         usersCustomer1.setRoles(customer);
 
         List<Users> adminList = new ArrayList<>();
