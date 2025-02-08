@@ -1,13 +1,12 @@
-package com.example.demo.Service;
+package com.example.be_swp.Service;
 
-import com.example.demo.Models.Customers;
-import com.example.demo.Models.Roles;
-import com.example.demo.Models.Users;
-import com.example.demo.Repository.CustomersRepository;
-import com.example.demo.Repository.RolesRepository;
-import com.example.demo.Repository.UsersRepository;
+import com.example.be_swp.Models.Customers;
+import com.example.be_swp.Models.Roles;
+import com.example.be_swp.Models.Users;
+import com.example.be_swp.Repository.CustomersRepository;
+import com.example.be_swp.Repository.RolesRepository;
+import com.example.be_swp.Repository.UsersRepository;
 import jakarta.annotation.PostConstruct;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

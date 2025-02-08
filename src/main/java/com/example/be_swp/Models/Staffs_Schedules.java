@@ -1,8 +1,6 @@
-package com.example.demo.Models;
+package com.example.be_swp.Models;
 
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 public class Staffs_Schedules {

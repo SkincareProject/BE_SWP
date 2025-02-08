@@ -1,8 +1,6 @@
-package com.example.demo.Models;
+package com.example.be_swp.Models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity

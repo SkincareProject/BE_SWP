@@ -1,7 +1,7 @@
-package com.example.demo.Service;
+package com.example.be_swp.Service;
 
-import com.example.demo.Models.Users;
-import com.example.demo.Repository.UsersRepository;
+import com.example.be_swp.Models.Users;
+import com.example.be_swp.Repository.UsersRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
