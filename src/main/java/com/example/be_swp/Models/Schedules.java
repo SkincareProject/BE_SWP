@@ -18,8 +18,8 @@ public class Schedules {
 
     private String description;
 
-    @OneToMany(mappedBy = "schedules", cascade = CascadeType.ALL)
-    private List<Staffs_Schedules> staffsSchedulesList;
+    @ManyToMany(mappedBy = "schedules")
+    private List<Staffs> staffs;
 
     public Schedules() {
     }
@@ -28,14 +28,6 @@ public class Schedules {
         this.description = description;
         this.timeEnd = timeEnd;
         this.timeStart = timeStart;
-    }
-
-    public List<Staffs_Schedules> getStaffsSchedulesList() {
-        return staffsSchedulesList;
-    }
-
-    public void setStaffsSchedulesList(List<Staffs_Schedules> staffsSchedulesList) {
-        this.staffsSchedulesList = staffsSchedulesList;
     }
 
     public String getDescription() {

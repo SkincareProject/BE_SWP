@@ -14,9 +14,13 @@ public class Staffs {
 
     private String email;
 
-    @OneToMany(mappedBy = "staffs", cascade = CascadeType.ALL)
-    private List<Staffs_Schedules> schedulesList;
-
+    @ManyToMany
+    @JoinTable(
+            name = "Staff_Schedule",
+            joinColumns = @JoinColumn(name = "staff_id"),
+            inverseJoinColumns = @JoinColumn(name = "schedule_id")
+    )
+    private List<Schedules> schedules;
 
     public Staffs() {
     }
@@ -24,14 +28,6 @@ public class Staffs {
     public Staffs(String fullName, String email) {
         this.fullName = fullName;
         this.email = email;
-    }
-
-    public List<Staffs_Schedules> getSchedulesList() {
-        return schedulesList;
-    }
-
-    public void setSchedulesList(List<Staffs_Schedules> schedulesList) {
-        this.schedulesList = schedulesList;
     }
 
     public int getStaffID() {
