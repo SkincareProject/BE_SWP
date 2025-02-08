@@ -1,4 +1,60 @@
 package com.example.demo.Models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Estheticians {
+
+    @Id
+    private int estheticianID;
+
+    private String specializeIn;
+
+    private int yearOfExperiences;
+
+    private String email;
+
+    public Estheticians() {
+    }
+
+    public Estheticians(String specializeIn, int yearOfExperiences, String email) {
+        this.specializeIn = specializeIn;
+        this.yearOfExperiences = yearOfExperiences;
+        this.email = email;
+    }
+
+    public int getEstheticianID() {
+        return estheticianID;
+    }
+
+    public void setEstheticianID(int estheticianID) {
+        this.estheticianID = estheticianID;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getYearOfExperiences() {
+        return yearOfExperiences;
+    }
+
+    public void setYearOfExperiences(int yearOfExperiences) {
+        this.yearOfExperiences = yearOfExperiences;
+    }
+
+    public String getSpecializeIn() {
+        return specializeIn;
+    }
+
+    public void setSpecializeIn(String specializeIn) {
+        this.specializeIn = specializeIn;
+    }
 }
