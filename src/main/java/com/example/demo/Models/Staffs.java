@@ -1,9 +1,8 @@
 package com.example.demo.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Staffs {
@@ -15,6 +14,9 @@ public class Staffs {
 
     private String email;
 
+    @OneToMany(mappedBy = "staffs", cascade = CascadeType.ALL)
+    private List<Staffs_Schedules> schedulesList;
+
 
     public Staffs() {
     }
@@ -22,6 +24,14 @@ public class Staffs {
     public Staffs(String fullName, String email) {
         this.fullName = fullName;
         this.email = email;
+    }
+
+    public List<Staffs_Schedules> getSchedulesList() {
+        return schedulesList;
+    }
+
+    public void setSchedulesList(List<Staffs_Schedules> schedulesList) {
+        this.schedulesList = schedulesList;
     }
 
     public int getStaffID() {
