@@ -14,19 +14,25 @@ public class Customers {
 
     private String email;
 
+    private String phone;
 
     public Customers() {
     }
 
-    public Customers(int customerID, String fullName, String email) {
+    public Customers(int customerID, String fullName, String email, String phone) {
         this.customerID = customerID;
         this.fullName = fullName;
         this.email = email;
+        this.phone = phone;
+    }
+    
+
+    public String getPhone() {
+        return phone;
     }
 
-    public Customers(String fullName, String email) {
-        this.fullName = fullName;
-        this.email = email;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getFullName() {
