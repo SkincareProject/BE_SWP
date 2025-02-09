@@ -3,6 +3,9 @@ package com.example.be_swp.Models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.List;
 
 @Entity
 public class Customers {
@@ -14,19 +17,28 @@ public class Customers {
 
     private String email;
 
+    private String phone;
+
+    @OneToMany(mappedBy = "customer")
+    private List<BookingHistory> bookingHistories;
 
     public Customers() {
     }
 
-    public Customers(int customerID, String fullName, String email) {
+    public Customers(int customerID, String fullName, String email, String phone) {
         this.customerID = customerID;
         this.fullName = fullName;
         this.email = email;
+        this.phone = phone;
     }
 
-    public Customers(String fullName, String email) {
-        this.fullName = fullName;
-        this.email = email;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getFullName() {
@@ -51,5 +63,13 @@ public class Customers {
 
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
+    }
+
+    public List<BookingHistory> getBookingHistories() {
+        return bookingHistories;
+    }
+
+    public void setBookingHistories(List<BookingHistory> bookingHistories) {
+        this.bookingHistories = bookingHistories;
     }
 }
