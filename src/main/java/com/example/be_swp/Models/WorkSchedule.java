@@ -35,4 +35,8 @@ public class WorkSchedule {
 
     private LocalDateTime updated_at;
 
+    @ManyToOne
+    @JoinColumn(name = "expert_id")
+    private Experts experts;
+
 }

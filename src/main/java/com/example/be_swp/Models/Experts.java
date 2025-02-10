@@ -1,15 +1,13 @@
 package com.example.be_swp.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -35,5 +33,8 @@ public class Experts {
     private LocalDateTime created_at;
 
     private LocalDateTime updated_at;
+
+    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
+    private List<WorkSchedule> workScheduleList;
 
 }
