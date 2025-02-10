@@ -1,9 +1,7 @@
 package com.example.be_swp.Service;
 
-import com.example.be_swp.Models.Customers;
 import com.example.be_swp.Models.Roles;
 import com.example.be_swp.Models.Users;
-import com.example.be_swp.Repository.CustomersRepository;
 import com.example.be_swp.Repository.RolesRepository;
 import com.example.be_swp.Repository.UsersRepository;
 import jakarta.annotation.PostConstruct;
@@ -17,13 +15,11 @@ public class DataInitializerService {
 
     private final RolesRepository _rolesRepository;
     private final UsersRepository _usersRepository;
-    private final CustomersRepository _customerRepository;
 
-    public DataInitializerService (RolesRepository repository, UsersRepository usersRepository, CustomersRepository customerRepository){
+    public DataInitializerService (RolesRepository repository, UsersRepository usersRepository){
 
         _rolesRepository = repository;
         _usersRepository = usersRepository;
-        _customerRepository = customerRepository;
     }
 
 
@@ -89,11 +85,6 @@ public class DataInitializerService {
 //        _usersRepository.save(usersCustomer1);
 //        _usersRepository.save(usersStaff);
 //        _usersRepository.save(usersEsthetician);
-        Customers customers = new Customers(usersCustomer.getId(),usersCustomer.getUsername(),usersCustomer.getEmail(),usersCustomer.getPhone());
-        Customers customers1 = new Customers(usersCustomer1.getId(),usersCustomer1.getUsername(),usersCustomer1.getEmail(),usersCustomer1.getPhone());
-
-        _customerRepository.save(customers1);
-        _customerRepository.save(customers);
 
     }
 
