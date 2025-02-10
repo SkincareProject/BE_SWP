@@ -47,6 +47,9 @@ public class Users {
     @Column(name = "updated_at")
     private LocalDateTime updated_at;
 
+    @OneToOne(mappedBy = "users")
+    private Experts experts;
+
     public Users(String username, String password, String fullName, String email, String phone, boolean is_active, LocalDateTime created_at, LocalDateTime updated_at) {
         this.username = username;
         this.password = password;
