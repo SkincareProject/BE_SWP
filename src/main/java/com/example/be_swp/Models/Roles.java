@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -23,6 +24,9 @@ public class Roles {
     private String name;
 
     private String description;
+
+    @Column(name = "created_at")
+    private LocalDateTime created_at;
 
     @OneToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     private List<Users> Users;

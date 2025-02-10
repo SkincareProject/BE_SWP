@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-@Entity
+
 public class Appointments {
 
     @Id
@@ -19,17 +19,4 @@ public class Appointments {
 
     private double total;
 
-    @ManyToOne
-    @JoinColumn(name = "service_ID")
-    private Service service;
-
-    public Appointments() {
-    }
-
-    public Appointments(LocalDateTime checkOut, LocalDateTime dateTime, LocalDateTime checkIn, double total) {
-        this.checkOut = checkOut;
-        this.dateTime = dateTime;
-        this.checkIn = checkIn;
-        this.total = total;
-    }
 }

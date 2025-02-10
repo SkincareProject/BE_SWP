@@ -7,6 +7,7 @@ import com.example.be_swp.Repository.UsersRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,35 +28,39 @@ public class DataInitializerService {
     public void init(){
 
         // Roles
-        Roles admin = new Roles();
-        Roles customer = new Roles();
-        Roles staff = new Roles();
-        Roles esthetician = new Roles();
+        Roles rolesAdmin = new Roles();
+        Roles rolesCustomer = new Roles();
+        Roles rolesStaff = new Roles();
+        Roles rolesExpert = new Roles();
 
-        admin.setName("ADMIN");
-        admin.setDescription("ROLE ADMIN");
+        rolesAdmin.setName("ADMIN");
+        rolesAdmin.setDescription("ROLE ADMIN");
+        rolesAdmin.setCreated_at(LocalDateTime.now());
 
-        customer.setName("CUSTOMER");
-        customer.setDescription("ROLE CUSTOMER");
+        rolesCustomer.setName("CUSTOMER");
+        rolesCustomer.setDescription("ROLE CUSTOMER");
+        rolesCustomer.setCreated_at(LocalDateTime.now());
 
-        staff.setName("STAFF");
-        staff.setDescription("ROLE STAFF");
+        rolesStaff.setName("STAFF");
+        rolesStaff.setDescription("ROLE STAFF");
+        rolesStaff.setCreated_at(LocalDateTime.now());
 
-        esthetician.setName("ESTHETICIAN");
-        esthetician.setDescription("ROLE ESTHETICIAN");
+        rolesExpert.setName("EXPERT");
+        rolesExpert.setDescription("ROLE EXPERT");
+        rolesExpert.setCreated_at(LocalDateTime.now());
 
         // Users
 
-        Users usersAdmin = new Users("admin","123","admin","admin@gmail.com","0123456789");
-        usersAdmin.setRoles(admin);
-        Users usersStaff = new Users("staff","123","staff","staff@gmail.com","0123456789");
-        usersStaff.setRoles(staff);
-        Users usersEsthetician = new Users("esthetician","123","esthe","esthetician@gmail.com","0123456789");
-        usersEsthetician.setRoles(esthetician);
-        Users usersCustomer = new Users("customer","123","customer","customer@gmail.com","0123456789");
-        usersCustomer.setRoles(customer);
-        Users usersCustomer1 = new Users("customer1","123","customer1","customer@gmail.com","0123456789");
-        usersCustomer1.setRoles(customer);
+        Users usersAdmin = new Users("admin","123","admin","admin@gmail.com","0123456789", LocalDateTime.now(),LocalDateTime.now() );
+        usersAdmin.setRoles(rolesAdmin);
+        Users usersStaff = new Users("staff","123","staff","staff@gmail.com","0123456789", LocalDateTime.now(),LocalDateTime.now() );
+        usersStaff.setRoles(rolesStaff);
+        Users usersEsthetician = new Users("expert","123","expert","expert@gmail.com","0123456789", LocalDateTime.now(),LocalDateTime.now() );
+        usersEsthetician.setRoles(rolesExpert);
+        Users usersCustomer = new Users("customer","123","customer","customer@gmail.com","0123456789", LocalDateTime.now(),LocalDateTime.now() );
+        usersCustomer.setRoles(rolesCustomer);
+        Users usersCustomer1 = new Users("customer1","123","customer1","customer@gmail.com","0123456789", LocalDateTime.now(),LocalDateTime.now() );
+        usersCustomer1.setRoles(rolesCustomer);
 
         List<Users> adminList = new ArrayList<>();
         adminList.add(usersAdmin);
@@ -70,15 +75,15 @@ public class DataInitializerService {
         customerList.add(usersCustomer);
         customerList.add(usersCustomer1);
 
-        admin.setUsers(adminList);
-        staff.setUsers(staffList);
-        esthetician.setUsers(estheticianList);
-        customer.setUsers(customerList);
+        rolesAdmin.setUsers(adminList);
+        rolesStaff.setUsers(staffList);
+        rolesExpert.setUsers(estheticianList);
+        rolesCustomer.setUsers(customerList);
 
-        _rolesRepository.save(admin);
-        _rolesRepository.save(customer);
-        _rolesRepository.save(staff);
-        _rolesRepository.save(esthetician);
+        _rolesRepository.save(rolesAdmin);
+        _rolesRepository.save(rolesCustomer);
+        _rolesRepository.save(rolesStaff);
+        _rolesRepository.save(rolesExpert);
 
 //        _usersRepository.save(usersAdmin);
 //        _usersRepository.save(usersCustomer);
