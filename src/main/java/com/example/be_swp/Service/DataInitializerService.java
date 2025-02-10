@@ -35,31 +35,27 @@ public class DataInitializerService {
 
         rolesAdmin.setName("ADMIN");
         rolesAdmin.setDescription("ROLE ADMIN");
-        rolesAdmin.setCreated_at(LocalDateTime.now());
 
         rolesCustomer.setName("CUSTOMER");
         rolesCustomer.setDescription("ROLE CUSTOMER");
-        rolesCustomer.setCreated_at(LocalDateTime.now());
 
         rolesStaff.setName("STAFF");
         rolesStaff.setDescription("ROLE STAFF");
-        rolesStaff.setCreated_at(LocalDateTime.now());
 
         rolesExpert.setName("EXPERT");
         rolesExpert.setDescription("ROLE EXPERT");
-        rolesExpert.setCreated_at(LocalDateTime.now());
 
         // Users
 
-        Users usersAdmin = new Users("admin","123","admin","admin@gmail.com","0123456789", LocalDateTime.now(),LocalDateTime.now() );
+        Users usersAdmin = new Users("admin","123","admin","admin@gmail.com","0123456789",true, LocalDateTime.now(),LocalDateTime.now() );
         usersAdmin.setRoles(rolesAdmin);
-        Users usersStaff = new Users("staff","123","staff","staff@gmail.com","0123456789", LocalDateTime.now(),LocalDateTime.now() );
+        Users usersStaff = new Users("staff","123","staff","staff@gmail.com","0123456789",true, LocalDateTime.now(),LocalDateTime.now() );
         usersStaff.setRoles(rolesStaff);
-        Users usersEsthetician = new Users("expert","123","expert","expert@gmail.com","0123456789", LocalDateTime.now(),LocalDateTime.now() );
+        Users usersEsthetician = new Users("expert","123","expert","expert@gmail.com","0123456789",true, LocalDateTime.now(),LocalDateTime.now() );
         usersEsthetician.setRoles(rolesExpert);
-        Users usersCustomer = new Users("customer","123","customer","customer@gmail.com","0123456789", LocalDateTime.now(),LocalDateTime.now() );
+        Users usersCustomer = new Users("customer","123","customer","customer@gmail.com","0123456789",true, LocalDateTime.now(),LocalDateTime.now() );
         usersCustomer.setRoles(rolesCustomer);
-        Users usersCustomer1 = new Users("customer1","123","customer1","customer@gmail.com","0123456789", LocalDateTime.now(),LocalDateTime.now() );
+        Users usersCustomer1 = new Users("customer1","123","customer1","customer@gmail.com","0123456789",true, LocalDateTime.now(),LocalDateTime.now() );
         usersCustomer1.setRoles(rolesCustomer);
 
         List<Users> adminList = new ArrayList<>();

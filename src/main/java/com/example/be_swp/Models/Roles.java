@@ -25,9 +25,6 @@ public class Roles {
 
     private String description;
 
-    @Column(name = "created_at")
-    private LocalDateTime created_at;
-
     @OneToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     private List<Users> Users;
 

@@ -35,6 +35,8 @@ public class Users {
     @Column(name = "phone")
     private String phone;
 
+    private boolean is_active;
+
     @ManyToOne
     @JoinColumn(name = "roleID")
     private Roles roles;
@@ -45,12 +47,13 @@ public class Users {
     @Column(name = "updated_at")
     private LocalDateTime updated_at;
 
-    public Users(String username, String password, String fullName, String email, String phone, LocalDateTime created_at, LocalDateTime updated_at) {
+    public Users(String username, String password, String fullName, String email, String phone, boolean is_active, LocalDateTime created_at, LocalDateTime updated_at) {
         this.username = username;
         this.password = password;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
+        this.is_active = is_active;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
