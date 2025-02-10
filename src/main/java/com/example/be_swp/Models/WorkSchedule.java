@@ -6,35 +6,33 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.LocalTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Service {
+public class WorkSchedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int serviceID;
+    private int workScheduleID;
 
-    private String serviceName;
+    private int expertID;
 
-    private double price;
+    private LocalTime start_at;
 
-    private String description;
+    private LocalTime end_at;
 
-    private int duration;
+    private LocalDate work_date;
 
     private int status;
-
-    private String type;
 
     private LocalDateTime created_at;
 
     private LocalDateTime updated_at;
-
 
 }
