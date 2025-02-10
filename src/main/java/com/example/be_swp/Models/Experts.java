@@ -37,6 +37,9 @@ public class Experts {
     @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
     private List<WorkSchedule> workScheduleList;
 
+    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
+    private List<Appointments> appointmentsList;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private Users users;
