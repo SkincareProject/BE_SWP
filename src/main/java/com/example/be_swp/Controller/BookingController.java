@@ -1,9 +1,7 @@
 package com.example.be_swp.Controller;
 
 import com.example.be_swp.Models.BookingHistory;
-import com.example.be_swp.Repository.BookingRepository;
 import com.example.be_swp.Service.BookingService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
