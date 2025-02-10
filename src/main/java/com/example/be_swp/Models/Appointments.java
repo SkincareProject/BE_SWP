@@ -19,11 +19,17 @@ public class Appointments {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int appointmentID;
 
-    private int customerID;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Users users;
 
-    private int expertID;
+    @ManyToOne
+    @JoinColumn(name = "expert_id")
+    private Experts experts;
 
-    private int serviceID;
+    @ManyToOne
+    @JoinColumn(name = "service_id")
+    private Service service;
 
     private double total;
 

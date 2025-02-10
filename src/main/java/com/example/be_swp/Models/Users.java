@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -46,6 +47,12 @@ public class Users {
 
     @Column(name = "updated_at")
     private LocalDateTime updated_at;
+
+    @OneToOne(mappedBy = "users")
+    private Experts experts;
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    private List<Appointments> appointmentsList;
 
     public Users(String username, String password, String fullName, String email, String phone, boolean is_active, LocalDateTime created_at, LocalDateTime updated_at) {
         this.username = username;
