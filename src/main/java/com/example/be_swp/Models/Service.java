@@ -18,7 +18,7 @@ public class Service {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int serviceID;
+    private int serviceId;
 
     private String serviceName;
 

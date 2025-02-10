@@ -19,9 +19,7 @@ public class WorkSchedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int workScheduleID;
-
-    private int expertID;
+    private int workScheduleId;
 
     private LocalTime start_at;
 
