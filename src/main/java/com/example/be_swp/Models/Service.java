@@ -18,7 +18,7 @@ public class Service {
     private String description;
 
     @OneToMany(mappedBy = "service")
-    private List<BookingHistory> bookingHistories;
+    private List<Appointments> bookingHistories;
 
     public Service() {
     }
@@ -53,11 +53,11 @@ public class Service {
         this.serviceName = serviceName;
     }
 
-    public List<BookingHistory> getBookingHistories() {
+    public List<Appointments> getBookingHistories() {
         return bookingHistories;
     }
 
-    public void setBookingHistories(List<BookingHistory> bookingHistories) {
+    public void setBookingHistories(List<Appointments> bookingHistories) {
         this.bookingHistories = bookingHistories;
     }
 

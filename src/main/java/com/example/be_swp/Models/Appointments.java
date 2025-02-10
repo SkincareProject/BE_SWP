@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class BookingHistory {
+public class Appointments {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,10 +27,10 @@ public class BookingHistory {
     @JoinColumn(name = "customer_ID")
     private Customers customer;
 
-    public BookingHistory() {
+    public Appointments() {
     }
 
-    public BookingHistory(LocalDateTime checkOut, LocalDateTime dateTime, LocalDateTime checkIn, double total) {
+    public Appointments(LocalDateTime checkOut, LocalDateTime dateTime, LocalDateTime checkIn, double total) {
         this.checkOut = checkOut;
         this.dateTime = dateTime;
         this.checkIn = checkIn;

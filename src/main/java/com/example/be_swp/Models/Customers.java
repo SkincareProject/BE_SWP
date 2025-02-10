@@ -20,7 +20,7 @@ public class Customers {
     private String phone;
 
     @OneToMany(mappedBy = "customer")
-    private List<BookingHistory> bookingHistories;
+    private List<Appointments> bookingHistories;
 
     public Customers() {
     }
@@ -65,11 +65,11 @@ public class Customers {
         this.customerID = customerID;
     }
 
-    public List<BookingHistory> getBookingHistories() {
+    public List<Appointments> getBookingHistories() {
         return bookingHistories;
     }
 
-    public void setBookingHistories(List<BookingHistory> bookingHistories) {
+    public void setBookingHistories(List<Appointments> bookingHistories) {
         this.bookingHistories = bookingHistories;
     }
 }
