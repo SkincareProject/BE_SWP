@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class Estheticians {
+public class Experts {
 
     @Id
     private int estheticianID;
@@ -17,10 +17,10 @@ public class Estheticians {
 
     private String email;
 
-    public Estheticians() {
+    public Experts() {
     }
 
-    public Estheticians(String fullName, String specializeIn, int yearOfExperiences, String email) {
+    public Experts(String fullName, String specializeIn, int yearOfExperiences, String email) {
         this.fullName = fullName;
         this.specializeIn = specializeIn;
         this.yearOfExperiences = yearOfExperiences;
