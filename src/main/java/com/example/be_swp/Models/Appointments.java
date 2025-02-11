@@ -17,7 +17,7 @@ public class Appointments {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int appointmentID;
+    private int appointmentId;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -30,6 +30,9 @@ public class Appointments {
     @ManyToOne
     @JoinColumn(name = "service_id")
     private Service service;
+
+    @OneToOne(mappedBy = "appointments", cascade = CascadeType.ALL)
+    private Payments payments;
 
     private double total;
 

@@ -18,9 +18,7 @@ public class Experts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int expertID;
-
-    private int userID;
+    private int expertId;
 
     private String specialization;
 
