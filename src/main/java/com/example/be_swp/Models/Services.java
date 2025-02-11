@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Service {
+public class Services {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,5 +39,14 @@ public class Service {
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
     private List<Appointments> appointmentsList;
 
-
+    public Services(String serviceName, double price, String description, int duration, int status, String type, LocalDateTime created_at, LocalDateTime updated_at) {
+        this.serviceName = serviceName;
+        this.price = price;
+        this.description = description;
+        this.duration = duration;
+        this.status = status;
+        this.type = type;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 }

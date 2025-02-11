@@ -29,7 +29,7 @@ public class Appointments {
 
     @ManyToOne
     @JoinColumn(name = "service_id")
-    private Service service;
+    private Services service;
 
     @OneToOne(mappedBy = "appointments", cascade = CascadeType.ALL)
     private Payments payments;

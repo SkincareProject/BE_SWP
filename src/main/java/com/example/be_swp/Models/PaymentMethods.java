@@ -33,4 +33,11 @@ public class PaymentMethods {
     @OneToMany(mappedBy = "paymentMethods", cascade = CascadeType.ALL)
     private List<Payments> payments;
 
+    public PaymentMethods(String name, String description, int status, LocalDateTime created_at, LocalDateTime updated_at) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 }

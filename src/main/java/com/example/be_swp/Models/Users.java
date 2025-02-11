@@ -48,7 +48,7 @@ public class Users {
     @Column(name = "updated_at")
     private LocalDateTime updated_at;
 
-    @OneToOne(mappedBy = "users")
+    @OneToOne(mappedBy = "users", cascade = CascadeType.ALL)
     private Experts experts;
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)

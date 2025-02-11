@@ -36,4 +36,10 @@ public class Payments {
     @JoinColumn(name = "payment_method_id")
     private PaymentMethods paymentMethods;
 
+    public Payments(int status, double price, LocalDateTime created_at, LocalDateTime updated_at) {
+        this.status = status;
+        this.price = price;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 }
