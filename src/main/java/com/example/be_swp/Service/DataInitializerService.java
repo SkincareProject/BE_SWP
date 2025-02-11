@@ -2,8 +2,7 @@ package com.example.be_swp.Service;
 
 import com.example.be_swp.Models.Roles;
 import com.example.be_swp.Models.Users;
-import com.example.be_swp.Repository.RolesRepository;
-import com.example.be_swp.Repository.UsersRepository;
+import com.example.be_swp.Repository.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +15,23 @@ public class DataInitializerService {
 
     private final RolesRepository _rolesRepository;
     private final UsersRepository _usersRepository;
+    private final WorkScheduleRepository _workScheduleRepository;
+    private final PaymentMethodRepository _paymentMethodRepository;
+    private final PaymentRepository _paymentRepository;
+    private final ExpertRepository _expertRepository;
+    private final AppointmentRepository _appointmentRepository;
+    private final ServiceRepository _serviceRepository;
 
-    public DataInitializerService (RolesRepository repository, UsersRepository usersRepository){
-
-        _rolesRepository = repository;
-        _usersRepository = usersRepository;
+    public DataInitializerService(RolesRepository _rolesRepository, UsersRepository _usersRepository, WorkScheduleRepository _workScheduleRepository, PaymentMethodRepository _paymentMethodRepository, PaymentRepository _paymentRepository, ExpertRepository _expertRepository, AppointmentRepository _appointmentRepository, ServiceRepository _serviceRepository) {
+        this._rolesRepository = _rolesRepository;
+        this._usersRepository = _usersRepository;
+        this._workScheduleRepository = _workScheduleRepository;
+        this._paymentMethodRepository = _paymentMethodRepository;
+        this._paymentRepository = _paymentRepository;
+        this._expertRepository = _expertRepository;
+        this._appointmentRepository = _appointmentRepository;
+        this._serviceRepository = _serviceRepository;
     }
-
 
     @PostConstruct
     public void init(){
