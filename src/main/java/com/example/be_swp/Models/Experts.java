@@ -14,13 +14,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class PaymentMethods {
+public class Experts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int paymentMethodId;
+    private int expertId;
 
-    private String name;
+    private String specialization;
+
+    private int yearOfExperiences;
 
     private String description;
 
@@ -30,7 +32,14 @@ public class PaymentMethods {
 
     private LocalDateTime updated_at;
 
-    @OneToMany(mappedBy = "paymentMethods", cascade = CascadeType.ALL)
-    private List<Payments> payments;
+    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
+    private List<WorkSchedule> workScheduleList;
+
+    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
+    private List<Appointments> appointmentsList;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private Users users;
 
 }

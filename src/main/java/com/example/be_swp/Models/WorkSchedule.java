@@ -6,23 +6,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.LocalTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class PaymentMethods {
+public class WorkSchedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int paymentMethodId;
+    private int workScheduleId;
 
-    private String name;
+    private LocalTime start_at;
 
-    private String description;
+    private LocalTime end_at;
+
+    private LocalDate work_date;
 
     private int status;
 
@@ -30,7 +33,8 @@ public class PaymentMethods {
 
     private LocalDateTime updated_at;
 
-    @OneToMany(mappedBy = "paymentMethods", cascade = CascadeType.ALL)
-    private List<Payments> payments;
+    @ManyToOne
+    @JoinColumn(name = "expert_id")
+    private Experts experts;
 
 }

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -16,7 +17,7 @@ import java.util.List;
 public class Roles {
 
     @Id
-    @Column(name = "roleID")
+    @Column(name = "role_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 

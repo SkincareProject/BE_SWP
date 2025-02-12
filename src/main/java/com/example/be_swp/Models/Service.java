@@ -1,15 +1,24 @@
 package com.example.be_swp.Models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Service {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int serviceID;
+    private int serviceId;
 
     private String serviceName;
 
@@ -17,55 +26,18 @@ public class Service {
 
     private String description;
 
-    @OneToMany(mappedBy = "service")
-    private List<BookingHistory> bookingHistories;
+    private int duration;
 
-    public Service() {
-    }
+    private int status;
 
-    public String getServiceName() {
-        return serviceName;
-    }
+    private String type;
 
-    public Service(String serviceName, double price, String description) {
-        this.serviceName = serviceName;
-        this.price = price;
-        this.description = description;
-    }
+    private LocalDateTime created_at;
 
-    public double getPrice() {
-        return price;
-    }
+    private LocalDateTime updated_at;
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
+    private List<Appointments> appointmentsList;
 
-    public String getDescription() {
-        return description;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    public List<BookingHistory> getBookingHistories() {
-        return bookingHistories;
-    }
-
-    public void setBookingHistories(List<BookingHistory> bookingHistories) {
-        this.bookingHistories = bookingHistories;
-    }
-
-    public int getServiceID() {
-        return serviceID;
-    }
-
-    public void setServiceID(int serviceID) {
-        this.serviceID = serviceID;
-    }
 }
