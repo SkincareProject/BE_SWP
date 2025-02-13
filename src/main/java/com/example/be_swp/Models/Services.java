@@ -36,8 +36,10 @@ public class Services {
 
     private LocalDateTime updated_at;
 
-    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
     private List<Appointments> appointmentsList;
 
+    @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
+    private List<ServiceRatings> serviceRatingsList;
 
 }

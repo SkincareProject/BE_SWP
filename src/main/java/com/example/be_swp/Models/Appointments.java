@@ -28,6 +28,12 @@ public class Appointments {
     @JoinColumn(name = "service_id")
     private Services services;
 
+    @OneToOne(mappedBy = "appointments",cascade = CascadeType.ALL)
+    private ExpertRatings expertRatings;
+
+    @OneToOne(mappedBy = "appointments",cascade = CascadeType.ALL)
+    private ServiceRatings serviceRatings;
+
     @OneToOne(mappedBy = "appointments", cascade = CascadeType.ALL)
     private Payments payments;
 
