@@ -35,10 +35,13 @@ public class Services {
     private LocalDateTime created_at;
 
     private LocalDateTime updated_at;
-
-    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
+  
+    @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
     private List<Appointments> appointmentsList;
 
+    @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
+    private List<ServiceRatings> serviceRatingsList;
+  
     public Services(String serviceName, double price, String description, int duration, int status, String type, LocalDateTime created_at, LocalDateTime updated_at) {
         this.serviceName = serviceName;
         this.price = price;

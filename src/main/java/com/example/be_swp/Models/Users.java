@@ -54,6 +54,15 @@ public class Users {
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<Appointments> appointmentsList;
 
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    private List<ExpertRatings> expertRatingsList;
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    private List<ServiceRatings> serviceRatingsList;
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    private List<Blogs> blogsList;
+
     public Users(String username, String password, String fullName, String email, String phone, boolean is_active, LocalDateTime created_at, LocalDateTime updated_at) {
         this.username = username;
         this.password = password;
