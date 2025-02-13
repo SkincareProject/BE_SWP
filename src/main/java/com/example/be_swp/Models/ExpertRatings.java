@@ -7,37 +7,38 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Service {
+public class ExpertRatings {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int serviceId;
+    private int expertRatingId;
 
-    private String serviceName;
+    @OneToOne
+    @JoinColumn(name = "appointment_id")
+    private Appointments appointments;
 
-    private double price;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Users users;
 
-    private String description;
+    @ManyToOne
+    @JoinColumn(name = "expert_id")
+    private Experts experts;
 
-    private int duration;
+    private int rating;
+
+    private String feedback;
 
     private int status;
-
-    private String type;
 
     private LocalDateTime created_at;
 
     private LocalDateTime updated_at;
-
-    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
-    private List<Appointments> appointmentsList;
-
 
 }

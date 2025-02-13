@@ -10,45 +10,35 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Appointments {
+public class ServiceRatings {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int appointmentId;
+    private int serviceRatingId;
+
+    @OneToOne
+    @JoinColumn(name = "appointment_id")
+    private Appointments appointments;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Users users;
 
     @ManyToOne
-    @JoinColumn(name = "expert_id")
-    private Experts experts;
-
-    @ManyToOne
     @JoinColumn(name = "service_id")
     private Services services;
 
-    @OneToOne(mappedBy = "appointments",cascade = CascadeType.ALL)
-    private ExpertRatings expertRatings;
+    private int rating;
 
-    @OneToOne(mappedBy = "appointments",cascade = CascadeType.ALL)
-    private ServiceRatings serviceRatings;
-
-    @OneToOne(mappedBy = "appointments", cascade = CascadeType.ALL)
-    private Payments payments;
-
-    private double total;
-
-    private LocalDateTime start_at;
-
-    private LocalDateTime end_at;
+    private String feedback;
 
     private int status;
 
     private LocalDateTime created_at;
 
     private LocalDateTime updated_at;
+
 }
