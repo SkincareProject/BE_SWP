@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Service {
+public class Services {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

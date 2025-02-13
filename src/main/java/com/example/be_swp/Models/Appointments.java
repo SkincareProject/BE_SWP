@@ -1,10 +1,7 @@
 package com.example.be_swp.Models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +26,7 @@ public class Appointments {
 
     @ManyToOne
     @JoinColumn(name = "service_id")
-    private Service service;
+    private Services services;
 
     @OneToOne(mappedBy = "appointments", cascade = CascadeType.ALL)
     private Payments payments;
