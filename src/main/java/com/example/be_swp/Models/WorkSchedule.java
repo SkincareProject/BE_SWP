@@ -37,4 +37,12 @@ public class WorkSchedule {
     @JoinColumn(name = "expert_id")
     private Experts experts;
 
+    public WorkSchedule(LocalTime start_at, LocalTime end_at, LocalDate work_date, int status, LocalDateTime created_at, LocalDateTime updated_at) {
+        this.start_at = start_at;
+        this.end_at = end_at;
+        this.work_date = work_date;
+        this.status = status;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 }

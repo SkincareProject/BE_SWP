@@ -48,4 +48,13 @@ public class Experts {
     @JoinColumn(name = "user_id")
     private Users users;
 
+
+    public Experts(String specialization, int yearOfExperiences, String description, int status, LocalDateTime created_at, LocalDateTime updated_at) {
+        this.specialization = specialization;
+        this.yearOfExperiences = yearOfExperiences;
+        this.description = description;
+        this.status = status;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 }
