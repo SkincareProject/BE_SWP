@@ -13,17 +13,17 @@ public class ServiceController {
     @Autowired
     ServiceRepository servicesRepository;
 
-    @GetMapping("/getAll")
+    @GetMapping("/getAllServices")
     public List<Services> getAllServices() {
         return servicesRepository.findAll();
     }
 
-    @PostMapping("/save")
+    @PostMapping("/saveServices")
     public Services saveService(@RequestBody Services Service) {
         return servicesRepository.save(Service);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/updateServices/{id}")
     public Services updateService(@PathVariable long id ,@RequestBody Services Service) {
         Services updatedService = servicesRepository.findById(id).get();
         updatedService.setServiceName(Service.getServiceName());
@@ -35,7 +35,7 @@ public class ServiceController {
         return servicesRepository.save(updatedService);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteServices/{id}")
     public void deleteService(@PathVariable long id) {
         Services deletedService = servicesRepository.findById(id).get();
         servicesRepository.delete(deletedService);

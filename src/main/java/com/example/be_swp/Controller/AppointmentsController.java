@@ -14,17 +14,17 @@ public class AppointmentsController {
     @Autowired
     AppointmentsRepository appointmentsRepository;
 
-    @GetMapping("/getAll")
+    @GetMapping("/getAllAppointments")
     public List<Appointments> getAllAppointments() {
         return appointmentsRepository.findAll();
     }
 
-    @PostMapping("/save")
+    @PostMapping("/saveAppointments")
     public Appointments saveAppointment(@RequestBody Appointments appointment) {
         return appointmentsRepository.save(appointment);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/updateAppointments/{id}")
     public Appointments updateAppointment(@PathVariable long id ,@RequestBody Appointments appointment) {
         Appointments updatedAppointment = appointmentsRepository.findById(id).get();
         updatedAppointment.setExperts(appointment.getExperts());
@@ -34,7 +34,7 @@ public class AppointmentsController {
         return appointmentsRepository.save(updatedAppointment);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteAppointments/{id}")
     public void deleteAppointment(@PathVariable long id) {
         Appointments deletedAppointment = appointmentsRepository.findById(id).get();
         appointmentsRepository.delete(deletedAppointment);
