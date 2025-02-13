@@ -179,7 +179,7 @@ public class DataInitializerService {
         appointments.setCreated_at(LocalDateTime.now());
         appointments.setUpdated_at(LocalDateTime.now());
 
-        appointments.setService(facialService);
+        appointments.setServices(facialService);
         appointments.setUsers(usersCustomer);
         appointments.setExperts(expert);
 

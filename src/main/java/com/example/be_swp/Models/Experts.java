@@ -44,7 +44,7 @@ public class Experts {
     @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
     private List<ExpertOccupiedTimes> expertOccupiedTimesList;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "user_id")
     private Users users;
 
