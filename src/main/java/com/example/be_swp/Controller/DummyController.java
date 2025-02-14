@@ -1,6 +1,7 @@
 package com.example.be_swp.Controller;
 
 
+import com.example.be_swp.Models.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -8,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 public class DummyController {
 
     @GetMapping("/hello")
-    public String hello(){
-        return "Hello, this is Dummy Controller";
+    public ApiResponse<String> hello(){
+        return new ApiResponse<>("200","Ta","Message");
     }
 
     @PostMapping("/add")
