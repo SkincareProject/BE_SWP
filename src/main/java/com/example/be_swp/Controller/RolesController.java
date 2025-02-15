@@ -22,44 +22,72 @@ public class RolesController {
 
     @GetMapping("/findAll")
     public ApiResponse<List<RolesDTO>> findAll(){
-        List<Roles> rolesList = _rolesServices.findAll();
-        List<RolesDTO> rolesDTOList = new ArrayList<>();
-        String status = "200";
-        String message = "Get all Roles";
-        if (rolesList.isEmpty()){
+        List<RolesDTO> rolesDTOList = _rolesServices.findAll();
+
+        String status = "";
+        String message = "";
+
+        if (rolesDTOList.isEmpty()){
             status = "404";
-            message = "Not Found";
+            message = "No Role Found";
         }else{
-            for (Roles role: rolesList){
-                RolesDTO neRolesDTO = new RolesDTO(role.getId(),role.getName(),role.getDescription());
-                rolesDTOList.add(neRolesDTO);
-            }
+            status = "200";
+            message = "Get all Roles successfully";
         }
+
         return new ApiResponse<>(status,rolesDTOList,message);
+
     }
 
     @PostMapping("/add")
     public ApiResponse<RolesDTO> add(@RequestBody RolesDTO rolesDTO){
-        Roles newRole = new Roles();
-        newRole.setName(rolesDTO.getName());
-        newRole.setDescription(rolesDTO.getDescription());
+
+        rolesDTO = _rolesServices.add(rolesDTO);
 
         String status = "200";
-        String message = "Add new role success";
+        String message = "Add new role successfully!";
 
-        _rolesServices.add(newRole);
-        rolesDTO.setId(newRole.getId());
         return new ApiResponse<>(status,rolesDTO,message);
     }
 
     @PutMapping("/update/{id}")
     public ApiResponse<RolesDTO> update(@RequestBody RolesDTO rolesDTO, @PathVariable int id){
-        return _rolesServices.update(id, rolesDTO);
+        boolean is_OK = _rolesServices.update(id, rolesDTO);
+
+        String status = "";
+        String message = "";
+
+        if (!is_OK){
+            status = "404";
+            message = "No Role Found!";
+        }else{
+            status = "200";
+            message = "Update Successfully!";
+        }
+
+        rolesDTO.setId(id);
+
+        return new ApiResponse<>(status,rolesDTO,message);
     }
 
     @DeleteMapping("/delete/{id}")
     public ApiResponse<RolesDTO> delete(@PathVariable int id){
-        return _rolesServices.delete(id);
+        RolesDTO rolesDTO = _rolesServices.delete(id);
+
+        String status = "";
+        String message = "";
+
+        if (rolesDTO.getId() == 0){
+            status = "404";
+            message = "No Role Found!";
+        }else{
+            status = "200";
+            message = "Delete Successfully!";
+        }
+
+        rolesDTO.setId(id);
+
+        return new ApiResponse<>(status,rolesDTO,message);
     }
 
 

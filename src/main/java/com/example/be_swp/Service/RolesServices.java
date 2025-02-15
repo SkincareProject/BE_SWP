@@ -6,6 +6,7 @@ import com.example.be_swp.Models.Roles;
 import com.example.be_swp.Repository.RolesRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,53 +19,62 @@ public class RolesServices {
         _rolesRepository = rolesRepository;
     }
 
-    public List<Roles> findAll(){
-        return _rolesRepository.findAll();
+    public List<RolesDTO> findAll(){
+        List<Roles> rolesList = _rolesRepository.findAll();
+        List<RolesDTO> rolesDTOList = new ArrayList<>();
+        if (!rolesList.isEmpty()) {
+            for (Roles role : rolesList) {
+                RolesDTO newRolesDTO = new RolesDTO(role.getId(), role.getName(), role.getDescription());
+                rolesDTOList.add(newRolesDTO);
+            }
+        }
+        return rolesDTOList;
     }
 
-    public void add(Roles roles){
-        _rolesRepository.save(roles);
+    public RolesDTO add(RolesDTO rolesDTO){
+        Roles newRole = new Roles();
+        newRole.setName(rolesDTO.getName());
+        newRole.setDescription(rolesDTO.getDescription());
+
+        String status = "200";
+        String message = "Add new role success";
+
+        _rolesRepository.save(newRole);
+        rolesDTO.setId(newRole.getId());
+        return rolesDTO;
     }
 
     public Optional<Roles> findById(int id){
         return _rolesRepository.findById(id);
     }
 
-    public ApiResponse<RolesDTO> update(int id, RolesDTO rolesDTO){
+    public boolean update(int id, RolesDTO rolesDTO){
+
         Optional<Roles> roles = _rolesRepository.findById(id);
-        String status = "";
-        String message = "";
+        boolean is_OK = false;
+
         if (roles.isPresent()){
-            status = "200";
-            message = "Update Successfully!";
             roles.get().setName(rolesDTO.getName());
             roles.get().setDescription(rolesDTO.getDescription());
             _rolesRepository.save(roles.get());
-        }else {
-            status = "404";
-            message = "Role not found!";
+            is_OK = true;
         }
 
-        return new ApiResponse<>(status,rolesDTO,message);
+        return is_OK;
     }
 
-    public ApiResponse<RolesDTO> delete(int id){
+    public RolesDTO delete(int id){
         Optional<Roles> roles = _rolesRepository.findById(id);
         RolesDTO rolesDTO = new RolesDTO();
-        String status = "";
-        String message = "";
         if (roles.isPresent()){
-            status = "200";
-            message = "Delete Successfully!";
             rolesDTO.setId(roles.get().getId());
             rolesDTO.setName(roles.get().getName());
             rolesDTO.setDescription(roles.get().getDescription());
             _rolesRepository.delete(roles.get());
         }else {
-            status = "404";
-            message = "Role not found!";
+            rolesDTO.setId(0);
         }
 
-        return new ApiResponse<>(status,rolesDTO,message);
+        return rolesDTO;
     }
 }
