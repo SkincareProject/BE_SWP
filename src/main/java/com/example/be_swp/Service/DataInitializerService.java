@@ -142,7 +142,7 @@ public class DataInitializerService {
 
         for(WorkSchedule workSchedule: workScheduleList){
             if (workSchedule.getEnd_at().isBefore(LocalTime.now()) && (workSchedule.getWork_date().isEqual(LocalDate.now()) || workSchedule.getWork_date().isBefore(LocalDate.now()))){
-                workSchedule.setStatus(3);
+                workSchedule.setStatus(4);
             }
             workSchedule.setExperts(expert);
         }
@@ -168,7 +168,7 @@ public class DataInitializerService {
         Appointments appointments = new Appointments();
 
         if(LocalDateTime.now().isAfter(LocalDateTime.of(today,endTime))){
-            appointments.setStatus(3);
+            appointments.setStatus(4);
         }else{
             appointments.setStatus(1);
         }
@@ -194,10 +194,10 @@ public class DataInitializerService {
 
         //Payment
 
-        Payments payments = new Payments(3,appointments.getTotal(),LocalDateTime.now(),LocalDateTime.now());
+        Payments payments = new Payments(4,appointments.getTotal(),LocalDateTime.now(),LocalDateTime.now());
 
         if(LocalDateTime.now().isAfter(LocalDateTime.of(today,endTime))){
-            payments.setStatus(3);
+            payments.setStatus(4);
         }else{
             payments.setStatus(2);
         }
