@@ -100,7 +100,7 @@ public class ExpertService {
 
             _expertRepository.delete(experts);
             _userRepository.delete(optionalUsers.get());
-            
+
         }
         return expertsDTO;
     }
