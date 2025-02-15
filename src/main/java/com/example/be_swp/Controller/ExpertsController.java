@@ -107,6 +107,8 @@ public class ExpertsController {
             message = "Update Successfully!";
         }
 
+        expertsDTO.setExpertId(id);
+
         return new ApiResponse<>(status,expertsDTO,message);
     }
 
@@ -125,6 +127,8 @@ public class ExpertsController {
             status = "200";
             message = "Delete Successfully!";
         }
+
+        expertsDTO.setExpertId(id);
 
         return new ApiResponse<>(status,expertsDTO,message);
     }
