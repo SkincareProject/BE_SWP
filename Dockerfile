@@ -5,7 +5,7 @@ FROM openjdk:23-jdk
 WORKDIR /app
 
 # Sao chép tệp JAR vào container
-COPY target/app.jar app.jar
+COPY target/demo-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose cổng 8080
 EXPOSE 8080
