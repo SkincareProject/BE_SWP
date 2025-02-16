@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +33,56 @@ public class WorkScheduleService {
                 WorkScheduleDTO workScheduleDTO = new WorkScheduleDTO(ws.getWorkScheduleId(), ws.getExperts().getExpertId(), ws.getStart_at(), ws.getEnd_at(), ws.getWork_date(), ws.getStatus(), ws.getCreated_at(), ws.getUpdated_at());
                 workScheduleDTOList.add(workScheduleDTO);
             }
+        }
+
+        return workScheduleDTOList;
+    }
+
+    public WorkScheduleDTO findById(int id){
+        WorkScheduleDTO workScheduleDTO = new WorkScheduleDTO();
+        Optional<WorkSchedule> optionalWorkSchedule = _workScheduleRepository.findById(id);
+
+        if (optionalWorkSchedule.isEmpty()){
+            workScheduleDTO.setWorkScheduleId(-1);
+        }else{
+            WorkSchedule workSchedule = optionalWorkSchedule.get();
+            workScheduleDTO = new WorkScheduleDTO(workSchedule.getWorkScheduleId(),workSchedule.getExperts().getExpertId(),workSchedule.getStart_at(), workSchedule.getEnd_at(),workSchedule.getWork_date(),workSchedule.getStatus(), workSchedule.getCreated_at(),workSchedule.getUpdated_at());
+        }
+
+        return workScheduleDTO;
+    }
+
+    public List<WorkScheduleDTO> findByName(String nameOrId){
+        boolean is_ExpertId = false;
+        List<WorkScheduleDTO> workScheduleDTOList = new ArrayList<>();
+
+        try{
+            Integer.parseInt(nameOrId.trim());
+            is_ExpertId = true;
+        }catch (NumberFormatException e) { }
+
+        if (is_ExpertId){
+
+            List<WorkSchedule> workScheduleList = _workScheduleRepository.findByExpertId(Integer.parseInt(nameOrId.trim()));
+
+            if (!workScheduleList.isEmpty()) {
+                for (WorkSchedule ws : workScheduleList) {
+                    WorkScheduleDTO workScheduleDTO = new WorkScheduleDTO(ws.getWorkScheduleId(), ws.getExperts().getExpertId(), ws.getStart_at(), ws.getEnd_at(), ws.getWork_date(), ws.getStatus(), ws.getCreated_at(), ws.getUpdated_at());
+                    workScheduleDTOList.add(workScheduleDTO);
+                }
+            }
+
+
+        }else {
+
+            List<WorkSchedule> workScheduleList = _workScheduleRepository.findByExpertName(nameOrId.trim());
+            if (!workScheduleList.isEmpty()) {
+                for (WorkSchedule ws : workScheduleList) {
+                    WorkScheduleDTO workScheduleDTO = new WorkScheduleDTO(ws.getWorkScheduleId(), ws.getExperts().getExpertId(), ws.getStart_at(), ws.getEnd_at(), ws.getWork_date(), ws.getStatus(), ws.getCreated_at(), ws.getUpdated_at());
+                    workScheduleDTOList.add(workScheduleDTO);
+                }
+            }
+
         }
 
         return workScheduleDTOList;

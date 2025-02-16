@@ -39,14 +39,40 @@ public class WorkScheduleController {
 
     @GetMapping("/findById/{id}")
     public ApiResponse<WorkScheduleDTO> findById(@PathVariable int id){
+        WorkScheduleDTO workScheduleDTO = _workScheduleService.findById(id);
 
-        return new ApiResponse<>();
+        String status = "";
+        String message = "";
+
+        if (workScheduleDTO.getWorkScheduleId() == -1){
+            status = "404";
+            message = "Work Schedule Not Found!";
+        }else {
+            status = "200";
+            message = "Find WorkSchedule Successfully!";
+        }
+
+        workScheduleDTO.setWorkScheduleId(id);
+
+        return new ApiResponse<>(status,workScheduleDTO,message);
     }
 
     @GetMapping("/findByExpert")
-    public ApiResponse<WorkScheduleDTO> findByExpert(@RequestParam String name){
+    public ApiResponse<List<WorkScheduleDTO>> findByExpert(@RequestParam String nameOrId){
+        List<WorkScheduleDTO> workScheduleDTOList = _workScheduleService.findByName(nameOrId);
 
-        return new ApiResponse<>();
+        String status = "";
+        String message = "";
+
+        if (workScheduleDTOList.isEmpty()){
+            status = "404";
+            message = "No Work Schedule Found With " + nameOrId;
+        }else {
+            status = "200";
+            message = "Get all work schedules with " + nameOrId + " successfully!";
+        }
+
+        return new ApiResponse<>(status,workScheduleDTOList,message);
     }
 
     @PostMapping("/add")
