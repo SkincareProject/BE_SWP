@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UsersDTO {
 
-    private int id;
+
 
     private String username;
 
@@ -32,7 +32,7 @@ public class UsersDTO {
 
     private boolean is_active;
 
-    private int role_id;
+    private Integer role_id ;
 
     private LocalDateTime created_at;
 
