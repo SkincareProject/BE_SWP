@@ -38,6 +38,45 @@ public class ExpertsController {
 
     }
 
+    @GetMapping("/findById/{id}")
+    public ApiResponse<ExpertsDTO> findById(@PathVariable int id){
+        ExpertsDTO expertsDTO = _expertService.findById(id);
+
+        String status = "";
+        String message = "";
+
+        if (expertsDTO.getExpertId() == -1){
+            status = "404";
+            message = "Expert Not Found!";
+        }else {
+            status = "200";
+            message = "Expert Found!";
+        }
+
+        expertsDTO.setExpertId(id);
+
+        return new ApiResponse<>(status,expertsDTO,message);
+    }
+
+    @GetMapping("findByName")
+    public ApiResponse<List<ExpertsDTO>> findByName(@RequestParam String name){
+        List<ExpertsDTO> expertsDTOList = _expertService.findByName(name);
+
+
+        String status = "";
+        String message = "";
+
+        if (expertsDTOList.isEmpty()){
+            status = "404";
+            message = "Experts Not Found!";
+        }else {
+            status = "200";
+            message = "Experts Found!";
+        }
+
+        return new ApiResponse<>(status,expertsDTOList,message);
+    }
+
     @PostMapping("/add")
     public ApiResponse<ExpertsDTO> add(@RequestBody UserExpertDTO userExpertDTO){
         ExpertsDTO expertsDTO = _expertService.add(userExpertDTO);
@@ -68,6 +107,8 @@ public class ExpertsController {
             message = "Update Successfully!";
         }
 
+        expertsDTO.setExpertId(id);
+
         return new ApiResponse<>(status,expertsDTO,message);
     }
 
@@ -86,6 +127,8 @@ public class ExpertsController {
             status = "200";
             message = "Delete Successfully!";
         }
+
+        expertsDTO.setExpertId(id);
 
         return new ApiResponse<>(status,expertsDTO,message);
     }
