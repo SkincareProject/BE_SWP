@@ -26,12 +26,12 @@ public class UsersController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Valid@RequestBody UsersDTO usersDTO){
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UsersDTO usersDTO){
         String respone = _userService.registerUser(usersDTO);
         return ResponseEntity.ok(respone);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/userGmail")
     public ResponseEntity<Users> getUserByEmail (@RequestParam String email){
         Users users = _userService.getUserByEmail(email);
         return ResponseEntity.ok(users);

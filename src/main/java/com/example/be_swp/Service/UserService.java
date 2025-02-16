@@ -1,11 +1,13 @@
 package com.example.be_swp.Service;
 
+import com.example.be_swp.DTOs.LoginDTO;
 import com.example.be_swp.DTOs.UsersDTO;
 import com.example.be_swp.Models.Roles;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Repository.RolesRepository;
 import com.example.be_swp.Repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -61,10 +63,18 @@ public class UserService {
         users.setUpdated_at(LocalDateTime.now());
 
         _usersRepository.save(users);
-        return ("Login successfully!!!");
+        return ("Register successfully!!!");
 
 
     }
+
+    public String loginUser(String username) throws UsernameNotFoundException {
+        Users users = _usersRepository.findByUsername(username)
+                .orElseThrow(()-> new UsernameNotFoundException("User not found!!!"));
+        return username;
+    }
+
+
 
     public Users getUserByEmail(String email){
         return _usersRepository.findByEmail(email)
