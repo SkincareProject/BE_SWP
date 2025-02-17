@@ -1,9 +1,8 @@
 package com.example.be_swp.Controller;
 
 import com.example.be_swp.DTOs.ExpertsDTO;
-import com.example.be_swp.DTOs.UsersDTO;
 import com.example.be_swp.Models.ApiResponse;
-import com.example.be_swp.Models.UserExpertDTO;
+import com.example.be_swp.DTOs.UserExpertDTO;
 import com.example.be_swp.Service.ExpertService;
 import org.springframework.web.bind.annotation.*;
 

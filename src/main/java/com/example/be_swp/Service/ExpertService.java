@@ -1,10 +1,9 @@
 package com.example.be_swp.Service;
 
 import com.example.be_swp.DTOs.ExpertsDTO;
-import com.example.be_swp.DTOs.UsersDTO;
 import com.example.be_swp.Models.Experts;
 import com.example.be_swp.Models.Roles;
-import com.example.be_swp.Models.UserExpertDTO;
+import com.example.be_swp.DTOs.UserExpertDTO;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Repository.ExpertRepository;
 import com.example.be_swp.Repository.RolesRepository;
