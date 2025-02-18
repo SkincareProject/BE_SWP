@@ -17,6 +17,7 @@ jobs:
         with:
           distribution: "oracle"
           java-version: "21"
+
       - name: Build JAR file
         run: mvn clean package -DskipTests
 
@@ -40,12 +41,10 @@ jobs:
           host: '35.202.71.223'
           username: 'tamhmse162189'
           key: ${{ secrets.SERVER_SSH_KEY }}
-          use_insecure_cipher: true  # Only if needed
-
-          debug: true # Add this line
+          use_insecure_cipher: true
+          debug: true
 
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/be_swp:latest
-            docker stop be_swp || true
-            docker rm be_swp || true
+            # Check if backend container exists and stop/remove it only if needed
+            docker ps -q -f name=be_swp || (docker stop be_swp || true && docker rm be_swp || true)
             docker run -d --name be_swp -p 8080:8080 --restart always ${{ secrets.DOCKER_USERNAME }}/be_swp:latest
