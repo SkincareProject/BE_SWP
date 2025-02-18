@@ -133,22 +133,22 @@ public class DataInitializerService {
 
             //Work Schedule
 
-            WorkSchedule todayMorning = new WorkSchedule(LocalTime.of(7, 0), LocalTime.of(11, 0), LocalDate.now(), 1, LocalDateTime.now(), LocalDateTime.now());
-            WorkSchedule todayEvening = new WorkSchedule(LocalTime.of(13, 0), LocalTime.of(17, 0), LocalDate.now(), 1, LocalDateTime.now(), LocalDateTime.now());
-            WorkSchedule tomorrowMorning = new WorkSchedule(LocalTime.of(7, 0), LocalTime.of(11, 0), LocalDate.now().plusDays(1), 1, LocalDateTime.now(), LocalDateTime.now());
-            WorkSchedule tomorrowEvening = new WorkSchedule(LocalTime.of(13, 0), LocalTime.of(17, 0), LocalDate.now().plusDays(1), 1, LocalDateTime.now(), LocalDateTime.now());
-
             List<WorkSchedule> workScheduleList = new ArrayList<>();
-            workScheduleList.add(todayMorning);
-            workScheduleList.add(todayEvening);
-            workScheduleList.add(tomorrowMorning);
-            workScheduleList.add(tomorrowEvening);
+
+            for (int i = 0; i < 7; i++){
+                WorkSchedule scheduleMorning = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(11,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                WorkSchedule scheduleEvening = new WorkSchedule(LocalTime.of(13,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                workScheduleList.add(scheduleMorning);
+                workScheduleList.add(scheduleEvening);
+            }
 
             //Map Work Schedule with Expert
 
             for (WorkSchedule workSchedule : workScheduleList) {
                 if (workSchedule.getEnd_at().isBefore(LocalTime.now()) && (workSchedule.getWork_date().isEqual(LocalDate.now()) || workSchedule.getWork_date().isBefore(LocalDate.now()))) {
                     workSchedule.setStatus(4);
+                }else if(workSchedule.getWork_date().equals(LocalDate.now()) && workSchedule.getEnd_at().isAfter(LocalTime.now()) && workSchedule.getStart_at().isBefore(LocalTime.now())){
+                    workSchedule.setStatus(3);
                 }
                 workSchedule.setExperts(expert);
             }
