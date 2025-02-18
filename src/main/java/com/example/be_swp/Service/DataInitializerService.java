@@ -1,5 +1,6 @@
 package com.example.be_swp.Service;
 
+import com.example.be_swp.DTOs.ExpertOccupiedTimesDTO;
 import com.example.be_swp.Models.*;
 import com.example.be_swp.Repository.*;
 import jakarta.annotation.PostConstruct;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class DataInitializerService {
@@ -22,8 +24,9 @@ public class DataInitializerService {
     private final ExpertRepository _expertRepository;
     private final AppointmentRepository _appointmentRepository;
     private final ServicesRepository _servicesRepository;
+    private final ExpertOccupiedTimeRepository _expertOccupiedTimeRepository;
 
-    public DataInitializerService(RolesRepository _rolesRepository, UsersRepository _usersRepository, WorkScheduleRepository _workScheduleRepository, PaymentMethodRepository _paymentMethodRepository, PaymentRepository _paymentRepository, ExpertRepository _expertRepository, AppointmentRepository _appointmentRepository, ServicesRepository _serviceRepository) {
+    public DataInitializerService(RolesRepository _rolesRepository, UsersRepository _usersRepository, WorkScheduleRepository _workScheduleRepository, PaymentMethodRepository _paymentMethodRepository, PaymentRepository _paymentRepository, ExpertRepository _expertRepository, AppointmentRepository _appointmentRepository, ServicesRepository _serviceRepository, ExpertOccupiedTimeRepository _expertOccupiedTimeRepository) {
         this._rolesRepository = _rolesRepository;
         this._usersRepository = _usersRepository;
         this._workScheduleRepository = _workScheduleRepository;
@@ -32,6 +35,7 @@ public class DataInitializerService {
         this._expertRepository = _expertRepository;
         this._appointmentRepository = _appointmentRepository;
         this._servicesRepository = _serviceRepository;
+        this._expertOccupiedTimeRepository = _expertOccupiedTimeRepository;
     }
 
     @PostConstruct
@@ -129,22 +133,22 @@ public class DataInitializerService {
 
             //Work Schedule
 
-            WorkSchedule todayMorning = new WorkSchedule(LocalTime.of(7, 0), LocalTime.of(11, 0), LocalDate.now(), 1, LocalDateTime.now(), LocalDateTime.now());
-            WorkSchedule todayEvening = new WorkSchedule(LocalTime.of(13, 0), LocalTime.of(17, 0), LocalDate.now(), 1, LocalDateTime.now(), LocalDateTime.now());
-            WorkSchedule tomorrowMorning = new WorkSchedule(LocalTime.of(7, 0), LocalTime.of(11, 0), LocalDate.now().plusDays(1), 1, LocalDateTime.now(), LocalDateTime.now());
-            WorkSchedule tomorrowEvening = new WorkSchedule(LocalTime.of(13, 0), LocalTime.of(17, 0), LocalDate.now().plusDays(1), 1, LocalDateTime.now(), LocalDateTime.now());
-
             List<WorkSchedule> workScheduleList = new ArrayList<>();
-            workScheduleList.add(todayMorning);
-            workScheduleList.add(todayEvening);
-            workScheduleList.add(tomorrowMorning);
-            workScheduleList.add(tomorrowEvening);
+
+            for (int i = 0; i < 7; i++){
+                WorkSchedule scheduleMorning = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(11,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                WorkSchedule scheduleEvening = new WorkSchedule(LocalTime.of(13,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                workScheduleList.add(scheduleMorning);
+                workScheduleList.add(scheduleEvening);
+            }
 
             //Map Work Schedule with Expert
 
             for (WorkSchedule workSchedule : workScheduleList) {
                 if (workSchedule.getEnd_at().isBefore(LocalTime.now()) && (workSchedule.getWork_date().isEqual(LocalDate.now()) || workSchedule.getWork_date().isBefore(LocalDate.now()))) {
                     workSchedule.setStatus(4);
+                }else if(workSchedule.getWork_date().equals(LocalDate.now()) && workSchedule.getEnd_at().isAfter(LocalTime.now()) && workSchedule.getStart_at().isBefore(LocalTime.now())){
+                    workSchedule.setStatus(3);
                 }
                 workSchedule.setExperts(expert);
             }
@@ -193,6 +197,89 @@ public class DataInitializerService {
             expert.setAppointmentsList(appointmentsList);
 
             _appointmentRepository.save(appointments);
+
+            // Random Appointment
+
+
+            Random random = new Random();
+
+            LocalDate randomDate = LocalDate.now().plusDays(random.nextInt(1,7));
+            LocalTime randomStartTime = LocalTime.of(random.nextInt(13,17),0,0);
+            LocalTime randomEndTime = randomStartTime.plusHours(1);
+
+            Appointments randomAppointment = new Appointments();
+            if(LocalDateTime.now().isAfter(LocalDateTime.of(randomDate,randomEndTime))){
+                randomAppointment.setStatus(4);
+            }else{
+                randomAppointment.setStatus(1);
+            }
+
+            randomAppointment.setStart_at(LocalDateTime.of(randomDate,randomStartTime));
+            randomAppointment.setEnd_at(LocalDateTime.of(randomDate,randomEndTime));
+            randomAppointment.setTotal(facialService.getPrice());
+            randomAppointment.setCreated_at(LocalDateTime.now());
+            randomAppointment.setUpdated_at(LocalDateTime.now());
+            randomAppointment.setServices(facialService);
+            randomAppointment.setExperts(expert);
+            randomAppointment.setUsers(usersCustomer1);
+
+            List<Appointments> randomAppointmentsList = new ArrayList<>();
+
+            randomAppointmentsList.add(randomAppointment);
+
+            usersCustomer1.setAppointmentsList(randomAppointmentsList);
+            expert.getAppointmentsList().add(randomAppointment);
+            facialService.getAppointmentsList().add(randomAppointment);
+
+            _appointmentRepository.save(randomAppointment);
+            // Occupied Time
+
+            List<ExpertOccupiedTimes> expertOccupiedTimesList = new ArrayList<>();
+
+            ExpertOccupiedTimes expertOccupiedTimes = new ExpertOccupiedTimes();
+
+            expertOccupiedTimes.setExperts(expert);
+            expertOccupiedTimes.setStartAt(appointments.getStart_at().toLocalTime());
+            expertOccupiedTimes.setEndAt(appointments.getEnd_at().toLocalTime());
+            expertOccupiedTimes.setDate(appointments.getStart_at().toLocalDate());
+            expertOccupiedTimes.setCreated_at(LocalDateTime.now());
+            expertOccupiedTimes.setCreated_at(LocalDateTime.now());
+            expertOccupiedTimes.setUpdated_at(LocalDateTime.now());
+
+            if (LocalDateTime.of(expertOccupiedTimes.getDate(),expertOccupiedTimes.getStartAt()).isAfter(LocalDateTime.now())){
+                expertOccupiedTimes.setStatus(1);
+            }else if(LocalDateTime.of(expertOccupiedTimes.getDate(),expertOccupiedTimes.getStartAt()).isBefore(LocalDateTime.now()) && LocalDateTime.of(expertOccupiedTimes.getDate(),expertOccupiedTimes.getEndAt()).isAfter(LocalDateTime.now())){
+                expertOccupiedTimes.setStatus(3);
+            }else{
+                expertOccupiedTimes.setStatus(4);
+            }
+
+            expertOccupiedTimesList.add(expertOccupiedTimes);
+            expert.setExpertOccupiedTimesList(expertOccupiedTimesList);
+
+            _expertOccupiedTimeRepository.save(expertOccupiedTimes);
+
+            //Occupied Time Random
+            ExpertOccupiedTimes randomExpertOccupiedTimes = new ExpertOccupiedTimes();
+
+            randomExpertOccupiedTimes.setExperts(expert);
+            randomExpertOccupiedTimes.setStartAt(randomAppointment.getStart_at().toLocalTime());
+            randomExpertOccupiedTimes.setEndAt(randomAppointment.getEnd_at().toLocalTime());
+            randomExpertOccupiedTimes.setDate(randomAppointment.getStart_at().toLocalDate());
+            randomExpertOccupiedTimes.setCreated_at(LocalDateTime.now());
+            randomExpertOccupiedTimes.setUpdated_at(LocalDateTime.now());
+
+            if (LocalDateTime.of(randomExpertOccupiedTimes.getDate(),randomExpertOccupiedTimes.getStartAt()).isAfter(LocalDateTime.now())){
+                randomExpertOccupiedTimes.setStatus(1);
+            }else if(LocalDateTime.of(randomExpertOccupiedTimes.getDate(),randomExpertOccupiedTimes.getStartAt()).isBefore(LocalDateTime.now()) && LocalDateTime.of(randomExpertOccupiedTimes.getDate(),randomExpertOccupiedTimes.getEndAt()).isAfter(LocalDateTime.now())){
+                randomExpertOccupiedTimes.setStatus(3);
+            }else{
+                randomExpertOccupiedTimes.setStatus(4);
+            }
+
+            expert.getExpertOccupiedTimesList().add(randomExpertOccupiedTimes);
+
+            _expertOccupiedTimeRepository.save(randomExpertOccupiedTimes);
 
             //Payment
 
