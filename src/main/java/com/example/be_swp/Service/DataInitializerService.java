@@ -208,7 +208,7 @@ public class DataInitializerService {
             LocalTime randomEndTime = randomStartTime.plusHours(1);
 
             Appointments randomAppointment = new Appointments();
-            if(LocalDateTime.now().isAfter(LocalDateTime.of(today,endTime))){
+            if(LocalDateTime.now().isAfter(LocalDateTime.of(randomDate,randomEndTime))){
                 randomAppointment.setStatus(4);
             }else{
                 randomAppointment.setStatus(1);
