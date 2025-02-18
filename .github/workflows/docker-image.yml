@@ -7,7 +7,6 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -33,7 +32,6 @@ jobs:
   deploy:
     needs: build
     runs-on: self-hosted
-
     steps:
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.10
@@ -43,8 +41,19 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           use_insecure_cipher: true
           debug: true
-
           script: |
-            # Check if backend container exists and stop/remove it only if needed
-            docker ps -q -f name=be_swp || (docker stop be_swp || true && docker rm be_swp || true)
-            docker run -d --name be_swp -p 8080:8080 --restart always ${{ secrets.DOCKER_USERNAME }}/be_swp:latest
+            # Stop and remove any existing container
+            if docker ps -a --format '{{.Names}}' | grep -q '^be_swp$'; then
+              docker stop be_swp
+              docker rm be_swp
+            fi
+            
+            # Pull the latest image
+            docker pull ${{ secrets.DOCKER_USERNAME }}/be_swp:latest
+            
+            # Run the new container
+            docker run -d \
+              --name be_swp \
+              -p 8080:8080 \
+              --restart always \
+              ${{ secrets.DOCKER_USERNAME }}/be_swp:latest
