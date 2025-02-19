@@ -6,6 +6,8 @@ import com.example.be_swp.Service.WorkScheduleService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -59,7 +61,7 @@ public class WorkScheduleController {
 
     @GetMapping("/findByExpert")
     public ApiResponse<List<WorkScheduleDTO>> findByExpert(@RequestParam String nameOrId){
-        List<WorkScheduleDTO> workScheduleDTOList = _workScheduleService.findByName(nameOrId);
+        List<WorkScheduleDTO> workScheduleDTOList = _workScheduleService.findByExpertNameOrId(nameOrId);
 
         String status = "";
         String message = "";
@@ -73,6 +75,45 @@ public class WorkScheduleController {
         }
 
         return new ApiResponse<>(status,workScheduleDTOList,message);
+    }
+
+    @GetMapping("findAllToday")
+    public ApiResponse<List<WorkScheduleDTO>> findAllToday(){
+
+        List<WorkScheduleDTO> workScheduleDTOList = _workScheduleService.findAllToday();
+
+        String status = "";
+        String message = "";
+
+        if (workScheduleDTOList.isEmpty()){
+            status = "404";
+            message = "Work Schedules Not Found!";
+        }else {
+            status = "200";
+            message = "Get all work schedules for today successfully!";
+        }
+
+        return new ApiResponse<>(status,workScheduleDTOList,message);
+    }
+
+    @GetMapping("findAllTodayByExpertId/{expertId}")
+    public ApiResponse<List<WorkScheduleDTO>> findAllTodayByExpertId(@PathVariable int expertId){
+
+        List<WorkScheduleDTO> workScheduleDTOList = _workScheduleService.findAllTodayByExpertId(expertId);
+
+        String status = "";
+        String message = "";
+
+        if (workScheduleDTOList.isEmpty()){
+            status = "404";
+            message = "Work Schedules Not Found!";
+        }else {
+            status = "200";
+            message = "Get all work schedules for today with expert id: " + expertId + " successfully!";
+        }
+
+        return new ApiResponse<>(status,workScheduleDTOList,message);
+
     }
 
     @PostMapping("/add")
@@ -123,6 +164,94 @@ public class WorkScheduleController {
         }else {
             status = "200";
             message = "Delete Successfully!";
+        }
+
+        workScheduleDTO.setWorkScheduleId(id);
+
+        return new ApiResponse<>(status,workScheduleDTO,message);
+    }
+
+    @PostMapping("/checkIn/{id}")
+    public ApiResponse<WorkScheduleDTO> checkInSchedule(@PathVariable int id){
+
+        WorkScheduleDTO workScheduleDTO = _workScheduleService.checkIn(id);
+
+        String status = "";
+        String message = "";
+
+        switch (workScheduleDTO.getWorkScheduleId()) {
+            case -1:
+                status = "404";
+                message = "Work Schedule Not Found!";
+                break;
+            case -3:
+                status = "403";
+                message = "This Work Schedule Is Inactive!";
+                break;
+            case -13:
+                status = "403";
+                message = "This Work Schedule Is Already Check In!";
+                break;
+            case -23:
+                status = "403";
+                message = "This Work Schedule Is Already Check Out!";
+                break;
+            case -33:
+                status = "403";
+                message = "Too Early To Check In! Please Check In After: " + workScheduleDTO.getWork_date() + " " + workScheduleDTO.getStart_at().minusMinutes(45) + "!";
+                break;
+            case -43:
+                status = "403";
+                message = "Just take a day off today. You are too late";
+                break;
+            case -53:
+                status = "200";
+                message = "Check In Successfully! But You Are Late! At: " + LocalTime.now();
+                break;
+            default:
+                status = "200";
+                message = "Check In Successfully! At: " + LocalTime.now();
+                break;
+        }
+
+        workScheduleDTO.setWorkScheduleId(id);
+
+        return new ApiResponse<>(status,workScheduleDTO,message);
+    }
+
+    @PostMapping("/checkOut/{id}")
+    public ApiResponse<WorkScheduleDTO> checkOutSchedule(@PathVariable int id){
+
+        WorkScheduleDTO workScheduleDTO = _workScheduleService.checkOut(id);
+
+        String status = "";
+        String message = "";
+
+        switch (workScheduleDTO.getWorkScheduleId()) {
+            case -1:
+                status = "404";
+                message = "Work Schedule Not Found!";
+                break;
+            case -4:
+                status = "403";
+                message = "This Work Schedule Is Inactive!";
+                break;
+            case -14:
+                status = "403";
+                message = "This Work Schedule Is Not Check In Yet!";
+                break;
+            case -24:
+                status = "403";
+                message = "This Work Schedule Is Already Check Out!";
+                break;
+            case -34:
+                status = "403";
+                message = "Check Out Too Early! Please Check Out At: " + workScheduleDTO.getEnd_at() + " Or Later!";
+                break;
+            default:
+                status = "200";
+                message = "Check Out Successfully! At: " + LocalTime.now();
+                break;
         }
 
         workScheduleDTO.setWorkScheduleId(id);
