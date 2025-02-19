@@ -246,7 +246,7 @@ public class WorkScheduleController {
                 break;
             case -34:
                 status = "403";
-                message = "Check Out Too Early! Please Check Out At: " + workScheduleDTO.getEnd_at() + " Or Later! " + LocalDateTime.now() + " " + LocalDateTime.now().isBefore(LocalDateTime.of(workScheduleDTO.getWork_date(), workScheduleDTO.getEnd_at()).minusMinutes(15)) ;
+                message = "Check Out Too Early! Please Check Out At: " + workScheduleDTO.getWork_date() + " " + workScheduleDTO.getEnd_at().minusMinutes(15) + " Or Later!";
                 break;
             default:
                 status = "200";
