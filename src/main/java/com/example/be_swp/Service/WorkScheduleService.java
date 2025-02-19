@@ -89,7 +89,31 @@ public class WorkScheduleService {
     }
 
     public List<WorkScheduleDTO> findAllToday(){
+        List<WorkSchedule> workScheduleList = _workScheduleRepository.findAllToday(LocalDate.now());
+        List<WorkScheduleDTO> workScheduleDTOList = new ArrayList<>();
 
+        if (!workScheduleList.isEmpty()){
+            for (WorkSchedule ws: workScheduleList){
+                WorkScheduleDTO workScheduleDTO = new WorkScheduleDTO(ws.getWorkScheduleId(), ws.getExperts().getExpertId(), ws.getStart_at(), ws.getEnd_at(), ws.getWork_date(), ws.getStatus(), ws.getCreated_at(), ws.getUpdated_at());
+                workScheduleDTOList.add(workScheduleDTO);
+            }
+        }
+
+        return workScheduleDTOList;
+    }
+
+    public List<WorkScheduleDTO> findAllTodayByExpertId(int id){
+        List<WorkSchedule> workScheduleList = _workScheduleRepository.findAllTodayByExpertId(LocalDate.now(),id);
+        List<WorkScheduleDTO> workScheduleDTOList = new ArrayList<>();
+
+        if (!workScheduleList.isEmpty()){
+            for (WorkSchedule ws: workScheduleList){
+                WorkScheduleDTO workScheduleDTO = new WorkScheduleDTO(ws.getWorkScheduleId(), ws.getExperts().getExpertId(), ws.getStart_at(), ws.getEnd_at(), ws.getWork_date(), ws.getStatus(), ws.getCreated_at(), ws.getUpdated_at());
+                workScheduleDTOList.add(workScheduleDTO);
+            }
+        }
+
+        return workScheduleDTOList;
     }
 
 

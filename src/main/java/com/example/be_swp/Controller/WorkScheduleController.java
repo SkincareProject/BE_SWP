@@ -75,6 +75,45 @@ public class WorkScheduleController {
         return new ApiResponse<>(status,workScheduleDTOList,message);
     }
 
+    @GetMapping("findAllToday")
+    public ApiResponse<List<WorkScheduleDTO>> findAllToday(){
+
+        List<WorkScheduleDTO> workScheduleDTOList = _workScheduleService.findAllToday();
+
+        String status = "";
+        String message = "";
+
+        if (workScheduleDTOList.isEmpty()){
+            status = "404";
+            message = "Work Schedules Not Found!";
+        }else {
+            status = "200";
+            message = "Get all work schedules for today successfully!";
+        }
+
+        return new ApiResponse<>(status,workScheduleDTOList,message);
+    }
+
+    @GetMapping("findAllTodayByExpertId/{expertId}")
+    public ApiResponse<List<WorkScheduleDTO>> findAllTodayByExpertId(@PathVariable int expertId){
+
+        List<WorkScheduleDTO> workScheduleDTOList = _workScheduleService.findAllTodayByExpertId(expertId);
+
+        String status = "";
+        String message = "";
+
+        if (workScheduleDTOList.isEmpty()){
+            status = "404";
+            message = "Work Schedules Not Found!";
+        }else {
+            status = "200";
+            message = "Get all work schedules for today with expert id: " + expertId + " successfully!";
+        }
+
+        return new ApiResponse<>(status,workScheduleDTOList,message);
+
+    }
+
     @PostMapping("/add")
     public ApiResponse<WorkScheduleDTO> add(@RequestBody WorkScheduleDTO workScheduleDTO, @RequestParam int expertId){
         workScheduleDTO = _workScheduleService.add(workScheduleDTO,expertId);
@@ -130,26 +169,13 @@ public class WorkScheduleController {
         return new ApiResponse<>(status,workScheduleDTO,message);
     }
 
-    @GetMapping("findAllToday")
-    public ApiResponse<List<WorkScheduleDTO>> findAllToday(){
-
-        return new ApiResponse<>();
-    }
-
-    @GetMapping("findAllToday/{expertId}")
-    public ApiResponse<List<WorkScheduleDTO>> findAllTodayExpert(@PathVariable int expertId){
-
-
-        return new ApiResponse<>();
-    }
-
-    @PostMapping("/checkIn/{Id}")
+    @PostMapping("/checkIn/{id}")
     public ApiResponse<WorkScheduleDTO> checkInSchedule(@PathVariable int Id){
 
         return new ApiResponse<>();
     }
 
-    @PostMapping("/checkOut/{Id}")
+    @PostMapping("/checkOut/{id}")
     public ApiResponse<WorkScheduleDTO> checkOutSchedule(@PathVariable int Id){
 
         return new ApiResponse<>();
