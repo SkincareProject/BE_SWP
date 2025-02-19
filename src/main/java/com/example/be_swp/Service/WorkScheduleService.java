@@ -52,7 +52,7 @@ public class WorkScheduleService {
         return workScheduleDTO;
     }
 
-    public List<WorkScheduleDTO> findByName(String nameOrId){
+    public List<WorkScheduleDTO> findByExpertNameOrId(String nameOrId){
         boolean is_ExpertId = false;
         List<WorkScheduleDTO> workScheduleDTOList = new ArrayList<>();
 
@@ -87,6 +87,11 @@ public class WorkScheduleService {
 
         return workScheduleDTOList;
     }
+
+    public List<WorkScheduleDTO> findAllToday(){
+
+    }
+
 
     public WorkScheduleDTO add(WorkScheduleDTO workScheduleDTO, int expertId){
 

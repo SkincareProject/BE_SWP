@@ -59,7 +59,7 @@ public class WorkScheduleController {
 
     @GetMapping("/findByExpert")
     public ApiResponse<List<WorkScheduleDTO>> findByExpert(@RequestParam String nameOrId){
-        List<WorkScheduleDTO> workScheduleDTOList = _workScheduleService.findByName(nameOrId);
+        List<WorkScheduleDTO> workScheduleDTOList = _workScheduleService.findByExpertNameOrId(nameOrId);
 
         String status = "";
         String message = "";
@@ -128,6 +128,31 @@ public class WorkScheduleController {
         workScheduleDTO.setWorkScheduleId(id);
 
         return new ApiResponse<>(status,workScheduleDTO,message);
+    }
+
+    @GetMapping("findAllToday")
+    public ApiResponse<List<WorkScheduleDTO>> findAllToday(){
+
+        return new ApiResponse<>();
+    }
+
+    @GetMapping("findAllToday/{expertId}")
+    public ApiResponse<List<WorkScheduleDTO>> findAllTodayExpert(@PathVariable int expertId){
+
+
+        return new ApiResponse<>();
+    }
+
+    @PostMapping("/checkIn/{Id}")
+    public ApiResponse<WorkScheduleDTO> checkInSchedule(@PathVariable int Id){
+
+        return new ApiResponse<>();
+    }
+
+    @PostMapping("/checkOut/{Id}")
+    public ApiResponse<WorkScheduleDTO> checkOutSchedule(@PathVariable int Id){
+
+        return new ApiResponse<>();
     }
 
 }
