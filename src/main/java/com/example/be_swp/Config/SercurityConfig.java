@@ -4,6 +4,7 @@ package com.example.be_swp.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -23,9 +24,10 @@ import java.util.Arrays;
 public class SercurityConfig {
 
     @Bean
+    @Order(0)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())
+                .cors((cors) -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable()) // Tắt CSRF nếu không cần
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**","/api/**","/v3/api-docs/**").permitAll() // Cho phép truy cập API mà không cần login
@@ -38,6 +40,37 @@ public class SercurityConfig {
     }
 
     @Bean
+    @Order(1)
+    public SecurityFilterChain securitySwaggerFilterChain(HttpSecurity http) throws Exception {
+        http
+                .cors((cors) -> cors.configurationSource(corsSwaggerConfigurationSource()))
+                .csrf(csrf -> csrf.disable()) // Tắt CSRF nếu không cần
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/swagger-ui/**","/api/**","/v3/api-docs/**").permitAll() // Cho phép truy cập API mà không cần login
+                        .anyRequest().authenticated()// Các request khác phải login
+                )
+                .formLogin(form -> form.disable()) // Tắt form login mặc định
+                .httpBasic(basic -> basic.disable()); // Tắt Basic Auth
+
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
+    public SecurityFilterChain securityV3FilterChain(HttpSecurity http) throws Exception {
+        http
+                .cors((cors) -> cors.configurationSource(corsV3ConfigurationSource()))
+                .csrf(csrf -> csrf.disable()) // Tắt CSRF nếu không cần
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/swagger-ui/**","/api/**","/v3/api-docs/**").permitAll() // Cho phép truy cập API mà không cần login
+                        .anyRequest().authenticated()// Các request khác phải login
+                )
+                .formLogin(form -> form.disable()) // Tắt form login mặc định
+                .httpBasic(basic -> basic.disable()); // Tắt Basic Auth
+
+        return http.build();
+    }
+
     UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
@@ -52,6 +85,40 @@ public class SercurityConfig {
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/api/**", configuration);
+        return source;
+    }
+
+    UrlBasedCorsConfigurationSource corsSwaggerConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://3.26.7.116:3000",
+                "http://localhost:5173",
+                "http://localhost:3000",
+                "http://35.202.71.223:8080"
+        ));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PATCH","PUT","DELETE"));
+        configuration.addAllowedHeader("Authorization");
+        configuration.addAllowedHeader("Content-Type");
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/swagger-ui/**", configuration);
+        return source;
+    }
+
+    UrlBasedCorsConfigurationSource corsV3ConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://3.26.7.116:3000",
+                "http://localhost:5173",
+                "http://localhost:3000",
+                "http://35.202.71.223:8080"
+        ));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PATCH","PUT","DELETE"));
+        configuration.addAllowedHeader("Authorization");
+        configuration.addAllowedHeader("Content-Type");
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/v3/api-docs/**", configuration);
         return source;
     }
 
