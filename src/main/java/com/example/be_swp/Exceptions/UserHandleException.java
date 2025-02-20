@@ -19,4 +19,9 @@ public class UserHandleException {
 
         return new ResponseEntity(messages, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity handleNullPointer(NullPointerException exception){
+        return new ResponseEntity(exception.getMessage(),HttpStatus.BAD_REQUEST);
+    }
 }

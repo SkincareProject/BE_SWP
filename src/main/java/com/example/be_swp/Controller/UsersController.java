@@ -1,5 +1,7 @@
 package com.example.be_swp.Controller;
 
+import com.example.be_swp.DTOs.Request.UserRequest;
+import com.example.be_swp.DTOs.Response.UserResponse;
 import com.example.be_swp.DTOs.UsersDTO;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Service.UserService;
@@ -31,6 +33,16 @@ public class UsersController {
         return ResponseEntity.ok(respone);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody UserRequest userRequest) {
+        UserResponse userResponse = _userService.login(userRequest);
+        return ResponseEntity.ok(userResponse);
+    }
+
+    @PutMapping("/delete")
+    public void deleteUser(){
+
+    }
     @GetMapping("/userGmail")
     public ResponseEntity<Users> getUserByEmail (@RequestParam String email){
         Users users = _userService.getUserByEmail(email);
