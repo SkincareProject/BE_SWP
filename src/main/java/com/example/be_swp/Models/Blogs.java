@@ -15,25 +15,20 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name="blogs")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Blogs {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int blogId;
 
-//    @ManyToOne
-    @JoinColumn(name = "author_id"
-    @Column(name="author_id")
-    private Long authorId;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Users users;
 
-    @Column(name="title")
     private String title;
 
-
-    @Column(name = "content")
     private String content;
 
-
-    @Column(name="created_at")
-    private LocalDateTime createdAat;
+    private LocalDateTime created_at;
 }

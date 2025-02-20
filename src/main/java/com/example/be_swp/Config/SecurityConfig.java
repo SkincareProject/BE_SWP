@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 
 @Configuration
-@EnableWebSecurity  
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean

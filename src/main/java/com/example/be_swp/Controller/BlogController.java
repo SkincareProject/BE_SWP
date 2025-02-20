@@ -23,7 +23,7 @@ public class BlogController {
 
         newBlog.setTitle(data.getTitle());
         newBlog.setContent(data.getContent());
-        newBlog.setAuthor_id(data.getAuthor_id());
+//        newBlog.setAuthorId(data.getAuthorId());
 
         newBlog=repository.save(newBlog);
 
