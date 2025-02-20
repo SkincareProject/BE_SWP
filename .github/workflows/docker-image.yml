@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Docker Image CI/CD
 
 on:
   push:
@@ -42,18 +42,48 @@ jobs:
           use_insecure_cipher: true
           debug: true
           script: |
-            # Stop and remove any existing container
+            echo "🚀 Starting deployment..."
+
+            # Chỉnh múi giờ về Việt Nam (UTC+7)
+            echo "🌍 Setting timezone to Asia/Ho_Chi_Minh..."
+            sudo timedatectl set-timezone Asia/Ho_Chi_Minh
+
+            # Backup authorized_keys trước khi deploy
+            echo "🔑 Backing up authorized_keys..."
+            cp ~/.ssh/authorized_keys ~/.ssh/authorized_keys.bak
+
+            # Kiểm tra và gán quyền đúng cho thư mục SSH
+            chmod 700 ~/.ssh
+            chmod 600 ~/.ssh/authorized_keys
+
+            # Stop và remove container cũ nếu tồn tại
             if docker ps -a --format '{{.Names}}' | grep -q '^be_swp$'; then
+              echo "🛑 Stopping and removing old container..."
               docker stop be_swp
               docker rm be_swp
             fi
-            
-            # Pull the latest image
+
+            # Pull image mới từ Docker Hub
+            echo "📦 Pulling latest Docker image..."
             docker pull ${{ secrets.DOCKER_USERNAME }}/be_swp:latest
-            
-            # Run the new container
+
+            # Chạy container mới với mount thư mục .ssh để tránh mất key
+            echo "🚢 Starting new container..."
             docker run -d \
               --name be_swp \
               -p 8080:8080 \
               --restart always \
+              -v ~/.ssh:/root/.ssh \
               ${{ secrets.DOCKER_USERNAME }}/be_swp:latest
+
+            # Restore authorized_keys nếu bị mất
+            if [ ! -f ~/.ssh/authorized_keys ]; then
+              echo "🔄 Restoring authorized_keys..."
+              cp ~/.ssh/authorized_keys.bak ~/.ssh/authorized_keys
+            fi
+
+            # Kiểm tra lại quyền trên thư mục SSH sau khi restore
+            chmod 700 ~/.ssh
+            chmod 600 ~/.ssh/authorized_keys
+
+            echo "✅ Deployment completed successfully!"
