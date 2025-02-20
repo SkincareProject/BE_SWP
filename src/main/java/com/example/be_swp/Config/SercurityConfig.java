@@ -23,7 +23,7 @@ public class SercurityConfig {
                 .csrf(csrf -> csrf.disable()) // Tắt CSRF nếu không cần
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**","/api/**","/v3/api-docs/**").permitAll() // Cho phép truy cập API mà không cần login
-                        .anyRequest().permitAll() // Các request khác phải login
+                        .anyRequest().authenticated()// Các request khác phải login
                 )
                 .formLogin(form -> form.disable()) // Tắt form login mặc định
                 .httpBasic(basic -> basic.disable()); // Tắt Basic Auth
