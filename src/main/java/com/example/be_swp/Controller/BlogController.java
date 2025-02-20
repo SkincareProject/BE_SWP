@@ -1,23 +1,33 @@
 package com.example.be_swp.Controller;
 
 import com.example.be_swp.Models.ApiResponse;
+import com.example.be_swp.Models.Blogs;
+import com.example.be_swp.Repository.BlogsRepository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/blogs")
+@RequestMapping("/api/v1")
 public class BlogController {
+   private BlogsRepository repository;
 
-
-    @GetMapping
+    @GetMapping("/blogs")
     public ApiResponse<String> get(){
 
         return new ApiResponse<>("This is","Dummy","Api");
     }
 
-    @PostMapping
-    public ApiResponse<String> post(){
+    @PostMapping("/createOrUpdate")
+    public ApiResponse<?> post(@RequestBody Blogs data){
+        Blogs newBlog =null;
 
-        return new ApiResponse<>("This is","Dummy","Api");
+
+        newBlog.setTitle(data.getTitle());
+        newBlog.setContent(data.getContent());
+        newBlog.setAuthor_id(data.getAuthor_id());
+
+        newBlog=repository.save(newBlog);
+
+        return new ApiResponse<>("200",newBlog,"Create Or Update success");
     }
 
     @PutMapping

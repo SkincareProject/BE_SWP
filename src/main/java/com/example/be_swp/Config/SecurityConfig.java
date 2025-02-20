@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,26 +19,26 @@ import java.util.Arrays;
 
 
 @Configuration
-@EnableWebSecurity
-public class SercurityConfig {
+@EnableWebSecurity  
+public class SecurityConfig {
 
     @Bean
     @Order(0)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors((cors) -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable()) // Tắt CSRF nếu không cần
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**","/api/**","/v3/api-docs/**").permitAll() // Cho phép truy cập API mà không cần login
-                        .anyRequest().authenticated()// Các request khác phải login
+                        .anyRequest().permitAll()  // Allow all requests without authentication
                 )
-                .formLogin(form -> form.disable()) // Tắt form login mặc định
-                .httpBasic(basic -> basic.disable()); // Tắt Basic Auth
+                .formLogin(form -> form.disable())
+                .httpBasic(basic -> basic.disable());
 
         return http.build();
     }
 
-    UrlBasedCorsConfigurationSource corsConfigurationSource() {
+    @Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://3.26.7.116:3000",
@@ -47,7 +46,7 @@ public class SercurityConfig {
                 "http://localhost:3000",
                 "http://35.202.71.223:8080"
         ));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PATCH","PUT","DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE"));
         configuration.addAllowedHeader("Authorization");
         configuration.addAllowedHeader("Content-Type");
         configuration.setAllowCredentials(true);
@@ -60,7 +59,6 @@ public class SercurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
