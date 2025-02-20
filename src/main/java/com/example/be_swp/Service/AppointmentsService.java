@@ -30,12 +30,12 @@ public class AppointmentsService {
         List<AppointmentsDTO> AppointmentsDTOList = new ArrayList<>();
         if (!appointmentsList.isEmpty()){
             for (Appointments appointment: appointmentsList){
-                AppointmentsDTO AppointmentsDTO = new AppointmentsDTO(appointment.getAppointmentId()
+                AppointmentsDTO appointmentsDTO = new AppointmentsDTO(appointment.getAppointmentId()
                         ,appointment.getUsers().getId(),appointment.getExperts().getExpertId()
                         ,appointment.getServices().getServiceId(),appointment.getTotal()
                         ,appointment.getStart_at(),appointment.getEnd_at(),appointment.getStatus()
                         ,appointment.getCreated_at(),appointment.getUpdated_at());
-                AppointmentsDTOList.add(AppointmentsDTO);
+                AppointmentsDTOList.add(appointmentsDTO);
             }
         }
         return AppointmentsDTOList;
