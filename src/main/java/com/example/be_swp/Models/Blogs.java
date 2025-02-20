@@ -7,28 +7,30 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@Table(name="blogs")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="blogs")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class Blogs {
+@JsonInclude(JsonInclude.Include.ALWAYS)
+public class Blogs implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int blogId;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    private Users users;
+    @Column(name="author_id")
+    private int authorId;
 
+
+    @Column(name="title")
     private String title;
-
+    @Column(name="content")
     private String content;
-
-    private LocalDateTime created_at;
+    @Column(name="created_at")
+    private LocalDateTime createdAt;
 }

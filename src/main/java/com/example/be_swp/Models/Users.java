@@ -67,8 +67,8 @@ public class Users implements UserDetails {
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<ServiceRatings> serviceRatingsList;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    private List<Blogs> blogsList;
+//    @OneToMany(mappedBy = "author_id", cascade = CascadeType.ALL)
+//    private List<Blogs> blogsList;
 
 
 

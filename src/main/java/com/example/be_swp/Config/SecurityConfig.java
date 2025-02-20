@@ -1,7 +1,5 @@
 package com.example.be_swp.Config;
 
-
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -16,7 +14,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -29,7 +27,7 @@ public class SecurityConfig {
                 .cors((cors) -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()  // Allow all requests without authentication
+                        .anyRequest().permitAll()
                 )
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable());
@@ -46,12 +44,19 @@ public class SecurityConfig {
                 "http://localhost:3000",
                 "http://35.202.71.223:8080"
         ));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE"));
-        configuration.addAllowedHeader("Authorization");
-        configuration.addAllowedHeader("Content-Type");
+        // Explicitly list all allowed methods
+        configuration.setAllowedMethods(List.of(
+                "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT"
+        ));
+        // Allow all headers
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", configuration);
+        // Apply to all paths
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
