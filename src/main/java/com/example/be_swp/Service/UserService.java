@@ -1,7 +1,9 @@
 package com.example.be_swp.Service;
 
+
 import com.example.be_swp.DTOs.Request.UserRequest;
 import com.example.be_swp.DTOs.Response.UserResponse;
+
 import com.example.be_swp.DTOs.UsersDTO;
 import com.example.be_swp.Models.Roles;
 import com.example.be_swp.Models.Users;
@@ -84,16 +86,6 @@ public class UserService implements UserDetailsService{
 
     }
 
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        Users users = _usersRepository.findByUsername(username)
-//                .orElseThrow(()-> new UsernameNotFoundException("User not found!!!"));
-//        return org.springframework.security.core.userdetails.User
-//                .withUsername(users.getUsername())
-//                .password(users.getPassword())
-//                .roles(String.valueOf(users.getRoles()))
-//                .build();
-//    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

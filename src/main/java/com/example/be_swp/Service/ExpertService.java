@@ -1,10 +1,9 @@
 package com.example.be_swp.Service;
 
 import com.example.be_swp.DTOs.ExpertsDTO;
-import com.example.be_swp.DTOs.UsersDTO;
 import com.example.be_swp.Models.Experts;
 import com.example.be_swp.Models.Roles;
-import com.example.be_swp.Models.UserExpertDTO;
+import com.example.be_swp.DTOs.UserExpertDTO;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Repository.ExpertRepository;
 import com.example.be_swp.Repository.RolesRepository;
@@ -35,6 +34,35 @@ public class ExpertService {
         if (!expertsList.isEmpty()){
             for (Experts expert: expertsList){
                 ExpertsDTO expertsDTO = new ExpertsDTO(expert.getExpertId(), expert.getUsers().getId(), expert.getSpecialization(), expert.getYearOfExperiences(), expert.getDescription(), expert.getStatus(), expert.getCreated_at(), expert.getUpdated_at());
+                expertsDTOList.add(expertsDTO);
+            }
+        }
+
+        return expertsDTOList;
+    }
+
+    public ExpertsDTO findById(int id){
+        ExpertsDTO expertsDTO = new ExpertsDTO();
+        Optional<Experts> optionalExperts = _expertRepository.findById(id);
+        if (optionalExperts.isPresent()){
+
+            Experts experts = optionalExperts.get();
+            expertsDTO = new ExpertsDTO(experts.getExpertId(),experts.getUsers().getId(),experts.getSpecialization(),experts.getYearOfExperiences(),experts.getDescription(),experts.getStatus(),experts.getCreated_at(),experts.getUpdated_at());
+
+        }else{
+            expertsDTO.setExpertId(-1);
+        }
+
+        return expertsDTO;
+    }
+
+    public List<ExpertsDTO> findByName(String name){
+        List<Experts> expertsList = _expertRepository.findByName(name);
+        List<ExpertsDTO> expertsDTOList = new ArrayList<>();
+
+        if (!expertsList.isEmpty()){
+            for (Experts expert: expertsList){
+                ExpertsDTO expertsDTO = new ExpertsDTO(expert.getExpertId(),expert.getUsers().getId(),expert.getSpecialization(), expert.getYearOfExperiences(), expert.getDescription(), expert.getStatus(), expert.getCreated_at(),expert.getUpdated_at());
                 expertsDTOList.add(expertsDTO);
             }
         }
