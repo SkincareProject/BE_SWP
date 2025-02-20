@@ -10,11 +10,31 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry){
         corsRegistry
-                .addMapping(
-                    "/api/**",
-                    "/swagger-ui/**",
-                    "/v3/api-docs/**"                   
+                .addMapping("/api/**")
+                .allowedOrigins(
+                    "http://3.26.7.116:3000/",
+                    "http://localhost:5173",
+                    "http://localhost:3000",
+                    "http://35.202.71.223:8080/"
                 )
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+                .allowedHeaders("Authorization", "Content-Type")
+                .allowCredentials(true);
+
+        corsRegistry
+                .addMapping("/swagger-ui/**")
+                .allowedOrigins(
+                    "http://3.26.7.116:3000/",
+                    "http://localhost:5173",
+                    "http://localhost:3000",
+                    "http://35.202.71.223:8080/"
+                )
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+                .allowedHeaders("Authorization", "Content-Type")
+                .allowCredentials(true);
+
+        corsRegistry
+                .addMapping("/v3/api-docs/**")
                 .allowedOrigins(
                     "http://3.26.7.116:3000/",
                     "http://localhost:5173",
