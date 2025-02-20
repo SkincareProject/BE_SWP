@@ -1,14 +1,24 @@
 package com.example.be_swp.Service;
 
+
+import com.example.be_swp.DTOs.Request.UserRequest;
+import com.example.be_swp.DTOs.Response.UserResponse;
+
 import com.example.be_swp.DTOs.UsersDTO;
 import com.example.be_swp.Models.Roles;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Repository.RolesRepository;
 import com.example.be_swp.Repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.util.stream.Collectors;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService{
 
     @Autowired
     private final UsersRepository _usersRepository;
@@ -24,9 +34,18 @@ public class UserService {
     @Autowired
     private  RolesRepository _rolesRepository;
 
+    @Autowired
+    @Lazy
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    TokenService tokenService;
+
     public UserService(UsersRepository usersRepository) {
         _usersRepository = usersRepository;
     }
+
+
 
     public List<UsersDTO> findAll(){
         List<Users> usersList = _usersRepository.findAll();
@@ -67,11 +86,12 @@ public class UserService {
 
     }
 
-    public String loginUser(String username) throws UsernameNotFoundException {
-        Users users = _usersRepository.findByUsername(username)
-                .orElseThrow(()-> new UsernameNotFoundException("User not found!!!"));
-        return username;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+       return _usersRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not found!!!"));
     }
+
 
 
 
@@ -80,4 +100,28 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("NOT FOUND THE USER!!"));
     }
 
+    public UserResponse login(UserRequest userRequest) {
+        try{
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            userRequest.getUsername(),
+                            userRequest.getPassword()
+                    )
+            );
+        }catch (Exception e){
+            throw new NullPointerException("Wrong username or password!!!");
+        }
+        Users users = _usersRepository.findByUsername(userRequest.getUsername()).orElseThrow();
+        String token = tokenService.generateToken(users);
+        UserResponse userResponse = new UserResponse();
+        userResponse.setEmail(users.getEmail());
+        userResponse.setId(users.getId());
+        userResponse.setFullName(users.getFullName());
+        userResponse.setUsername(users.getUsername());
+        userResponse.setUsername(users.getUsername());
+        userResponse.setRole_id(users.getRoles().getId());
+        userResponse.setToken(token);
+
+        return  userResponse;
+    }
 }
