@@ -10,7 +10,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry){
         corsRegistry
-                .addMapping("/api/**")
+                .addMapping(
+                    "/api/**",
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**"                   
+                )
                 .allowedOrigins(
                     "http://3.26.7.116:3000/",
                     "http://localhost:5173",
