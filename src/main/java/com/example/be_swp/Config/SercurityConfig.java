@@ -41,17 +41,17 @@ public class SercurityConfig {
     UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
-                "http://3.26.7.116:3000/",
+                "http://3.26.7.116:3000",
                 "http://localhost:5173",
                 "http://localhost:3000",
-                "http://35.202.71.223:8080/"
+                "http://35.202.71.223:8080"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PATCH","PUT","DELETE"));
         configuration.addAllowedHeader("Authorization");
         configuration.addAllowedHeader("Content-Type");
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/api/**", configuration);
         return source;
     }
 
