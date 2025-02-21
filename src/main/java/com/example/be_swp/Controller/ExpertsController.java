@@ -83,8 +83,32 @@ public class ExpertsController {
         String status = "";
         String message = "";
 
-        status = "200";
-        message = "Add expert successfully!";
+        switch (expertsDTO.getExpertId()){
+            case -1:
+                status = "400";
+                message = "Username Already Existed!";
+                break;
+            case -2:
+                status = "400";
+                message = "Email Already Existed!";
+                break;
+            case -3:
+                status = "400";
+                message = "Phone Already Existed!";
+                break;
+            case -4:
+                status = "400";
+                message = "Invalid Email!";
+                break;
+            case -5:
+                status = "400";
+                message = "Invalid Phone!";
+                break;
+            default:
+                status = "200";
+                message = "Add Expert Successfully!";
+                break;
+        }
 
         return new ApiResponse<>(status,expertsDTO,message);
 
