@@ -1,43 +1,100 @@
 package com.example.be_swp.Controller;
 
-import com.example.be_swp.Models.Services;
-import com.example.be_swp.Repository.ServiceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.be_swp.DTOs.ServicesDTO;
+import com.example.be_swp.Models.ApiResponse;
+import com.example.be_swp.Service.ServicesService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/services")
 public class ServiceController {
 
-    @Autowired
-    ServiceRepository servicesRepository;
+    private final ServicesService _servicesService;
 
-    @GetMapping("/getAllServices")
-    public List<Services> getAllServices() {
-        return servicesRepository.findAll();
+    public ServiceController(ServicesService _servicesService) {
+        this._servicesService = _servicesService;
     }
 
-    @PostMapping("/saveServices")
-    public Services saveService(@RequestBody Services Service) {
-        return servicesRepository.save(Service);
+    @GetMapping("/getAll")
+    public ApiResponse<List<ServicesDTO>> getAll() {
+        List<ServicesDTO> servicesDTOList = _servicesService.findAll();
+        String status = "";
+        String message = "";
+        if (servicesDTOList.isEmpty()) {
+            status = "404";
+            message = "Appointment Not Found!";
+        } else {
+            status = "200";
+            message = "Appointment Found!";
+        }
+        return new ApiResponse<>(status,servicesDTOList,message);
     }
 
-    @PutMapping("/updateServices/{id}")
-    public Services updateService(@PathVariable long id ,@RequestBody Services Service) {
-        Services updatedService = servicesRepository.findById(id).get();
-        updatedService.setServiceName(Service.getServiceName());
-        updatedService.setPrice(Service.getPrice());
-        updatedService.setDuration(Service.getDuration());
-        updatedService.setDescription(Service.getDescription());
-        updatedService.setType(Service.getType());
-        updatedService.setStatus(Service.getStatus());
-        return servicesRepository.save(updatedService);
+    @GetMapping("/findById/{id}")
+    public ApiResponse<ServicesDTO> findById(@PathVariable int id){
+        ServicesDTO servicesDTO = _servicesService.findById(id);
+
+        String status = "";
+        String message = "";
+
+        if (servicesDTO.getServiceId() == -1){
+            status = "404";
+            message = "Appointment Not Found!";
+        } else {
+            status = "200";
+            message = "Appointment Found!";
+        }
+
+        servicesDTO.setServiceId(id);
+
+        return new ApiResponse<>(status,servicesDTO,message);
     }
 
-    @DeleteMapping("/deleteServices/{id}")
-    public void deleteService(@PathVariable long id) {
-        Services deletedService = servicesRepository.findById(id).get();
-        servicesRepository.delete(deletedService);
+    @PostMapping("/add")
+    public ApiResponse<ServicesDTO> add(@RequestBody ServicesDTO servicesDTO) {
+        servicesDTO = _servicesService.add(servicesDTO);
+        String status = "200";
+        String message = "Saved Appointment!";
+        return new ApiResponse<>(status,servicesDTO,message);
+    }
+
+    @PutMapping("/update/{id}")
+    public ApiResponse<ServicesDTO> update(@PathVariable int id,@RequestBody ServicesDTO servicesDTO) {
+        servicesDTO = _servicesService.update(servicesDTO,id);
+        String status = "";
+        String message = "";
+
+        if (servicesDTO.getServiceId() == -1){
+            status = "404";
+            message = "Appointment Not Found!";
+        } else {
+            status = "200";
+            message = "Appointment Updated!";
+        }
+
+        servicesDTO.setServiceId(id);
+
+        return new ApiResponse<>(status,servicesDTO,message);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ApiResponse<ServicesDTO> delete(@PathVariable int id) {
+        ServicesDTO servicesDTO = _servicesService.delete(id);
+        String status = "";
+        String message = "";
+
+        if (servicesDTO.getServiceId() == -1){
+            status = "404";
+            message = "Appointment Not Found!";
+        } else {
+            status = "200";
+            message = "Appointment Deleted!";
+        }
+        servicesDTO.setServiceId(id);
+
+        return new ApiResponse<>(status,servicesDTO,message);
+
     }
 }
