@@ -65,31 +65,34 @@ public class DataInitializerService {
 
             PaymentMethods cash = new PaymentMethods("Cash", "Pay with cash", 1, LocalDateTime.now(), LocalDateTime.now());
 
-            PaymentMethods payPal = new PaymentMethods("Paypal", "Pay with paypal", 1, LocalDateTime.now(), LocalDateTime.now());
+            PaymentMethods payPal = new PaymentMethods("Paypal", "Pay with paypal", 0, LocalDateTime.now(), LocalDateTime.now());
 
-            PaymentMethods visa = new PaymentMethods("Visa", "Pay with visa", 1, LocalDateTime.now(), LocalDateTime.now());
+            PaymentMethods visa = new PaymentMethods("Visa", "Pay with visa", 0, LocalDateTime.now(), LocalDateTime.now());
 
-            PaymentMethods masterCard = new PaymentMethods("Master Card", "Pay with master card", 1, LocalDateTime.now(), LocalDateTime.now());
+            PaymentMethods masterCard = new PaymentMethods("Master Card", "Pay with master card", 0, LocalDateTime.now(), LocalDateTime.now());
 
-            PaymentMethods creditCard = new PaymentMethods("Credit Card", "Pay with credit card", 1, LocalDateTime.now(), LocalDateTime.now());
+            PaymentMethods creditCard = new PaymentMethods("Credit Card", "Pay with credit card", 0, LocalDateTime.now(), LocalDateTime.now());
+
+            PaymentMethods zaloPay = new PaymentMethods("Zalo Pay", "Pay with zalo pay", 1, LocalDateTime.now(), LocalDateTime.now());
 
             _paymentMethodRepository.save(cash);
             _paymentMethodRepository.save(payPal);
             _paymentMethodRepository.save(visa);
             _paymentMethodRepository.save(masterCard);
             _paymentMethodRepository.save(creditCard);
+            _paymentMethodRepository.save(zaloPay);
 
             // Users
 
-            Users usersAdmin = new Users("admin", "123", "John Admin", "admin@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+            Users usersAdmin = new Users("admin", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Admin", "admin@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
-            Users usersStaff = new Users("staff", "123", "John Staff", "staff@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+            Users usersStaff = new Users("staff", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Staff", "staff@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
-            Users usersExpert = new Users("expert", "123", "John Expert", "expert@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+            Users usersExpert = new Users("expert", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Expert", "expert@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
-            Users usersCustomer = new Users("customer", "123", "John Customer", "customer@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+            Users usersCustomer = new Users("customer", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Customer", "customer@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
-            Users usersCustomer1 = new Users("customer1", "123", "John Customer One", "customer@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+            Users usersCustomer1 = new Users("customer1", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Customer One", "customer@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
             //Map User and Role
             usersAdmin.setRoles(rolesAdmin);
@@ -162,7 +165,7 @@ public class DataInitializerService {
 
             //Service
 
-            Services facialService = new Services("All Your Facial Treatments", 100, "All of skincare for yo face", 60, 1, "Facial Treatment", LocalDateTime.now(), LocalDateTime.now());
+            Services facialService = new Services("All Your Facial Treatments", 100000, "All of skincare for yo face", 60, 1, "Facial Treatment", LocalDateTime.now(), LocalDateTime.now());
 
             _servicesRepository.save(facialService);
 
