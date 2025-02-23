@@ -88,7 +88,9 @@ public class DataInitializerService {
 
             Users usersStaff = new Users("staff", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Staff", "staff@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
-            Users usersExpert = new Users("expert", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Expert", "expert@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+            Users usersExpert = new Users("expert", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Expert One", "expert@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+
+            Users usersExpert2 = new Users("expert2", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Expert Two", "expert2@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
             Users usersCustomer = new Users("customer", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Customer", "customer@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
@@ -104,8 +106,10 @@ public class DataInitializerService {
             staffList.add(usersStaff);
 
             usersExpert.setRoles(rolesExpert);
+            usersExpert2.setRoles(rolesExpert);
             List<Users> expertList = new ArrayList<>();
             expertList.add(usersExpert);
+            expertList.add(usersExpert2);
 
             usersCustomer.setRoles(rolesCustomer);
             usersCustomer1.setRoles(rolesCustomer);
@@ -116,7 +120,6 @@ public class DataInitializerService {
             rolesAdmin.setUsers(adminList);
             rolesStaff.setUsers(staffList);
             rolesExpert.setUsers(expertList);
-
             rolesCustomer.setUsers(customerList);
 
             _rolesRepository.save(rolesAdmin);
@@ -126,7 +129,9 @@ public class DataInitializerService {
 
             //Experts
 
-            Experts expert = new Experts("Facial Treatments", 6, "This is John Expert, John can make your face more beautiful.", 1, LocalDateTime.now(), LocalDateTime.now());
+            Experts expert = new Experts("Facial Treatments", 6, "This is John Expert One, John can make your face more beautiful.", 1, LocalDateTime.now(), LocalDateTime.now());
+
+            Experts expert2 = new Experts("Massage", 5, "This is John Expert Two, John can make your fatigue go away.", 1, LocalDateTime.now(), LocalDateTime.now());
 
             //Map User and Expert
 
@@ -134,15 +139,24 @@ public class DataInitializerService {
             usersExpert.setExperts(expert);
             _expertRepository.save(expert);
 
+            expert2.setUsers(usersExpert2);
+            usersExpert2.setExperts(expert2);
+            _expertRepository.save(expert2);
+
             //Work Schedule
 
             List<WorkSchedule> workScheduleList = new ArrayList<>();
+            List<WorkSchedule> workScheduleList2 = new ArrayList<>();
 
             for (int i = 0; i < 7; i++){
                 WorkSchedule scheduleMorning = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(11,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
                 WorkSchedule scheduleEvening = new WorkSchedule(LocalTime.of(13,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                WorkSchedule scheduleMorning2 = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(11,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                WorkSchedule scheduleEvening2 = new WorkSchedule(LocalTime.of(13,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
                 workScheduleList.add(scheduleMorning);
                 workScheduleList.add(scheduleEvening);
+                workScheduleList2.add(scheduleMorning2);
+                workScheduleList2.add(scheduleEvening2);
             }
 
             //Map Work Schedule with Expert
@@ -156,10 +170,24 @@ public class DataInitializerService {
                 workSchedule.setExperts(expert);
             }
 
+            for (WorkSchedule workSchedule : workScheduleList2) {
+                if (workSchedule.getEnd_at().isBefore(LocalTime.now()) && (workSchedule.getWork_date().isEqual(LocalDate.now()) || workSchedule.getWork_date().isBefore(LocalDate.now()))) {
+                    workSchedule.setStatus(4);
+                }else if(workSchedule.getWork_date().equals(LocalDate.now()) && workSchedule.getEnd_at().isAfter(LocalTime.now()) && workSchedule.getStart_at().isBefore(LocalTime.now())){
+                    workSchedule.setStatus(3);
+                }
+                workSchedule.setExperts(expert2);
+            }
+
             expert.setWorkScheduleList(workScheduleList);
+            expert2.setWorkScheduleList(workScheduleList2);
 
 
             for (WorkSchedule workSchedule : workScheduleList) {
+                _workScheduleRepository.save(workSchedule);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList2) {
                 _workScheduleRepository.save(workSchedule);
             }
 
