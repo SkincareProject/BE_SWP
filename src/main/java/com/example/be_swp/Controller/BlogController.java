@@ -6,26 +6,43 @@ import com.example.be_swp.Repository.BlogsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping(value = "/api/v1",method = {RequestMethod.GET, RequestMethod.POST})
+@RequestMapping(value = "/api/v1")
 public class BlogController {
     @Autowired // Add this to inject the repository
     private BlogsRepository repository;
 
     @GetMapping("/blogs")
-    public ApiResponse<String> get(){
+    public ApiResponse<?> get(){
+        List<Blogs> blogs = repository.findAll();
 
-        return new ApiResponse<>("This is","Dummy","Api");
+
+        return new ApiResponse<>("200",blogs,"OK");
+    }
+
+    @GetMapping("/blogs/{id}")
+    public ApiResponse<Blogs> getById(@PathVariable int id) {
+        Blogs blog = repository.findById(id).orElse(null);
+
+        if (blog == null) {
+            return new ApiResponse<>("404", null, "Blog not found");
+        }
+
+        return new ApiResponse<>("200", blog, "Success");
     }
 
     @PostMapping("/createOrUpdate")
     public ApiResponse<?> createOrUpdate(@RequestBody Blogs data){
 
 
-        Blogs newBlog=repository.findById(data.getAuthorId()).orElse(null);;
+        Blogs newBlog=repository.findById(data.getBlogId()).orElse(null);;
 
+        if(newBlog==null){
+            newBlog = new Blogs();
+        }
 
-        System.out.println(newBlog);
         // Set the properties
         newBlog.setTitle(data.getTitle());
         newBlog.setContent(data.getContent());
@@ -37,16 +54,20 @@ public class BlogController {
         return new ApiResponse<>("200", newBlog, "Create Or Update success");
     }
 
-    @PutMapping
-    public ApiResponse<String> put(){
 
-        return new ApiResponse<>("This is","Dummy","Api");
-    }
 
-    @DeleteMapping
-    public ApiResponse<String> delete(){
+    @DeleteMapping("/deleteBlog")
+    public ApiResponse<?> delete(@RequestParam("blogId")  int  blogId){
+        Blogs deleteBlog=repository.findById(blogId).orElse(null);
 
-        return new ApiResponse<>("This is","Dummy","Api");
+        if(deleteBlog==null){
+            return new ApiResponse<>("400",null,"Error not existing blog");
+
+        }
+        repository.delete(deleteBlog);
+
+
+        return new ApiResponse<>("200",deleteBlog,"delete ok");
     }
 
 }

@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BlogsRepository  extends JpaRepository<Blogs,Integer> ,JpaSpecificationExecutor<Blogs> {
 
+    void delete(Blogs deleteBlog);
 }
