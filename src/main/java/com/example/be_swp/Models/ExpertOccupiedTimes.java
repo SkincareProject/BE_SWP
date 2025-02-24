@@ -18,7 +18,7 @@ import java.time.LocalTime;
 public class ExpertOccupiedTimes {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int expertOccupiedTimeId;
 
     private LocalDate date;

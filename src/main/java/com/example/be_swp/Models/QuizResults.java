@@ -13,32 +13,23 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class ServiceRatings {
+public class QuizResults {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int serviceRatingId;
-
-    @OneToOne
-    @JoinColumn(name = "appointment_id")
-    private Appointments appointments;
+    private int quizResultId;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Users users;
 
     @ManyToOne
-    @JoinColumn(name = "service_id")
-    private Services services;
+    @JoinColumn(name = "quiz_id")
+    private Quizzes quizzes;
 
-    private int rating;
+    private String finalResult;
 
-    private String feedback;
+    private LocalDateTime createdAt;
 
-    private int status;
-
-    private LocalDateTime created_at;
-
-    private LocalDateTime updated_at;
-
+    private LocalDateTime updatedAt;
 }

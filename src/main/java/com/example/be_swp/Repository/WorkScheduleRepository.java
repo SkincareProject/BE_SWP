@@ -24,3 +24,4 @@ public interface WorkScheduleRepository extends ListCrudRepository<WorkSchedule,
     @Query(value = "SELECT ws FROM WorkSchedule ws WHERE ws.work_date = :today AND ws.experts.expertId = :expertId")
     public List<WorkSchedule> findAllTodayByExpertId(@Param("today") LocalDate today, @Param("expertId") int expertId);
 }
+

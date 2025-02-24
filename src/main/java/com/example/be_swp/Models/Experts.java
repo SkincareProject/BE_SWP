@@ -17,7 +17,7 @@ import java.util.List;
 public class Experts {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int expertId;
 
     private String specialization;
