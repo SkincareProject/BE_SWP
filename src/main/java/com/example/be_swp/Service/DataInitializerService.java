@@ -84,17 +84,17 @@ public class DataInitializerService {
 
             // Users
 
-            Users usersAdmin = new Users("admin", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Admin", "admin@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+            Users usersAdmin = new Users("admin", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Admin", "admin@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
-            Users usersStaff = new Users("staff", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Staff", "staff@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+            Users usersStaff = new Users("staff", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Staff", "staff@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
-            Users usersExpert = new Users("expert", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Expert One", "expert@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+            Users usersExpert = new Users("expert", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Expert One", "expert@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
-            Users usersExpert2 = new Users("expert2", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Expert Two", "expert2@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+            Users usersExpert2 = new Users("expert2", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Expert Two", "expert2@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
-            Users usersCustomer = new Users("customer", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Customer", "customer@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+            Users usersCustomer = new Users("customer", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Customer", "customer@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
-            Users usersCustomer1 = new Users("customer1", "$10$7Kz4FDvIaFyftT7iabeocuaDqn8rPS.yJC/Toxia7IWKnb7IX1Wem", "John Customer One", "customer@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+            Users usersCustomer1 = new Users("customer1", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Customer One", "customer@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
             //Map User and Role
             usersAdmin.setRoles(rolesAdmin);
