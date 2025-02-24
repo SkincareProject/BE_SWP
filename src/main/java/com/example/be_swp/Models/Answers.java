@@ -1,30 +1,31 @@
 package com.example.be_swp.Models;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Posts {
+public class Answers {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int postId;
+    private int answerId;
 
     @ManyToOne
-    @JoinColumn(name = "expert_id")
-    private Experts experts;
+    @JoinColumn(name = "question_id")
+    private Questions questions;
 
-    private String title;
+    private LocalDateTime createdAt;
 
-    private String description;
-
-    private String content;
+    private LocalDateTime updatedAt;
 
 }

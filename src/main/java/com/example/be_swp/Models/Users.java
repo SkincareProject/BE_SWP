@@ -23,7 +23,7 @@ import java.util.List;
 public class Users implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "username" )
@@ -66,6 +66,9 @@ public class Users implements UserDetails {
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<ServiceRatings> serviceRatingsList;
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    private List<QuizResults> quizResultsList;
 
 //    @OneToMany(mappedBy = "author_id", cascade = CascadeType.ALL)
 //    private List<Blogs> blogsList;
