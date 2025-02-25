@@ -26,6 +26,9 @@ public class Experts {
 
     private String description;
 
+    @Lob
+    private String imageBase64;
+
     private int status;
 
     private LocalDateTime created_at;
@@ -52,10 +55,11 @@ public class Experts {
     private Users users;
 
 
-    public Experts(String specialization, int yearOfExperiences, String description, int status, LocalDateTime created_at, LocalDateTime updated_at) {
+    public Experts(String specialization, int yearOfExperiences, String description, String imageBase64, int status, LocalDateTime created_at, LocalDateTime updated_at) {
         this.specialization = specialization;
         this.yearOfExperiences = yearOfExperiences;
         this.description = description;
+        this.imageBase64 = imageBase64;
         this.status = status;
         this.created_at = created_at;
         this.updated_at = updated_at;
