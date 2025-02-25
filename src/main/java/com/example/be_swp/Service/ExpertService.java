@@ -1,20 +1,21 @@
 package com.example.be_swp.Service;
 
 import com.example.be_swp.DTOs.ExpertsDTO;
-import com.example.be_swp.DTOs.UsersDTO;
 import com.example.be_swp.Models.Experts;
 import com.example.be_swp.Models.Roles;
-import com.example.be_swp.Models.UserExpertDTO;
+import com.example.be_swp.DTOs.UserExpertDTO;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Repository.ExpertRepository;
 import com.example.be_swp.Repository.RolesRepository;
 import com.example.be_swp.Repository.UsersRepository;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class ExpertService {
@@ -72,21 +73,50 @@ public class ExpertService {
     }
 
     public ExpertsDTO add(UserExpertDTO userExpertDTO){
-        Users users = new Users(userExpertDTO.getUsersDTO().getUsername(),userExpertDTO.getUsersDTO().getPassword(),userExpertDTO.getUsersDTO().getFullName(),userExpertDTO.getUsersDTO().getEmail(),userExpertDTO.getUsersDTO().getPhone(),true,LocalDateTime.now(),LocalDateTime.now());
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        String phoneRegex = "^\\d{10}$";
 
-        Experts experts = new Experts(userExpertDTO.getExpertsDTO().getSpecialization(),userExpertDTO.getExpertsDTO().getYearOfExperiences(),userExpertDTO.getExpertsDTO().getDescription(),1,LocalDateTime.now(),LocalDateTime.now());
+        Pattern emailPattern = Pattern.compile(emailRegex);
+        Pattern phonePattern = Pattern.compile(phoneRegex);
 
-        Optional<Roles> roles = _rolesRepository.findById(4);
 
-        users.setRoles(roles.get());
-        users.setExperts(experts);
+        Optional<Users> userWithUsername = _userRepository.findByUsername(userExpertDTO.getUsersDTO().getUsername());
+        Optional<Users> userWithEmail = _userRepository.findByEmail(userExpertDTO.getUsersDTO().getEmail());
+        Optional<Users> userWithPhone = _userRepository.findByPhone(userExpertDTO.getUsersDTO().getPhone());
 
-        experts.setUsers(users);
+        if (userWithUsername.isPresent()){
+            userExpertDTO.getExpertsDTO().setExpertId(-1);
 
-        _userRepository.save(users);
+        }else if (userWithEmail.isPresent()){
+            userExpertDTO.getExpertsDTO().setExpertId(-2);
 
-        userExpertDTO.getExpertsDTO().setExpertId(experts.getExpertId());
-        userExpertDTO.getExpertsDTO().setUserId(experts.getUsers().getId());
+        }else if (userWithPhone.isPresent()){
+            userExpertDTO.getExpertsDTO().setExpertId(-3);
+
+        }else if (!emailPattern.matcher(userExpertDTO.getUsersDTO().getEmail()).matches()){
+            userExpertDTO.getExpertsDTO().setExpertId(-4);
+
+        } else if (!phonePattern.matcher(userExpertDTO.getUsersDTO().getPhone()).matches()) {
+            userExpertDTO.getExpertsDTO().setExpertId(-5);
+
+        } else{
+
+            Users users = new Users(userExpertDTO.getUsersDTO().getUsername(), userExpertDTO.getUsersDTO().getPassword(), userExpertDTO.getUsersDTO().getFullName(), userExpertDTO.getUsersDTO().getEmail(), userExpertDTO.getUsersDTO().getPhone(), true, LocalDateTime.now(), LocalDateTime.now());
+
+            Experts experts = new Experts(userExpertDTO.getExpertsDTO().getSpecialization(), userExpertDTO.getExpertsDTO().getYearOfExperiences(), userExpertDTO.getExpertsDTO().getDescription(), 1, LocalDateTime.now(), LocalDateTime.now());
+
+            Optional<Roles> roles = _rolesRepository.findById(4);
+
+            users.setRoles(roles.get());
+            users.setExperts(experts);
+
+            experts.setUsers(users);
+
+            _userRepository.save(users);
+
+            userExpertDTO.getExpertsDTO().setExpertId(experts.getExpertId());
+            userExpertDTO.getExpertsDTO().setUserId(experts.getUsers().getId());
+        }
 
         return userExpertDTO.getExpertsDTO();
     }

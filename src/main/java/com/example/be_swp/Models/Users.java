@@ -2,12 +2,15 @@ package com.example.be_swp.Models;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -15,15 +18,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Users {
+@Getter
+@Setter
+public class Users implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "username")
+    @Column(name = "username" )
     private String username;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
@@ -37,6 +43,7 @@ public class Users {
     private String phone;
 
     private boolean is_active;
+    private String token;
 
     @ManyToOne
     @JoinColumn(name = "roleID")
@@ -61,9 +68,14 @@ public class Users {
     private List<ServiceRatings> serviceRatingsList;
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    private List<Blogs> blogsList;
+    private List<QuizResults> quizResultsList;
 
-    public Users(String username, String password, String fullName, String email, String phone, boolean is_active, LocalDateTime created_at, LocalDateTime updated_at) {
+//    @OneToMany(mappedBy = "author_id", cascade = CascadeType.ALL)
+//    private List<Blogs> blogsList;
+
+
+
+    public Users(String username, String password, String fullName, String email, String phone, boolean is_active, LocalDateTime created_at, LocalDateTime updated_at ) {
         this.username = username;
         this.password = password;
         this.fullName = fullName;
@@ -72,5 +84,37 @@ public class Users {
         this.is_active = is_active;
         this.created_at = created_at;
         this.updated_at = updated_at;
+
+    }
+
+    public Users(String token) {
+        this.token = token;
+    }
+
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 public class PaymentMethods {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int paymentMethodId;
 
     private String name;

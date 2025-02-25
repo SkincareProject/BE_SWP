@@ -17,7 +17,7 @@ import java.util.List;
 public class Experts {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int expertId;
 
     private String specialization;
@@ -43,6 +43,9 @@ public class Experts {
 
     @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
     private List<ExpertOccupiedTimes> expertOccupiedTimesList;
+
+    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
+    private List<Posts> postsList;
 
     @OneToOne
     @JoinColumn(name = "user_id")

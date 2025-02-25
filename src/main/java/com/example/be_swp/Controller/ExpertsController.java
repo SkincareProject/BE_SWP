@@ -1,9 +1,8 @@
 package com.example.be_swp.Controller;
 
 import com.example.be_swp.DTOs.ExpertsDTO;
-import com.example.be_swp.DTOs.UsersDTO;
 import com.example.be_swp.Models.ApiResponse;
-import com.example.be_swp.Models.UserExpertDTO;
+import com.example.be_swp.DTOs.UserExpertDTO;
 import com.example.be_swp.Service.ExpertService;
 import org.springframework.web.bind.annotation.*;
 
@@ -84,8 +83,32 @@ public class ExpertsController {
         String status = "";
         String message = "";
 
-        status = "200";
-        message = "Add expert successfully!";
+        switch (expertsDTO.getExpertId()){
+            case -1:
+                status = "400";
+                message = "Username Already Existed!";
+                break;
+            case -2:
+                status = "400";
+                message = "Email Already Existed!";
+                break;
+            case -3:
+                status = "400";
+                message = "Phone Already Existed!";
+                break;
+            case -4:
+                status = "400";
+                message = "Invalid Email!";
+                break;
+            case -5:
+                status = "400";
+                message = "Invalid Phone!";
+                break;
+            default:
+                status = "200";
+                message = "Add Expert Successfully!";
+                break;
+        }
 
         return new ApiResponse<>(status,expertsDTO,message);
 

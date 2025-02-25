@@ -1,10 +1,14 @@
 package com.example.be_swp.Controller;
 
+import com.example.be_swp.DTOs.Request.UserRequest;
+import com.example.be_swp.DTOs.Response.UserResponse;
+import com.example.be_swp.DTOs.UsersDTO;
+import com.example.be_swp.Models.ApiResponse;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,8 +24,35 @@ public class UsersController {
     }
 
     @GetMapping("/findAll")
-    public List<Users> findALl(){
+    public List<UsersDTO> findALl(){
         return _userService.findAll();
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UsersDTO usersDTO){
+        String respone = _userService.registerUser(usersDTO);
+        return ResponseEntity.ok(respone);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody UserRequest userRequest) {
+        UserResponse userResponse = _userService.login(userRequest);
+        return ResponseEntity.ok(userResponse);
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteUser(){
+
+    }
+    @GetMapping("/userGmail")
+    public ResponseEntity<UsersDTO> getUserByEmail (@RequestParam String email){
+        UsersDTO usersDTO = _userService.getUserByEmail(email);
+        return ResponseEntity.ok(usersDTO);
+    }
+
+    @GetMapping("/userName")
+    public ResponseEntity<UsersDTO> getUserByName (@RequestParam String username){
+        UsersDTO usersDTO = _userService.getUserByName(username);
+        return ResponseEntity.ok(usersDTO);
+    }
 }
