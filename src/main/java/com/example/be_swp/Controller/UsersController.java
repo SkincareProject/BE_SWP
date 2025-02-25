@@ -3,6 +3,7 @@ package com.example.be_swp.Controller;
 import com.example.be_swp.DTOs.Request.UserRequest;
 import com.example.be_swp.DTOs.Response.UserResponse;
 import com.example.be_swp.DTOs.UsersDTO;
+import com.example.be_swp.Models.ApiResponse;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Service.UserService;
 import jakarta.validation.Valid;
@@ -39,14 +40,19 @@ public class UsersController {
         return ResponseEntity.ok(userResponse);
     }
 
-    @PutMapping("/delete")
+    @DeleteMapping("/delete")
     public void deleteUser(){
 
     }
     @GetMapping("/userGmail")
-    public ResponseEntity<Users> getUserByEmail (@RequestParam String email){
-        Users users = _userService.getUserByEmail(email);
-        return ResponseEntity.ok(users);
+    public ResponseEntity<UsersDTO> getUserByEmail (@RequestParam String email){
+        UsersDTO usersDTO = _userService.getUserByEmail(email);
+        return ResponseEntity.ok(usersDTO);
     }
 
+    @GetMapping("/userName")
+    public ResponseEntity<UsersDTO> getUserByName (@RequestParam String username){
+        UsersDTO usersDTO = _userService.getUserByName(username);
+        return ResponseEntity.ok(usersDTO);
+    }
 }

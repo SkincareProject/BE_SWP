@@ -5,6 +5,7 @@ import com.example.be_swp.DTOs.Request.UserRequest;
 import com.example.be_swp.DTOs.Response.UserResponse;
 
 import com.example.be_swp.DTOs.UsersDTO;
+import com.example.be_swp.Exceptions.UserNotFoundException;
 import com.example.be_swp.Models.Roles;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Repository.RolesRepository;
@@ -93,13 +94,6 @@ public class UserService implements UserDetailsService{
     }
 
 
-
-
-    public Users getUserByEmail(String email){
-        return _usersRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("NOT FOUND THE USER!!"));
-    }
-
     public UserResponse login(UserRequest userRequest) {
         try{
             authenticationManager.authenticate(
@@ -124,4 +118,64 @@ public class UserService implements UserDetailsService{
 
         return  userResponse;
     }
+
+//    public UsersDTO getUserByEmail(String email){
+//        UsersDTO usersDTO = new UsersDTO();
+//        Optional<Users> optionalUsers = _usersRepository.findByEmail(email);
+//        if (optionalUsers.isPresent()){
+//            Users users = optionalUsers.get();
+//            usersDTO = new UsersDTO(users.getUsername(), users.getPassword(), users.getFullName(),  users.getEmail(), users.getPhone(), users.is_active()
+//                    , users.getRoles().getId(), users.getCreated_at(), users.getUpdated_at());
+//        }
+//        return usersDTO;
+//    }
+
+    public UsersDTO getUserByEmail(String email) {
+        Users users = _usersRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User with email " + email + " is not found"));
+
+        return new UsersDTO(
+                users.getUsername(),
+                users.getPassword(),
+                users.getFullName(),
+                users.getEmail(),
+                users.getPhone(),
+                users.is_active(),
+                users.getRoles() != null ? users.getRoles().getId() : null,
+                users.getCreated_at(),
+                users.getUpdated_at()
+        );
+    }
+
+
+//    public UsersDTO getUserByName(String username){
+//       UsersDTO usersDTO = new UsersDTO();
+//       Optional<Users> optionalUsers = _usersRepository.findByUsername(username);
+//       if(optionalUsers.isPresent()){
+//           Users users = optionalUsers.get();
+//           usersDTO = new UsersDTO(users.getUsername(), users.getPassword(), users.getFullName(),  users.getEmail(), users.getPhone(), users.is_active()
+//                   , users.getRoles().getId(), users.getCreated_at(), users.getUpdated_at());
+//       }
+//       return usersDTO;
+//       }
+
+
+    public UsersDTO getUserByName(String username) {
+        Users users = _usersRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User is not found"));
+
+        return new UsersDTO(
+                users.getUsername(),
+                users.getPassword(),
+                users.getFullName(),
+                users.getEmail(),
+                users.getPhone(),
+                users.is_active(),
+                users.getRoles() != null ? users.getRoles().getId() : null,
+                users.getCreated_at(),
+                users.getUpdated_at()
+        );
+    }
+
 }
+
