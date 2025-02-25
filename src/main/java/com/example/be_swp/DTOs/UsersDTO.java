@@ -1,6 +1,7 @@
 package com.example.be_swp.DTOs;
 
 import com.example.be_swp.Models.Roles;
+import com.example.be_swp.Models.Users;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

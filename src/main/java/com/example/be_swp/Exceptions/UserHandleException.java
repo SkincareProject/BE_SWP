@@ -24,4 +24,10 @@ public class UserHandleException {
     public ResponseEntity handleNullPointer(NullPointerException exception){
         return new ResponseEntity(exception.getMessage(),HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFound(UserNotFoundException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
 }
