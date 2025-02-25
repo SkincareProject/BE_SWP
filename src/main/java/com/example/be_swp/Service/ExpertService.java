@@ -35,7 +35,7 @@ public class ExpertService {
         List<ExpertsDTO> expertsDTOList = new ArrayList<>();
         if (!expertsList.isEmpty()){
             for (Experts expert: expertsList){
-                ExpertsDTO expertsDTO = new ExpertsDTO(expert.getExpertId(), expert.getUsers().getId(), expert.getSpecialization(), expert.getYearOfExperiences(), expert.getDescription(), expert.getStatus(), expert.getCreated_at(), expert.getUpdated_at());
+                ExpertsDTO expertsDTO = new ExpertsDTO(expert.getExpertId(), expert.getUsers().getId(), expert.getSpecialization(), expert.getYearOfExperiences(), expert.getDescription(), expert.getStatus(), expert.getCreated_at(), expert.getUpdated_at(), expert.getImageBase64());
                 expertsDTOList.add(expertsDTO);
             }
         }
@@ -49,7 +49,7 @@ public class ExpertService {
         if (optionalExperts.isPresent()){
 
             Experts experts = optionalExperts.get();
-            expertsDTO = new ExpertsDTO(experts.getExpertId(),experts.getUsers().getId(),experts.getSpecialization(),experts.getYearOfExperiences(),experts.getDescription(),experts.getStatus(),experts.getCreated_at(),experts.getUpdated_at());
+            expertsDTO = new ExpertsDTO(experts.getExpertId(),experts.getUsers().getId(),experts.getSpecialization(),experts.getYearOfExperiences(),experts.getDescription(),experts.getStatus(),experts.getCreated_at(),experts.getUpdated_at(), experts.getImageBase64());
 
         }else{
             expertsDTO.setExpertId(-1);
@@ -64,7 +64,7 @@ public class ExpertService {
 
         if (!expertsList.isEmpty()){
             for (Experts expert: expertsList){
-                ExpertsDTO expertsDTO = new ExpertsDTO(expert.getExpertId(),expert.getUsers().getId(),expert.getSpecialization(), expert.getYearOfExperiences(), expert.getDescription(), expert.getStatus(), expert.getCreated_at(),expert.getUpdated_at());
+                ExpertsDTO expertsDTO = new ExpertsDTO(expert.getExpertId(),expert.getUsers().getId(),expert.getSpecialization(), expert.getYearOfExperiences(), expert.getDescription(), expert.getStatus(), expert.getCreated_at(),expert.getUpdated_at(), expert.getImageBase64());
                 expertsDTOList.add(expertsDTO);
             }
         }
@@ -103,7 +103,7 @@ public class ExpertService {
 
             Users users = new Users(userExpertDTO.getUsersDTO().getUsername(), userExpertDTO.getUsersDTO().getPassword(), userExpertDTO.getUsersDTO().getFullName(), userExpertDTO.getUsersDTO().getEmail(), userExpertDTO.getUsersDTO().getPhone(), true, LocalDateTime.now(), LocalDateTime.now());
 
-            Experts experts = new Experts(userExpertDTO.getExpertsDTO().getSpecialization(), userExpertDTO.getExpertsDTO().getYearOfExperiences(), userExpertDTO.getExpertsDTO().getDescription(), 1, LocalDateTime.now(), LocalDateTime.now());
+            Experts experts = new Experts(userExpertDTO.getExpertsDTO().getSpecialization(), userExpertDTO.getExpertsDTO().getYearOfExperiences(), userExpertDTO.getExpertsDTO().getDescription(), userExpertDTO.getExpertsDTO().getImageBase64(), 1, LocalDateTime.now(), LocalDateTime.now());
 
             Optional<Roles> roles = _rolesRepository.findById(4);
 
@@ -153,7 +153,7 @@ public class ExpertService {
             expertsDTO.setExpertId(-1);
         }else{
             Experts experts = optionalExperts.get();
-            expertsDTO = new ExpertsDTO(experts.getExpertId(),experts.getUsers().getId(),experts.getSpecialization(),experts.getYearOfExperiences(),experts.getDescription(),experts.getStatus(),experts.getCreated_at(),experts.getUpdated_at());
+            expertsDTO = new ExpertsDTO(experts.getExpertId(),experts.getUsers().getId(),experts.getSpecialization(),experts.getYearOfExperiences(),experts.getDescription(),experts.getStatus(),experts.getCreated_at(),experts.getUpdated_at(), experts.getImageBase64());
 
             Optional<Users> optionalUsers = _userRepository.findById(experts.getUsers().getId());
 

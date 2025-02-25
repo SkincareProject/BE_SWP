@@ -6,6 +6,9 @@ import com.example.be_swp.Repository.*;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -129,9 +132,19 @@ public class DataInitializerService {
 
             //Experts
 
-            Experts expert = new Experts("Facial Treatments", 6, "This is John Expert One, John can make your face more beautiful.", 1, LocalDateTime.now(), LocalDateTime.now());
+            String imageBase64 = "";
 
-            Experts expert2 = new Experts("Massage", 5, "This is John Expert Two, John can make your fatigue go away.", 1, LocalDateTime.now(), LocalDateTime.now());
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader("src\\image\\Image.txt"));
+                imageBase64 = reader.readLine();
+                reader.close();
+            }catch (IOException e){
+
+            }
+
+            Experts expert = new Experts("Facial Treatments", 6, "This is John Expert One, John can make your face more beautiful.", imageBase64, 1, LocalDateTime.now(), LocalDateTime.now());
+
+            Experts expert2 = new Experts("Massage", 5, "This is John Expert Two, John can make your fatigue go away.", imageBase64, 1, LocalDateTime.now(), LocalDateTime.now());
 
             //Map User and Expert
 

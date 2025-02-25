@@ -35,4 +35,6 @@ public class ExpertsDTO {
 
     private LocalDateTime updated_at;
 
+    private String imageBase64;
+
 }
