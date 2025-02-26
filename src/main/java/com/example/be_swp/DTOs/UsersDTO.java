@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UsersDTO {
 
-
+    private int id;
     @NotBlank(message = "Username can not blank")
     private String username;
     @NotBlank(message = "Password can not blank")
@@ -40,5 +40,6 @@ public class UsersDTO {
     private LocalDateTime created_at;
 
     private LocalDateTime updated_at;
+
 
 }

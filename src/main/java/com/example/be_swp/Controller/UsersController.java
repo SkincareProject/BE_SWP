@@ -40,10 +40,44 @@ public class UsersController {
         return ResponseEntity.ok(userResponse);
     }
 
-    @DeleteMapping("/delete")
-    public void deleteUser(){
+    @DeleteMapping("/delete/{id}")
+    public ApiResponse<UsersDTO> delete(@PathVariable int id){
+        UsersDTO usersDTO = _userService.delete(id);
 
+        String status = "";
+        String message = "";
+
+        if(usersDTO.getId() == -1){
+            status = "404";
+            message = "User Not Found!";
+        }else{
+            status = "200";
+            message = "Delete Successfully!";
+        }
+
+        usersDTO.setId(id);
+        return new ApiResponse<>(status,usersDTO,message);
     }
+
+    @PutMapping("/update/{id}")
+    public ApiResponse<UsersDTO> update(@RequestBody UsersDTO usersDTO,@PathVariable int id){
+        usersDTO = _userService.update(usersDTO,id);
+
+        String status = "";
+        String message = "";
+
+        if(usersDTO.getId() == -1){
+            status = "404";
+            message = "User Not Found!";
+        }else{
+            status = "200";
+            message = "Update Successfully!";
+        }
+
+        usersDTO.setId(id);
+        return new ApiResponse<>(status,usersDTO,message);
+    }
+
     @GetMapping("/userGmail")
     public ResponseEntity<UsersDTO> getUserByEmail (@RequestParam String email){
         UsersDTO usersDTO = _userService.getUserByEmail(email);

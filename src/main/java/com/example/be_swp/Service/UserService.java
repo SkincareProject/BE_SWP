@@ -3,7 +3,6 @@ package com.example.be_swp.Service;
 
 import com.example.be_swp.DTOs.Request.UserRequest;
 import com.example.be_swp.DTOs.Response.UserResponse;
-
 import com.example.be_swp.DTOs.UsersDTO;
 import com.example.be_swp.Exceptions.UserNotFoundException;
 import com.example.be_swp.Models.Roles;
@@ -19,7 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import java.util.stream.Collectors;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class UserService implements UserDetailsService{
         List<UsersDTO> usersDTOList = new ArrayList<>();
         if(!usersList.isEmpty()){
             for(Users users: usersList){
-                UsersDTO usersDTO = new UsersDTO(users.getUsername(), users.getPassword(), users.getFullName(),  users.getEmail(), users.getPhone(), users.is_active()
+                UsersDTO usersDTO = new UsersDTO(users.getId(), users.getUsername(), users.getPassword(), users.getFullName(),  users.getEmail(), users.getPhone(), users.is_active()
                 , users.getRoles().getId(), users.getCreated_at(), users.getUpdated_at());
                 usersDTOList.add(usersDTO);
             }
@@ -119,22 +118,13 @@ public class UserService implements UserDetailsService{
         return  userResponse;
     }
 
-//    public UsersDTO getUserByEmail(String email){
-//        UsersDTO usersDTO = new UsersDTO();
-//        Optional<Users> optionalUsers = _usersRepository.findByEmail(email);
-//        if (optionalUsers.isPresent()){
-//            Users users = optionalUsers.get();
-//            usersDTO = new UsersDTO(users.getUsername(), users.getPassword(), users.getFullName(),  users.getEmail(), users.getPhone(), users.is_active()
-//                    , users.getRoles().getId(), users.getCreated_at(), users.getUpdated_at());
-//        }
-//        return usersDTO;
-//    }
 
     public UsersDTO getUserByEmail(String email) {
         Users users = _usersRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User with email " + email + " is not found"));
 
         return new UsersDTO(
+                users.getId(),
                 users.getUsername(),
                 users.getPassword(),
                 users.getFullName(),
@@ -146,25 +136,13 @@ public class UserService implements UserDetailsService{
                 users.getUpdated_at()
         );
     }
-
-
-//    public UsersDTO getUserByName(String username){
-//       UsersDTO usersDTO = new UsersDTO();
-//       Optional<Users> optionalUsers = _usersRepository.findByUsername(username);
-//       if(optionalUsers.isPresent()){
-//           Users users = optionalUsers.get();
-//           usersDTO = new UsersDTO(users.getUsername(), users.getPassword(), users.getFullName(),  users.getEmail(), users.getPhone(), users.is_active()
-//                   , users.getRoles().getId(), users.getCreated_at(), users.getUpdated_at());
-//       }
-//       return usersDTO;
-//       }
-
 
     public UsersDTO getUserByName(String username) {
         Users users = _usersRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User is not found"));
 
         return new UsersDTO(
+                users.getId(),
                 users.getUsername(),
                 users.getPassword(),
                 users.getFullName(),
@@ -176,6 +154,45 @@ public class UserService implements UserDetailsService{
                 users.getUpdated_at()
         );
     }
+
+    public UsersDTO update(UsersDTO usersDTO , int id){
+        Optional<Users> optionalUsers = _usersRepository.findById(id);
+            if(optionalUsers.isEmpty()){
+                usersDTO.setId(-1);
+            }else{
+                Users users = optionalUsers.get();
+                users.setUsername(usersDTO.getUsername());
+                users.setPassword(usersDTO.getPassword());
+                users.setFullName(usersDTO.getFullName());
+                users.setEmail(usersDTO.getEmail());
+                users.setPhone(usersDTO.getPhone());
+                users.setUpdated_at(LocalDateTime.now());
+
+                _usersRepository.save(users);
+
+                usersDTO.setId(users.getId());
+                usersDTO.setCreated_at(users.getCreated_at());
+                usersDTO.setUpdated_at(users.getUpdated_at());
+            }
+            return usersDTO;
+    }
+
+    public UsersDTO delete(int id){
+        Optional<Users> optionalUsers = _usersRepository.findById(id);
+        UsersDTO usersDTO = new UsersDTO();
+        if(optionalUsers.isEmpty()){
+            usersDTO.setId(-1);
+        }else{
+            Users users = optionalUsers.get();
+            usersDTO = new UsersDTO(users.getId(), users.getUsername(), users.getPassword(), users.getFullName(),  users.getEmail(), users.getPhone(), users.is_active()
+                    , users.getRoles().getId(), users.getCreated_at(), users.getUpdated_at());
+            _usersRepository.delete(users);
+        }
+
+        return usersDTO;
+    }
+
+
 
 }
 
