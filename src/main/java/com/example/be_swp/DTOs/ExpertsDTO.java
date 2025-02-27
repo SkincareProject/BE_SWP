@@ -23,6 +23,8 @@ public class ExpertsDTO {
 
     private int userId;
 
+    private String fullName;
+
     private String specialization;
 
     private int yearOfExperiences;
