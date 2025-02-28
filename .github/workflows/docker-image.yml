@@ -56,23 +56,36 @@ jobs:
             chmod 700 ~/.ssh
             chmod 600 ~/.ssh/authorized_keys
 
-            # Stop và remove container cũ nếu tồn tại
+            # Stop và remove container cũ nếu tồn tại (chỉ be_swp)
             if docker ps -a --format '{{.Names}}' | grep -q '^be_swp$'; then
-              echo "🛑 Stopping and removing old container..."
+              echo "🛑 Stopping and removing old be_swp container..."
               docker stop be_swp
               docker rm be_swp
+            fi
+
+            # Tạo Docker network nếu chưa tồn tại để kết nối với MySQL
+            if ! docker network ls --format '{{.Name}}' | grep -q '^app-network$'; then
+              echo "🌐 Creating Docker network 'app-network'..."
+              docker network create app-network
+            fi
+
+            # Kết nối container MySQL hiện có vào network
+            if docker ps -a --format '{{.Names}}' | grep -q '^mysql8-container$'; then
+              echo "🔗 Connecting existing MySQL container to network..."
+              docker network connect app-network mysql8-container || echo "MySQL already connected or unavailable"
             fi
 
             # Pull image mới từ Docker Hub
             echo "📦 Pulling latest Docker image..."
             docker pull ${{ secrets.DOCKER_USERNAME }}/be_swp:latest
 
-            # Chạy container mới với mount thư mục .ssh để tránh mất key
+            # Chạy container mới với network để kết nối MySQL
             echo "🚢 Starting new container..."
             docker run -d \
               --name be_swp \
               -p 8080:8080 \
               --restart always \
+              --network app-network \
               -v ~/.ssh:/root/.ssh \
               ${{ secrets.DOCKER_USERNAME }}/be_swp:latest
 
