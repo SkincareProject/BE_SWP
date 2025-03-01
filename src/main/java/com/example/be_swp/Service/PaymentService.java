@@ -1,7 +1,9 @@
 package com.example.be_swp.Service;
 
+import com.example.be_swp.Models.Appointments;
 import com.example.be_swp.Models.Services;
 import com.example.be_swp.Models.Users;
+import com.example.be_swp.Repository.AppointmentRepository;
 import com.example.be_swp.Repository.PaymentRepository;
 import com.example.be_swp.Repository.ServicesRepository;
 import com.example.be_swp.Repository.UsersRepository;
@@ -17,8 +19,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -34,11 +34,13 @@ public class PaymentService {
     private final PaymentRepository _paymentRepository;
     private final UsersRepository _usersRepository;
     private final ServicesRepository _servicesRepository;
+    private final AppointmentRepository _appointmentRepository;
 
-    public PaymentService(PaymentRepository _paymentRepository, UsersRepository _usersRepository, ServicesRepository _servicesRepository) {
+    public PaymentService(PaymentRepository _paymentRepository, UsersRepository _usersRepository, ServicesRepository _servicesRepository, AppointmentRepository _appointmentRepository) {
         this._paymentRepository = _paymentRepository;
         this._usersRepository = _usersRepository;
         this._servicesRepository = _servicesRepository;
+        this._appointmentRepository = _appointmentRepository;
     }
 
     private Map<String, String> config = new HashMap<String, String>(){{
@@ -55,22 +57,25 @@ public class PaymentService {
         return fmt.format(cal.getTimeInMillis());
     }
 
-    public String createZaloOrderUrl(int userId, int serviceId) throws Exception{
+    public String createZaloOrderUrl(int userId, int appointmentId) throws Exception{
 
         Optional<Users> optionalUsers = _usersRepository.findById(userId);
-        Optional<Services> optionalServices = _servicesRepository.findById(serviceId);
+        Optional<Appointments> optionalAppointments = _appointmentRepository.findById(appointmentId);
 
         Users users = new Users();
         Services services = new Services();
+        Appointments appointments = new Appointments();
 
-        if (optionalServices.isEmpty() || optionalUsers.isEmpty()){
+        if (optionalAppointments.isEmpty() || optionalUsers.isEmpty()){
             return "-1";
         }else if (optionalUsers.get().getRoles().getId() != 2) {
             return "-1";
         } else{
             users = optionalUsers.get();
-            services = optionalServices.get();
+            appointments = optionalAppointments.get();
         }
+
+        services = appointments.getServices();
 
         Users finalCustomer = users;
         Services finalServices = services;
@@ -96,6 +101,7 @@ public class PaymentService {
 
         final Map embed_data = new HashMap<String,Object>(){{
             put("redirecturl","http://3.26.7.116:3000");
+            put("paymentId",1);
         }};
 
         Map<String, Object> order = new HashMap<String, Object>(){{
@@ -104,7 +110,7 @@ public class PaymentService {
             put("app_time", System.currentTimeMillis()); // miliseconds
             put("app_user", "CustomerID:" + finalCustomer.getId());
             put("amount", (long)finalServices.getPrice());
-            put("description", "Lazada - Payment for the order #"+random_id);
+            put("description", "Beauty Booking - Payment for the order #"+random_id);
             put("bank_code", "");
             put("item", jsonArrayService);
             put("embed_data", new JSONObject(embed_data).toString());
@@ -114,7 +120,7 @@ public class PaymentService {
         String data = order.get("app_id") +"|"+ order.get("app_trans_id") +"|"+ order.get("app_user") +"|"+ order.get("amount")
                 +"|"+ order.get("app_time") +"|"+ order.get("embed_data") +"|"+ order.get("item");
         order.put("mac", HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, config.get("key1"), data));
-        order.put("callback_url","https://9a53-2001-ee0-4fb1-4ab0-3d12-c333-a378-eace.ngrok-free.app/api/payments/callback/zaloPay");
+        order.put("callback_url","https://e6d1-118-69-182-149.ngrok-free.app/api/payments/callback/zaloPay");
 
         System.out.println(order.toString());
 
@@ -143,12 +149,6 @@ public class PaymentService {
             System.out.format("%s = %s\n", key, result.get(key));
         }
 
-        //        System.out.println(result.get("zptranstoken"));
-//        System.out.println(order.toString());
-//        System.out.println(HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, config.get("key1"), data));
-//        System.out.println("URL: ");
-//        System.out.println(url);
-
         return result.getString("order_url");
     }
 
@@ -164,34 +164,48 @@ public class PaymentService {
     public String callbackZalo( String jsonStr) {
         JSONObject result = new JSONObject();
 
+        JSONObject cbdata = null;
+//        cbdata = new JSONObject(jsonStr);
+//        String dataStrOut = cbdata.getString("data");
+//        String reqMac = cbdata.getString("mac");
         try {
-            JSONObject cbdata = new JSONObject(jsonStr);
-            String dataStr = cbdata.getString("data");
+            cbdata = new JSONObject(jsonStr);
+            String dataStrOut = cbdata.getString("data");
             String reqMac = cbdata.getString("mac");
 
-            byte[] hashBytes = HmacSHA256.doFinal(dataStr.getBytes());
-            String mac = DatatypeConverter.printHexBinary(hashBytes).toLowerCase();
+//            byte[] hashBytes = HmacSHA256.doFinal(dataStrOut.getBytes());
+            String mac = HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, key2, dataStrOut);
 
             // kiểm tra callback hợp lệ (đến từ ZaloPay server)
             if (!reqMac.equals(mac)) {
-                // callback không hợp lệ
                 result.put("return_code", -1);
                 result.put("return_message", "mac not equal");
             } else {
-                // thanh toán thành công
-                // merchant cập nhật trạng thái cho đơn hàng
-                JSONObject data = new JSONObject(dataStr);
+                JSONObject data = new JSONObject(dataStrOut);
                 logger.info("update order's status = success where app_trans_id = " + data.getString("app_trans_id"));
 
                 result.put("return_code", 1);
                 result.put("return_message", "success");
+
             }
         } catch (Exception ex) {
             result.put("return_code", 0); // ZaloPay server sẽ callback lại (tối đa 3 lần)
             result.put("return_message", ex.getMessage());
         }
 
-        // thông báo kết quả cho ZaloPay server
+        JSONObject strObj = new JSONObject(jsonStr);
+        String dataStr = strObj.getString("data");
+
+        JSONObject dataJsonObject = new JSONObject(dataStr);
+        long zpId = dataJsonObject.getLong("zp_trans_id");
+
+        String embedStr = dataJsonObject.getString("embed_data");
+        JSONObject embedJsonObject = new JSONObject(embedStr);
+        int paymentId = embedJsonObject.getInt("paymentId");
+
+
+        System.out.println(result.get("return_code"));
+
         return result.toString();
     }
 

@@ -52,9 +52,9 @@ public class PaymentController {
     }
 
     @GetMapping("/create/zaloPay")
-    public ApiResponse<String> createPayment(@RequestParam int userId, @RequestParam int serviceId) throws Exception {
+    public ApiResponse<String> createPayment(@RequestParam int userId, @RequestParam int appointmentId) throws Exception {
 
-        String orderUrl = _paymentService.createZaloOrderUrl(userId, serviceId);
+        String orderUrl = _paymentService.createZaloOrderUrl(userId, appointmentId);
 
         String status = "";
         String message = "";
