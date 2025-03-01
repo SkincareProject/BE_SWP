@@ -6,6 +6,7 @@ import com.example.be_swp.Repository.PaymentRepository;
 import com.example.be_swp.Repository.ServicesRepository;
 import com.example.be_swp.Repository.UsersRepository;
 import com.example.be_swp.Util.HMACUtil;
+import jakarta.xml.bind.DatatypeConverter;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -16,11 +17,16 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Logger;
 
 @Service
 public class PaymentService {
@@ -36,13 +42,10 @@ public class PaymentService {
     }
 
     private Map<String, String> config = new HashMap<String, String>(){{
-//        put("appid", "2554");
-//        put("key1", "sdngKKJmqEMzvh5QQcdD2A9XBSKUNaYn");
-//        put("key2", "trMrHtvjo6myautxDUiAcYsVtaeQ8nhf");
-        put("appid", "554");
-        put("key1", "8NdU5pG5R2spGHGhyO99HN1OhD8IQJBn");
-        put("key2", "uUfsWgfLkRLzq6W2uNXTCxrfxs51auny");
-        put("endpoint", "https://sandbox.zalopay.com.vn/v001/tpe/createorder");
+        put("app_id", "2554");
+        put("key1", "sdngKKJmqEMzvh5QQcdD2A9XBSKUNaYn");
+        put("key2", "trMrHtvjo6myautxDUiAcYsVtaeQ8nhf");
+        put("endpoint", "https://sb-openapi.zalopay.vn/v2/create");
     }};
 
     public String getCurrentTimeString(String format) {
@@ -52,7 +55,7 @@ public class PaymentService {
         return fmt.format(cal.getTimeInMillis());
     }
 
-    public String createOrderUrl(int userId, int serviceId) throws Exception{
+    public String createZaloOrderUrl(int userId, int serviceId) throws Exception{
 
         Optional<Users> optionalUsers = _usersRepository.findById(userId);
         Optional<Services> optionalServices = _servicesRepository.findById(serviceId);
@@ -69,11 +72,7 @@ public class PaymentService {
             services = optionalServices.get();
         }
 
-
-        final Map embeddata = new HashMap(){{
-            put("merchantinfo", "embeddata123");
-        }};
-
+        Users finalCustomer = users;
         Services finalServices = services;
         final Map[] service = {
                 new HashMap<String, Object>(){{
@@ -85,22 +84,6 @@ public class PaymentService {
                 }}
         };
 
-        Users finalCustomer = users;
-        final Map[] customer = {
-                new HashMap<String, Object>(){{
-                    put("customerId", finalCustomer.getId());
-                    put("customerFullName", finalCustomer.getFullName());
-                    put("customerEmail", finalCustomer.getEmail());
-                    put("customerPhone", finalCustomer.getPhone());
-                }}
-        };
-
-        JSONArray jsonArrayCustomer = new JSONArray();
-        for (Map map: customer){
-            JSONObject jsonObject = new JSONObject(map);
-            jsonArrayCustomer.put(jsonObject);
-        }
-
         JSONArray jsonArrayService = new JSONArray();
         for (Map map: service){
             JSONObject jsonObject = new JSONObject(map);
@@ -108,22 +91,32 @@ public class PaymentService {
         }
 
 
-        Map<String, Object> order = new HashMap<String, Object>(){{
-            put("appid", config.get("appid"));
-            put("apptransid", getCurrentTimeString("yyMMdd") +"_"+ UUID.randomUUID()); // mã giao dich có định dạng yyMMdd_xxxx
-            put("apptime", System.currentTimeMillis()); // miliseconds
-            put("appuser", jsonArrayCustomer.toString());
-            put("amount", (int)finalServices.getPrice());
-            put("description", "ZaloPay Intergration Demo");
-            put("bankcode", "");
-            put("item", jsonArrayService.toString());
-            put("embeddata", new JSONObject(embeddata).toString());
+        Random rand = new Random();
+        int random_id = rand.nextInt(1000000);
+
+        final Map embed_data = new HashMap<String,Object>(){{
+            put("redirecturl","http://3.26.7.116:3000");
         }};
 
-        // appid +”|”+ apptransid +”|”+ appuser +”|”+ amount +"|" + apptime +”|”+ embeddata +"|" +item
-        String data = order.get("appid") +"|"+ order.get("apptransid") +"|"+ order.get("appuser") +"|"+ order.get("amount")
-                +"|"+ order.get("apptime") +"|"+ order.get("embeddata") +"|"+ order.get("item");
+        Map<String, Object> order = new HashMap<String, Object>(){{
+            put("app_id", config.get("app_id"));
+            put("app_trans_id", getCurrentTimeString("yyMMdd") +"_"+ random_id);
+            put("app_time", System.currentTimeMillis()); // miliseconds
+            put("app_user", "CustomerID:" + finalCustomer.getId());
+            put("amount", (long)finalServices.getPrice());
+            put("description", "Lazada - Payment for the order #"+random_id);
+            put("bank_code", "");
+            put("item", jsonArrayService);
+            put("embed_data", new JSONObject(embed_data).toString());
+        }};
+
+        // app_id +”|”+ app_trans_id +”|”+ appuser +”|”+ amount +"|" + app_time +”|”+ embed_data +"|" +item
+        String data = order.get("app_id") +"|"+ order.get("app_trans_id") +"|"+ order.get("app_user") +"|"+ order.get("amount")
+                +"|"+ order.get("app_time") +"|"+ order.get("embed_data") +"|"+ order.get("item");
         order.put("mac", HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, config.get("key1"), data));
+        order.put("callback_url","https://9a53-2001-ee0-4fb1-4ab0-3d12-c333-a378-eace.ngrok-free.app/api/payments/callback/zaloPay");
+
+        System.out.println(order.toString());
 
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(config.get("endpoint"));
@@ -150,15 +143,56 @@ public class PaymentService {
             System.out.format("%s = %s\n", key, result.get(key));
         }
 
-        String url = result.getString("orderurl");
-
-//        System.out.println(result.get("zptranstoken"));
+        //        System.out.println(result.get("zptranstoken"));
 //        System.out.println(order.toString());
 //        System.out.println(HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, config.get("key1"), data));
 //        System.out.println("URL: ");
 //        System.out.println(url);
 
-        return url;
+        return result.getString("order_url");
+    }
+
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private String key2 = "trMrHtvjo6myautxDUiAcYsVtaeQ8nhf";
+    private Mac HmacSHA256;
+
+    public void CallbackController() throws Exception  {
+        HmacSHA256 = Mac.getInstance("HmacSHA256");
+        HmacSHA256.init(new SecretKeySpec(key2.getBytes(), "HmacSHA256"));
+    }
+
+    public String callbackZalo( String jsonStr) {
+        JSONObject result = new JSONObject();
+
+        try {
+            JSONObject cbdata = new JSONObject(jsonStr);
+            String dataStr = cbdata.getString("data");
+            String reqMac = cbdata.getString("mac");
+
+            byte[] hashBytes = HmacSHA256.doFinal(dataStr.getBytes());
+            String mac = DatatypeConverter.printHexBinary(hashBytes).toLowerCase();
+
+            // kiểm tra callback hợp lệ (đến từ ZaloPay server)
+            if (!reqMac.equals(mac)) {
+                // callback không hợp lệ
+                result.put("return_code", -1);
+                result.put("return_message", "mac not equal");
+            } else {
+                // thanh toán thành công
+                // merchant cập nhật trạng thái cho đơn hàng
+                JSONObject data = new JSONObject(dataStr);
+                logger.info("update order's status = success where app_trans_id = " + data.getString("app_trans_id"));
+
+                result.put("return_code", 1);
+                result.put("return_message", "success");
+            }
+        } catch (Exception ex) {
+            result.put("return_code", 0); // ZaloPay server sẽ callback lại (tối đa 3 lần)
+            result.put("return_message", ex.getMessage());
+        }
+
+        // thông báo kết quả cho ZaloPay server
+        return result.toString();
     }
 
 }
