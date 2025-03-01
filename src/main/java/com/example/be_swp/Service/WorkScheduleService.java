@@ -152,9 +152,11 @@ public class WorkScheduleService {
             workSchedule.setCreated_at(LocalDateTime.now());
             workSchedule.setUpdated_at(LocalDateTime.now());
 
+            List<WorkSchedule> expertWorkSchedule = experts.getWorkScheduleList();
+            expertWorkSchedule.add(workSchedule);
+            experts.setWorkScheduleList(expertWorkSchedule);
+
             _workScheduleRepository.save(workSchedule);
-            experts.getWorkScheduleList().add(workSchedule);
-            _expertRepository.save(experts);
 
             workScheduleDTO.setWorkScheduleId(workSchedule.getWorkScheduleId());
             workScheduleDTO.setExpertId(workSchedule.getExperts().getExpertId());
