@@ -1,79 +1,13 @@
 package com.example.be_swp.DTOs.Response;
 
-import com.example.be_swp.Models.Roles;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 
 public class UserResponse {
-//    public int id;
-//    public String username;
-//    public String fullName;
-//    public String email;
-//    private Roles roles;
-//    public String token;
-//
-//    public UserResponse(int id, String username, String fullName, String email, Roles roles, String token) {
-//        this.id = id;
-//        this.username = username;
-//        this.fullName = fullName;
-//        this.email = email;
-//        this.roles = roles;
-//        this.token = token;
-//    }
-//
-//    public UserResponse() {
-//
-//    }
-//
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-//
-//    public String getUsername() {
-//        return username;
-//    }
-//
-//    public void setUsername(String username) {
-//        this.username = username;
-//    }
-//
-//    public String getFullName() {
-//        return fullName;
-//    }
-//
-//    public void setFullName(String fullName) {
-//        this.fullName = fullName;
-//    }
-//
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-//
-//    public Roles getRoles() {
-//        return roles;
-//    }
-//
-//    public void setRoles(Roles roles) {
-//        this.roles = roles;
-//    }
-//
-//    public String getToken() {
-//        return token;
-//    }
-//
-//    public void setToken(String token) {
-//        this.token = token;
-//    }
+
     public int id;
     @NotBlank(message = "Username can not blank")
     public String username;
