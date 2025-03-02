@@ -335,7 +335,7 @@ public class DataInitializerService {
                 payments.setStatus(2);
             }
 
-            payments.setZpTransId("someID");
+            payments.setZpTransId(123);
 
             payments.setAppointments(appointments);
             appointments.setPayments(payments);

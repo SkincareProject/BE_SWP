@@ -1,12 +1,7 @@
 package com.example.be_swp.Service;
 
-import com.example.be_swp.Models.Appointments;
-import com.example.be_swp.Models.Services;
-import com.example.be_swp.Models.Users;
-import com.example.be_swp.Repository.AppointmentRepository;
-import com.example.be_swp.Repository.PaymentRepository;
-import com.example.be_swp.Repository.ServicesRepository;
-import com.example.be_swp.Repository.UsersRepository;
+import com.example.be_swp.Models.*;
+import com.example.be_swp.Repository.*;
 import com.example.be_swp.Util.HMACUtil;
 import jakarta.xml.bind.DatatypeConverter;
 import org.apache.http.NameValuePair;
@@ -25,6 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -35,12 +31,15 @@ public class PaymentService {
     private final UsersRepository _usersRepository;
     private final ServicesRepository _servicesRepository;
     private final AppointmentRepository _appointmentRepository;
+    private final PaymentMethodRepository _paymentMethodRepository;
 
-    public PaymentService(PaymentRepository _paymentRepository, UsersRepository _usersRepository, ServicesRepository _servicesRepository, AppointmentRepository _appointmentRepository) {
+
+    public PaymentService(PaymentRepository _paymentRepository, UsersRepository _usersRepository, ServicesRepository _servicesRepository, AppointmentRepository _appointmentRepository, PaymentMethodRepository _paymentMethodRepository) {
         this._paymentRepository = _paymentRepository;
         this._usersRepository = _usersRepository;
         this._servicesRepository = _servicesRepository;
         this._appointmentRepository = _appointmentRepository;
+        this._paymentMethodRepository = _paymentMethodRepository;
     }
 
     private Map<String, String> config = new HashMap<String, String>(){{
@@ -61,18 +60,21 @@ public class PaymentService {
 
         Optional<Users> optionalUsers = _usersRepository.findById(userId);
         Optional<Appointments> optionalAppointments = _appointmentRepository.findById(appointmentId);
+        Optional<PaymentMethods> optionalPaymentMethods = _paymentMethodRepository.findById(6);
 
         Users users = new Users();
         Services services = new Services();
         Appointments appointments = new Appointments();
+        PaymentMethods zaloPay = new PaymentMethods();
 
-        if (optionalAppointments.isEmpty() || optionalUsers.isEmpty()){
+        if (optionalAppointments.isEmpty() || optionalUsers.isEmpty() || optionalPaymentMethods.isEmpty() ){
             return "-1";
         }else if (optionalUsers.get().getRoles().getId() != 2) {
             return "-1";
         } else{
             users = optionalUsers.get();
             appointments = optionalAppointments.get();
+            zaloPay = optionalPaymentMethods.get();
         }
 
         services = appointments.getServices();
@@ -95,13 +97,24 @@ public class PaymentService {
             jsonArrayService.put(jsonObject);
         }
 
+        Payments payments = new Payments();
+        payments.setPaymentMethods(zaloPay);
+        payments.setAppointments(appointments);
+        payments.setPrice(appointments.getTotal());
+        payments.setStatus(2);
+        payments.setZpTransId(0);
+        payments.setCreated_at(LocalDateTime.now());
+        payments.setUpdated_at(LocalDateTime.now());
+
+        _paymentRepository.save(payments);
+
 
         Random rand = new Random();
         int random_id = rand.nextInt(1000000);
 
         final Map embed_data = new HashMap<String,Object>(){{
             put("redirecturl","http://3.26.7.116:3000");
-            put("paymentId",1);
+            put("paymentId", payments.getPaymentId());
         }};
 
         Map<String, Object> order = new HashMap<String, Object>(){{
@@ -116,11 +129,10 @@ public class PaymentService {
             put("embed_data", new JSONObject(embed_data).toString());
         }};
 
-        // app_id +”|”+ app_trans_id +”|”+ appuser +”|”+ amount +"|" + app_time +”|”+ embed_data +"|" +item
         String data = order.get("app_id") +"|"+ order.get("app_trans_id") +"|"+ order.get("app_user") +"|"+ order.get("amount")
                 +"|"+ order.get("app_time") +"|"+ order.get("embed_data") +"|"+ order.get("item");
         order.put("mac", HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, config.get("key1"), data));
-        order.put("callback_url","https://e6d1-118-69-182-149.ngrok-free.app/api/payments/callback/zaloPay");
+        order.put("callback_url","https://f857-2001-ee0-4fb1-4ab0-a15a-3e27-4af9-469e.ngrok-free.app/api/payments/callback/zaloPay");
 
         System.out.println(order.toString());
 
@@ -203,8 +215,18 @@ public class PaymentService {
         JSONObject embedJsonObject = new JSONObject(embedStr);
         int paymentId = embedJsonObject.getInt("paymentId");
 
+        System.out.println("zp_trans_id: " + zpId);
+        System.out.println("paymentId: " + paymentId);
+        System.out.println("Return Code: " + result.get("return_code"));
 
-        System.out.println(result.get("return_code"));
+        Optional<Payments> optionalPayments = _paymentRepository.findById(paymentId);
+        if (optionalPayments.isPresent()){
+            Payments payments = optionalPayments.get();
+            payments.setZpTransId(zpId);
+            payments.setUpdated_at(LocalDateTime.now());
+
+            _paymentRepository.save(payments);
+        }
 
         return result.toString();
     }

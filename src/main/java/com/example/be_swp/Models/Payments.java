@@ -28,7 +28,7 @@ public class Payments {
 
     private double price;
 
-    private String zpTransId;
+    private long zpTransId;
 
     private LocalDateTime created_at;
 
