@@ -1,4 +1,4 @@
-package com.example.be_swp.DTOs.test;
+package com.example.be_swp.DTOs.Test;
 
 import com.example.be_swp.Models.Questions;
 import lombok.AllArgsConstructor;
@@ -17,6 +17,5 @@ public class QuizDTO {
     private String expertName;
     private LocalDateTime createAt;
     private List<Questions> questions;
+
 }
-
-
