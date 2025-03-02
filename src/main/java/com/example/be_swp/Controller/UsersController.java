@@ -4,7 +4,6 @@ import com.example.be_swp.DTOs.Request.UserRequest;
 import com.example.be_swp.DTOs.Response.UserResponse;
 import com.example.be_swp.DTOs.UsersDTO;
 import com.example.be_swp.Models.ApiResponse;
-import com.example.be_swp.Models.Users;
 import com.example.be_swp.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
