@@ -24,10 +24,10 @@ public class ServiceController {
         String message = "";
         if (servicesDTOList.isEmpty()) {
             status = "404";
-            message = "Appointment Not Found!";
+            message = "Service Not Found!";
         } else {
             status = "200";
-            message = "Appointment Found!";
+            message = "Service Found!";
         }
         return new ApiResponse<>(status,servicesDTOList,message);
     }
@@ -41,10 +41,10 @@ public class ServiceController {
 
         if (servicesDTO.getServiceId() == -1){
             status = "404";
-            message = "Appointment Not Found!";
+            message = "Service Not Found!";
         } else {
             status = "200";
-            message = "Appointment Found!";
+            message = "Service Found!";
         }
 
         servicesDTO.setServiceId(id);
@@ -56,7 +56,7 @@ public class ServiceController {
     public ApiResponse<ServicesDTO> add(@RequestBody ServicesDTO servicesDTO) {
         servicesDTO = _servicesService.add(servicesDTO);
         String status = "200";
-        String message = "Saved Appointment!";
+        String message = "Saved Service!";
         return new ApiResponse<>(status,servicesDTO,message);
     }
 
@@ -68,10 +68,10 @@ public class ServiceController {
 
         if (servicesDTO.getServiceId() == -1){
             status = "404";
-            message = "Appointment Not Found!";
+            message = "Service Not Found!";
         } else {
             status = "200";
-            message = "Appointment Updated!";
+            message = "Service Updated!";
         }
 
         servicesDTO.setServiceId(id);
@@ -87,10 +87,10 @@ public class ServiceController {
 
         if (servicesDTO.getServiceId() == -1){
             status = "404";
-            message = "Appointment Not Found!";
+            message = "Service Not Found!";
         } else {
             status = "200";
-            message = "Appointment Deleted!";
+            message = "Service Deleted!";
         }
         servicesDTO.setServiceId(id);
 

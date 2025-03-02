@@ -63,7 +63,7 @@ public class AppointmentsService {
 
         Experts experts = new Experts(appointmentUserDTO.getExpertsDTO().getSpecialization()
                 ,appointmentUserDTO.getExpertsDTO().getYearOfExperiences()
-                ,appointmentUserDTO.getExpertsDTO().getDescription(),1,LocalDateTime.now(),LocalDateTime.now());
+                ,appointmentUserDTO.getExpertsDTO().getDescription(), appointmentUserDTO.getExpertsDTO().getImageBase64(),1,LocalDateTime.now(),LocalDateTime.now());
 
         Services services = new Services(appointmentUserDTO.getServicesDTO().getServiceName(),appointmentUserDTO.getServicesDTO().getPrice()
                 ,appointmentUserDTO.getServicesDTO().getDescription(),appointmentUserDTO.getServicesDTO().getDuration(),1

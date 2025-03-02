@@ -23,6 +23,8 @@ public class ExpertsDTO {
 
     private int userId;
 
+    private String fullName;
+
     private String specialization;
 
     private int yearOfExperiences;
@@ -34,5 +36,7 @@ public class ExpertsDTO {
     private LocalDateTime created_at;
 
     private LocalDateTime updated_at;
+
+    private String imageBase64;
 
 }

@@ -41,4 +41,14 @@ public class ExpertRatings {
 
     private LocalDateTime updated_at;
 
+    public ExpertRatings(Appointments appointments, Experts experts, Users users, int rating, String feedback, int status, LocalDateTime created_at, LocalDateTime updated_at) {
+        this.appointments = appointments;
+        this.experts = experts;
+        this.users = users;
+        this.rating = rating;
+        this.feedback = feedback;
+        this.status = status;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 }
