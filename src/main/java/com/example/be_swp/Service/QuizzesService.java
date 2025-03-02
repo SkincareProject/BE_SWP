@@ -1,7 +1,8 @@
 package com.example.be_swp.Service;
 
 
-import com.example.be_swp.DTOs.test.QuizDTO;
+
+import com.example.be_swp.DTOs.Test.QuizDTO;
 import com.example.be_swp.Models.Quizzes;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Repository.QuizzesRepository;
