@@ -31,4 +31,6 @@ public class Questions {
 
     private LocalDateTime updatedAt;
 
+    private String title;
+
 }

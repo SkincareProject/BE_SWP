@@ -28,4 +28,9 @@ public class Answers {
 
     private LocalDateTime updatedAt;
 
+    public Answers(Questions questions, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.questions = questions;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 }

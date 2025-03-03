@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -28,8 +30,12 @@ public class DataInitializerService {
     private final AppointmentRepository _appointmentRepository;
     private final ServicesRepository _servicesRepository;
     private final ExpertOccupiedTimeRepository _expertOccupiedTimeRepository;
+    private final QuizzesRepository _quizzesRepository;
+    private final QuestionsRepository _questionsRepository;
+    private final AnswersRepository _answersRepository;
 
-    public DataInitializerService(RolesRepository _rolesRepository, UsersRepository _usersRepository, WorkScheduleRepository _workScheduleRepository, PaymentMethodRepository _paymentMethodRepository, PaymentRepository _paymentRepository, ExpertRepository _expertRepository, AppointmentRepository _appointmentRepository, ServicesRepository _serviceRepository, ExpertOccupiedTimeRepository _expertOccupiedTimeRepository) {
+
+    public DataInitializerService(RolesRepository _rolesRepository, UsersRepository _usersRepository, WorkScheduleRepository _workScheduleRepository, PaymentMethodRepository _paymentMethodRepository, PaymentRepository _paymentRepository, ExpertRepository _expertRepository, AppointmentRepository _appointmentRepository, ServicesRepository _servicesRepository, ExpertOccupiedTimeRepository _expertOccupiedTimeRepository, QuizzesRepository _quizzesRepository, QuestionsRepository _questionsRepository, AnswersRepository _answersRepository) {
         this._rolesRepository = _rolesRepository;
         this._usersRepository = _usersRepository;
         this._workScheduleRepository = _workScheduleRepository;
@@ -37,8 +43,11 @@ public class DataInitializerService {
         this._paymentRepository = _paymentRepository;
         this._expertRepository = _expertRepository;
         this._appointmentRepository = _appointmentRepository;
-        this._servicesRepository = _serviceRepository;
+        this._servicesRepository = _servicesRepository;
         this._expertOccupiedTimeRepository = _expertOccupiedTimeRepository;
+        this._quizzesRepository = _quizzesRepository;
+        this._questionsRepository = _questionsRepository;
+        this._answersRepository = _answersRepository;
     }
 
     @PostConstruct
@@ -207,8 +216,10 @@ public class DataInitializerService {
             //Service
 
             Services facialService = new Services("All Your Facial Treatments", 100000, "All of skincare for yo face", 60, 1, "Facial Treatment", "Dry skin" , LocalDateTime.now(), LocalDateTime.now());
+            Services massageService = new Services("All Your Skin Treatments", 100000, "Make all of your fatigue go away", 60, 1, "Massage Treatment", "Dry skin" , LocalDateTime.now(), LocalDateTime.now());
 
             _servicesRepository.save(facialService);
+            _servicesRepository.save(massageService);
 
             //Appointment
             LocalDate today = LocalDate.now();
@@ -345,6 +356,47 @@ public class DataInitializerService {
             payPal.setPayments(paymentsList);
 
             _paymentRepository.save(payments);
+
+            Quizzes quizzes = new Quizzes();
+
+            Questions question1 = new Questions();
+            Questions question2 = new Questions();
+            Questions question3 = new Questions();
+            Questions question4 = new Questions();
+            Questions question5 = new Questions();
+            Questions question6 = new Questions();
+
+            List<Answers> question1AnswersList = new ArrayList<>(Arrays.asList(
+                    new Answers(question1,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers(),
+                    new Answers(),
+                    new Answers()
+            ));
+            question1.setTitle("After washing your face, how does your skin feel?");
+            question1.setAnswersList(question1AnswersList);
+            question1.setQuizzes(quizzes);
+            question1.setCreatedAt(LocalDateTime.now());
+            question1.setUpdatedAt(LocalDateTime.now());
+
+            List<Answers> question2AnswersList = new ArrayList<>();
+            List<Answers> question3AnswersList = new ArrayList<>();
+            List<Answers> question4AnswersList = new ArrayList<>();
+            List<Answers> question5AnswersList = new ArrayList<>();
+            List<Answers> question6AnswersList = new ArrayList<>();
+
+            List<Questions> questionsList = new ArrayList<>(Arrays.asList(
+                    question1,
+                    question2,
+                    question3,
+                    question4,
+                    question5,
+                    question6
+            ));
+
+            quizzes.setName("Skin Quiz");
+            quizzes.set
+
+
 
         }
     }
