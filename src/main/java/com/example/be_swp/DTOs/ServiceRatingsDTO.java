@@ -1,8 +1,6 @@
 package com.example.be_swp.DTOs;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,25 +12,23 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServicesDTO {
+public class ServiceRatingsDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int serviceId;
+    private int serviceRatingId;
 
-    private String serviceName;
+    private int appointmentsId;
 
-    private double price;
+    private int usersId;
 
-    private String description;
+    private int servicesId;
 
-    private int duration;
+    private int rating;
+
+    private String feedback;
 
     private int status;
-
-    private String type;
-
-    private String skinType;
 
     private LocalDateTime created_at;
 
