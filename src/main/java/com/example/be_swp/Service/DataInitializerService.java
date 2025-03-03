@@ -394,8 +394,6 @@ public class DataInitializerService {
             ));
 
             quizzes.setName("Skin Quiz");
-            quizzes.set
-
 
 
         }
