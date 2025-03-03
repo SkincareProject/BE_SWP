@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 @RestController
@@ -70,14 +71,16 @@ public class PaymentController {
         return new ApiResponse<>(status,orderUrl,message);
     }
 
-//    @PostMapping("callback/zaloPay")
-//    public ApiResponse<String> zaloPayCallback(@RequestBody String callbackStr){
-//        return new ApiResponse<>("200",callbackStr,"ok");
-//    }
-
     @PostMapping("/callback/zaloPay")
     public String callback(@RequestBody String jsonStr) {
         return _paymentService.callbackZalo(jsonStr);
+    }
+
+    @PostMapping("/refund/zaloPay/{paymentId}")
+    public ApiResponse<String> refundZaloPay(@PathVariable int paymentId) throws IOException {
+        String a = _paymentService.refundZaloPay(paymentId);
+
+        return new ApiResponse<>();
     }
 
 }
