@@ -56,33 +56,93 @@ public class AppointmentsService {
         return appointmentsDTO;
     }
 
-    public AppointmentsDTO add(AppointmentUserDTO appointmentUserDTO){
-        Users users = new Users(appointmentUserDTO.getUsersDTO().getUsername(),appointmentUserDTO.getUsersDTO().getPassword()
-                ,appointmentUserDTO.getUsersDTO().getFullName(),appointmentUserDTO.getUsersDTO().getEmail()
-                ,appointmentUserDTO.getUsersDTO().getPhone(),true,LocalDateTime.now(),LocalDateTime.now());
+//    public AppointmentsDTO add(AppointmentUserDTO appointmentUserDTO){
+//        Users users = new Users(appointmentUserDTO.getUsersDTO().getUsername(),appointmentUserDTO.getUsersDTO().getPassword()
+//                ,appointmentUserDTO.getUsersDTO().getFullName(),appointmentUserDTO.getUsersDTO().getEmail()
+//                ,appointmentUserDTO.getUsersDTO().getPhone(),true,LocalDateTime.now(),LocalDateTime.now());
+//
+//        Experts experts = new Experts(appointmentUserDTO.getExpertsDTO().getSpecialization()
+//                ,appointmentUserDTO.getExpertsDTO().getYearOfExperiences()
+//                ,appointmentUserDTO.getExpertsDTO().getDescription(), appointmentUserDTO.getExpertsDTO().getImageBase64(),1,LocalDateTime.now(),LocalDateTime.now());
+//
+//        Services services = new Services(appointmentUserDTO.getServicesDTO().getServiceName(),appointmentUserDTO.getServicesDTO().getPrice()
+//                ,appointmentUserDTO.getServicesDTO().getDescription(),appointmentUserDTO.getServicesDTO().getDuration(),1
+//                ,appointmentUserDTO.getServicesDTO().getType(),appointmentUserDTO.getServicesDTO().getSkinType(),LocalDateTime.now(),LocalDateTime.now());
+//
+//        Appointments newAppointment = new Appointments();
+//        newAppointment.setAppointmentId(appointmentUserDTO.getAppointmentsDTO().getAppointmentId());
+//        newAppointment.setUsers(users);
+//        newAppointment.setExperts(experts);
+//        newAppointment.setServices(services);
+//        newAppointment.setTotal(appointmentUserDTO.getAppointmentsDTO().getTotal());
+//        newAppointment.setStart_at(LocalDateTime.now());
+//        newAppointment.setEnd_at(LocalDateTime.now());
+//        newAppointment.setStatus(appointmentUserDTO.getAppointmentsDTO().getStatus());
+//        newAppointment.setCreated_at(LocalDateTime.now());
+//        newAppointment.setUpdated_at(LocalDateTime.now());
+//
+//        _appointmentsRepository.save(newAppointment);
+//        return appointmentUserDTO.getAppointmentsDTO();
+//    }
 
-        Experts experts = new Experts(appointmentUserDTO.getExpertsDTO().getSpecialization()
-                ,appointmentUserDTO.getExpertsDTO().getYearOfExperiences()
-                ,appointmentUserDTO.getExpertsDTO().getDescription(), appointmentUserDTO.getExpertsDTO().getImageBase64(),1,LocalDateTime.now(),LocalDateTime.now());
+    public AppointmentsDTO add(AppointmentUserDTO appointmentUserDTO) {
+        try {
+            // Get existing user from repository
+            Optional<Users> userOptional = _usersRepository.findById(appointmentUserDTO.getUsersDTO().getId());
+            if (userOptional.isEmpty()) {
+                AppointmentsDTO errorDto = new AppointmentsDTO();
+                errorDto.setAppointmentId(-1);
+                return errorDto;
+            }
 
-        Services services = new Services(appointmentUserDTO.getServicesDTO().getServiceName(),appointmentUserDTO.getServicesDTO().getPrice()
-                ,appointmentUserDTO.getServicesDTO().getDescription(),appointmentUserDTO.getServicesDTO().getDuration(),1
-                ,appointmentUserDTO.getServicesDTO().getType(),appointmentUserDTO.getServicesDTO().getSkinType(),LocalDateTime.now(),LocalDateTime.now());
+            // Find expert
+            Optional<Experts> expertOptional = _expertRepository.findById(appointmentUserDTO.getExpertsDTO().getExpertId());
+            if (expertOptional.isEmpty()) {
+                AppointmentsDTO errorDto = new AppointmentsDTO();
+                errorDto.setAppointmentId(-2);
+                return errorDto;
+            }
 
-        Appointments newAppointment = new Appointments();
-        newAppointment.setAppointmentId(appointmentUserDTO.getAppointmentsDTO().getAppointmentId());
-        newAppointment.setUsers(users);
-        newAppointment.setExperts(experts);
-        newAppointment.setServices(services);
-        newAppointment.setTotal(appointmentUserDTO.getAppointmentsDTO().getTotal());
-        newAppointment.setStart_at(LocalDateTime.now());
-        newAppointment.setEnd_at(LocalDateTime.now());
-        newAppointment.setStatus(appointmentUserDTO.getAppointmentsDTO().getStatus());
-        newAppointment.setCreated_at(LocalDateTime.now());
-        newAppointment.setUpdated_at(LocalDateTime.now());
+            // Find service
+            Optional<Services> serviceOptional = _servicesRepository.findById(appointmentUserDTO.getServicesDTO().getServiceId());
+            if (serviceOptional.isEmpty()) {
+                AppointmentsDTO errorDto = new AppointmentsDTO();
+                errorDto.setAppointmentId(-3);
+                return errorDto;
+            }
 
-        _appointmentsRepository.save(newAppointment);
-        return appointmentUserDTO.getAppointmentsDTO();
+            // Create new appointment
+            Appointments newAppointment = new Appointments();
+            newAppointment.setUsers(userOptional.get());
+            newAppointment.setExperts(expertOptional.get());
+            newAppointment.setServices(serviceOptional.get());
+            newAppointment.setTotal(appointmentUserDTO.getAppointmentsDTO().getTotal());
+            newAppointment.setStart_at(appointmentUserDTO.getAppointmentsDTO().getStart_at());
+            newAppointment.setEnd_at(appointmentUserDTO.getAppointmentsDTO().getEnd_at());
+            newAppointment.setStatus(1); // Initial status
+            newAppointment.setCreated_at(LocalDateTime.now());
+            newAppointment.setUpdated_at(LocalDateTime.now());
+
+            Appointments savedAppointment = _appointmentsRepository.save(newAppointment);
+
+            return new AppointmentsDTO(
+                    savedAppointment.getAppointmentId(),
+                    savedAppointment.getUsers().getId(),
+                    savedAppointment.getExperts().getExpertId(),
+                    savedAppointment.getServices().getServiceId(),
+                    savedAppointment.getTotal(),
+                    savedAppointment.getStart_at(),
+                    savedAppointment.getEnd_at(),
+                    savedAppointment.getStatus(),
+                    savedAppointment.getCreated_at(),
+                    savedAppointment.getUpdated_at()
+            );
+
+        } catch (Exception e) {
+            AppointmentsDTO errorDto = new AppointmentsDTO();
+            errorDto.setAppointmentId(-4); // General error
+            return errorDto;
+        }
     }
 
     public AppointmentsDTO update(AppointmentsDTO appointmentsDTO, int id){
@@ -97,7 +157,7 @@ public class AppointmentsService {
             updateAppointment.setCreated_at(LocalDateTime.now());
             updateAppointment.setUpdated_at(LocalDateTime.now());
             _appointmentsRepository.save(updateAppointment);
-        }else {
+        } else {
             appointmentsDTO.setAppointmentId(-1);
         }
         return appointmentsDTO;
@@ -113,7 +173,7 @@ public class AppointmentsService {
                     ,appointments.getTotal(),appointments.getStart_at(),appointments.getEnd_at()
                     ,appointments.getStatus(),appointments.getCreated_at(),appointments.getUpdated_at());
             _appointmentsRepository.delete(appointments);
-        }else{
+        } else{
             appointmentsDTO.setAppointmentId(-1);
         }
         return appointmentsDTO;
