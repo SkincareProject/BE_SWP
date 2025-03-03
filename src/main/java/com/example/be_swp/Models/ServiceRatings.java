@@ -41,4 +41,15 @@ public class ServiceRatings {
 
     private LocalDateTime updated_at;
 
+    public ServiceRatings(int serviceRatingId, Appointments appointments, Users users, Services services, ServiceRatings serviceRatings, int rating, String feedback, int status, LocalDateTime created_at, LocalDateTime updated_at) {
+        this.serviceRatingId = serviceRatingId;
+        this.appointments = appointments;
+        this.users = users;
+        this.services = services;
+        this.rating = rating;
+        this.feedback = feedback;
+        this.status = status;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 }

@@ -67,7 +67,7 @@ public class AppointmentsService {
 
         Services services = new Services(appointmentUserDTO.getServicesDTO().getServiceName(),appointmentUserDTO.getServicesDTO().getPrice()
                 ,appointmentUserDTO.getServicesDTO().getDescription(),appointmentUserDTO.getServicesDTO().getDuration(),1
-                ,appointmentUserDTO.getServicesDTO().getType(),LocalDateTime.now(),LocalDateTime.now());
+                ,appointmentUserDTO.getServicesDTO().getType(),appointmentUserDTO.getServicesDTO().getSkinType(),LocalDateTime.now(),LocalDateTime.now());
 
         Appointments newAppointment = new Appointments();
         newAppointment.setAppointmentId(appointmentUserDTO.getAppointmentsDTO().getAppointmentId());

@@ -206,7 +206,7 @@ public class DataInitializerService {
 
             //Service
 
-            Services facialService = new Services("All Your Facial Treatments", 100000, "All of skincare for yo face", 60, 1, "Facial Treatment", LocalDateTime.now(), LocalDateTime.now());
+            Services facialService = new Services("All Your Facial Treatments", 100000, "All of skincare for yo face", 60, 1, "Facial Treatment", "Dry skin" , LocalDateTime.now(), LocalDateTime.now());
 
             _servicesRepository.save(facialService);
 
