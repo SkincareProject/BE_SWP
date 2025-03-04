@@ -62,8 +62,11 @@ public class PaymentController {
 
         if (orderUrl.equals("-1")){
             status = "404";
-            message = "Not Found Service Or User!";
-        }else{
+            message = "Not Found Service Or Customer!";
+        } else if (orderUrl.equals("-2")) {
+            status = "400";
+            message = "This Appointment Already Has A Payment";
+        } else{
             status = "200";
             message = "Get Order URL Successfully!";
         }
@@ -78,9 +81,20 @@ public class PaymentController {
 
     @PostMapping("/refund/zaloPay/{paymentId}")
     public ApiResponse<String> refundZaloPay(@PathVariable int paymentId) throws IOException {
-        String a = _paymentService.refundZaloPay(paymentId);
+        String refund = _paymentService.refundZaloPay(paymentId);
 
-        return new ApiResponse<>();
+        String status = "";
+        String message = "";
+
+        if (refund.equals("-1")){
+            status = "404";
+            message = "Payment Not Found";
+        }else {
+            status = "200";
+            message = "Refund Successfully";
+        }
+
+        return new ApiResponse<>(status,paymentId+"",message);
     }
 
 }

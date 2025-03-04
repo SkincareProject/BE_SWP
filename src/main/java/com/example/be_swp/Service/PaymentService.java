@@ -64,6 +64,7 @@ public class PaymentService {
         Optional<Users> optionalUsers = _usersRepository.findById(userId);
         Optional<Appointments> optionalAppointments = _appointmentRepository.findById(appointmentId);
         Optional<PaymentMethods> optionalPaymentMethods = _paymentMethodRepository.findById(6);
+        Optional<Payments> optionalPayments = _paymentRepository.findByAppointmentId(appointmentId);
 
         Users users = new Users();
         Services services = new Services();
@@ -74,6 +75,10 @@ public class PaymentService {
             return "-1";
         }else if (optionalUsers.get().getRoles().getId() != 2) {
             return "-1";
+        }else if (optionalAppointments.get().getUsers().getId() != userId){
+            return "-1";
+        } else if (optionalPayments.isPresent()) {
+            return "-2";
         } else{
             users = optionalUsers.get();
             appointments = optionalAppointments.get();
@@ -135,7 +140,7 @@ public class PaymentService {
         String data = order.get("app_id") +"|"+ order.get("app_trans_id") +"|"+ order.get("app_user") +"|"+ order.get("amount")
                 +"|"+ order.get("app_time") +"|"+ order.get("embed_data") +"|"+ order.get("item");
         order.put("mac", HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, config.get("key1"), data));
-        order.put("callback_url","https://f857-2001-ee0-4fb1-4ab0-a15a-3e27-4af9-469e.ngrok-free.app/api/payments/callback/zaloPay");
+        order.put("callback_url","https://9f45-2001-ee0-4fb1-4ab0-cc3b-e0ff-b0b3-b68e.ngrok-free.app/api/payments/callback/zaloPay");
 
         System.out.println(order.toString());
 
@@ -226,6 +231,7 @@ public class PaymentService {
             Payments payments = optionalPayments.get();
             payments.setZpTransId(zpId);
             payments.setUpdated_at(LocalDateTime.now());
+            payments.setStatus(4);
 
             _paymentRepository.save(payments);
         }
@@ -241,15 +247,15 @@ public class PaymentService {
             Payments payments = optionalPayments.get();
 
 
-            String appid = config.get("appid");
+            String app_id = config.get("app_id");
             Random rand = new Random();
             long timestamp = System.currentTimeMillis(); // miliseconds
             String uid = timestamp + "" + (111 + rand.nextInt(888));
 
             Map<String, Object> order = new HashMap<String, Object>() {{
-                put("app_id", appid);
+                put("app_id", app_id);
                 put("zp_trans_id", payments.getZpTransId()+"");
-                put("m_refund_id", getCurrentTimeString("yyMMdd") + "_" + appid + "_" + uid);
+                put("m_refund_id", getCurrentTimeString("yyMMdd") + "_" + app_id + "_" + uid);
                 put("timestamp", timestamp);
                 put("amount", 50000);
                 put("description", "Refund");
@@ -258,6 +264,8 @@ public class PaymentService {
             String data = order.get("app_id") +"|"+ order.get("zp_trans_id") +"|"+ order.get("amount")
                     +"|"+ order.get("description") +"|"+ order.get("timestamp");
             order.put("mac", HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, config.get("key1"), data));
+
+            System.out.println("Still Ok 2");
 
             CloseableHttpClient client = HttpClients.createDefault();
             HttpPost post = new HttpPost(config.get("refund_url"));
@@ -283,7 +291,16 @@ public class PaymentService {
                 System.out.format("%s = %s\n", key, result.get(key));
             }
 
+            payments.setStatus(1);
+            payments.setUpdated_at(LocalDateTime.now());
+
+            _paymentRepository.save(payments);
+
+
+        }else {
+            return "-1";
         }
+
         return "";
     }
 
