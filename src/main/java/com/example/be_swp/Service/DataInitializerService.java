@@ -1,6 +1,5 @@
 package com.example.be_swp.Service;
 
-import com.example.be_swp.DTOs.ExpertOccupiedTimesDTO;
 import com.example.be_swp.Models.*;
 import com.example.be_swp.Repository.*;
 import jakarta.annotation.PostConstruct;
@@ -13,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -28,8 +28,12 @@ public class DataInitializerService {
     private final AppointmentRepository _appointmentRepository;
     private final ServicesRepository _servicesRepository;
     private final ExpertOccupiedTimeRepository _expertOccupiedTimeRepository;
+    private final QuizzesRepository _quizzesRepository;
+    private final QuestionsRepository _questionsRepository;
+    private final AnswersRepository _answersRepository;
 
-    public DataInitializerService(RolesRepository _rolesRepository, UsersRepository _usersRepository, WorkScheduleRepository _workScheduleRepository, PaymentMethodRepository _paymentMethodRepository, PaymentRepository _paymentRepository, ExpertRepository _expertRepository, AppointmentRepository _appointmentRepository, ServicesRepository _serviceRepository, ExpertOccupiedTimeRepository _expertOccupiedTimeRepository) {
+
+    public DataInitializerService(RolesRepository _rolesRepository, UsersRepository _usersRepository, WorkScheduleRepository _workScheduleRepository, PaymentMethodRepository _paymentMethodRepository, PaymentRepository _paymentRepository, ExpertRepository _expertRepository, AppointmentRepository _appointmentRepository, ServicesRepository _servicesRepository, ExpertOccupiedTimeRepository _expertOccupiedTimeRepository, QuizzesRepository _quizzesRepository, QuestionsRepository _questionsRepository, AnswersRepository _answersRepository) {
         this._rolesRepository = _rolesRepository;
         this._usersRepository = _usersRepository;
         this._workScheduleRepository = _workScheduleRepository;
@@ -37,8 +41,11 @@ public class DataInitializerService {
         this._paymentRepository = _paymentRepository;
         this._expertRepository = _expertRepository;
         this._appointmentRepository = _appointmentRepository;
-        this._servicesRepository = _serviceRepository;
+        this._servicesRepository = _servicesRepository;
         this._expertOccupiedTimeRepository = _expertOccupiedTimeRepository;
+        this._quizzesRepository = _quizzesRepository;
+        this._questionsRepository = _questionsRepository;
+        this._answersRepository = _answersRepository;
     }
 
     @PostConstruct
@@ -207,8 +214,10 @@ public class DataInitializerService {
             //Service
 
             Services facialService = new Services("All Your Facial Treatments", 100000, "All of skincare for yo face", 60, 1, "Facial Treatment", "Dry skin" , LocalDateTime.now(), LocalDateTime.now());
+            Services massageService = new Services("All Your Skin Treatments", 100000, "Make all of your fatigue go away", 60, 1, "Massage Treatment", "Dry skin" , LocalDateTime.now(), LocalDateTime.now());
 
             _servicesRepository.save(facialService);
+            _servicesRepository.save(massageService);
 
             //Appointment
             LocalDate today = LocalDate.now();
@@ -345,6 +354,127 @@ public class DataInitializerService {
             payPal.setPayments(paymentsList);
 
             _paymentRepository.save(payments);
+
+            Quizzes quizzes = new Quizzes();
+            quizzes.setName("Skin Quiz");
+            quizzes.setQuestionsList(new ArrayList<>());
+            quizzes.setQuizResultsList(new ArrayList<>());
+            quizzes.setCreateAt(LocalDateTime.now());
+            quizzes.setUpdateAt(LocalDateTime.now());
+
+            List<Questions> questionsList = new ArrayList<>();
+
+//            Quest1
+            Questions question1 = new Questions();
+
+            question1.setTitle("After washing your face, how does your skin feel?");
+            question1.setCreatedAt(LocalDateTime.now());
+            question1.setUpdatedAt(LocalDateTime.now());
+            question1.setAnswersList(new ArrayList<>());
+
+            List<Answers> question1AnswersList = new ArrayList<>(Arrays.asList(
+                    new Answers("Smooth, Not Dry.",question1,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Tight and Dry.",question1,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Oily.",question1,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("The T-zone is oily, but the cheeks are dry.",question1,LocalDateTime.now(),LocalDateTime.now())
+            ));
+            question1.setAnswersList(question1AnswersList);
+            questionsList.add(question1);
+            question1.setQuizzes(quizzes);
+
+//            Quest2
+            Questions question2 = new Questions();
+
+            question2.setTitle("When during the day does your skin usually get shiny/oily?");
+            question2.setCreatedAt(LocalDateTime.now());
+            question2.setUpdatedAt(LocalDateTime.now());
+            question2.setAnswersList(new ArrayList<>());
+
+            List<Answers> question2AnswersList = new ArrayList<>(Arrays.asList(
+                    new Answers("Almost never gets oily.", question2,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Never oily throughout the day, might be slightly dry.", question2,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Always oily, especially in the forehead, nose, and chin areas.", question2,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Only oily in the T-zone, other areas are normal or dry.", question2,LocalDateTime.now(),LocalDateTime.now())
+            ));
+            question2.setAnswersList(question2AnswersList);
+            questionsList.add(question2);
+            question2.setQuizzes(quizzes);
+
+//            Quest3
+            Questions question3 = new Questions();
+
+            question3.setTitle("How does your skin react when the weather changes?");
+            question3.setCreatedAt(LocalDateTime.now());
+            question3.setUpdatedAt(LocalDateTime.now());
+            question3.setAnswersList(new ArrayList<>());
+
+            List<Answers> question3AnswersList = new ArrayList<>(Arrays.asList(
+                    new Answers("Little change, skin remains stable.", question3,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Very dry, easily flakes.", question3,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Prone to breakouts, gets oilier in hot weather.", question3,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Becomes more sensitive, T-zone gets oily, cheeks get dry.", question3,LocalDateTime.now(),LocalDateTime.now())
+            ));
+            question3.setAnswersList(question3AnswersList);
+            questionsList.add(question3);
+            question3.setQuizzes(quizzes);
+
+//            Quest4
+            Questions question4 = new Questions();
+
+            question4.setTitle("How would you describe your pores?");
+            question4.setCreatedAt(LocalDateTime.now());
+            question4.setUpdatedAt(LocalDateTime.now());
+            question4.setAnswersList(new ArrayList<>());
+
+            List<Answers> question4AnswersList = new ArrayList<>(Arrays.asList(
+                    new Answers("Small pores, difficult to see.", question4,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Very small or not clearly visible.", question4,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Large, easily visible.", question4,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Large in the T-zone, but small on the cheeks.", question4,LocalDateTime.now(),LocalDateTime.now())
+            ));
+            question4.setAnswersList(question4AnswersList);
+            questionsList.add(question4);
+            question4.setQuizzes(quizzes);
+
+//            Quest5
+            Questions question5 = new Questions();
+
+            question5.setTitle("How does your skin typically feel after applying moisturizer?");
+            question5.setCreatedAt(LocalDateTime.now());
+            question5.setUpdatedAt(LocalDateTime.now());
+            question5.setAnswersList(new ArrayList<>());
+
+            List<Answers> question5AnswersList = new ArrayList<>(Arrays.asList(
+                    new Answers("Feels comfortable, neither too shiny nor dry.", question5,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Skin absorbs moisture immediately, but still feels dry.", question5,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Usually feels greasy or sticky.", question5,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("T-zone becomes slightly shiny, other areas feel comfortable.", question5,LocalDateTime.now(),LocalDateTime.now())
+            ));
+            question5.setAnswersList(question5AnswersList);
+            questionsList.add(question5);
+            question5.setQuizzes(quizzes);
+
+//            Quest6
+            Questions question6 = new Questions();
+
+            question6.setTitle("Do you experience problems with acne or skin irritation?");
+            question6.setCreatedAt(LocalDateTime.now());
+            question6.setUpdatedAt(LocalDateTime.now());
+            question6.setAnswersList(new ArrayList<>());
+
+            List<Answers> question6AnswersList = new ArrayList<>(Arrays.asList(
+                    new Answers("Rarely occurs.", question6,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Skin is easily irritated, itchy, or flaky.", question6,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Frequently get acne, clogged pores.", question6,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Acne appears mainly in the T-zone.", question6,LocalDateTime.now(),LocalDateTime.now())
+            ));
+            question6.setAnswersList(question6AnswersList);
+            questionsList.add(question6);
+            question6.setQuizzes(quizzes);
+
+            quizzes.setQuestionsList(questionsList);
+
+            _quizzesRepository.save(quizzes);
 
         }
     }

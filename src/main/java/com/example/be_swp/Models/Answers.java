@@ -20,6 +20,8 @@ public class Answers {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int answerId;
 
+    String answer;
+
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Questions questions;
@@ -28,4 +30,10 @@ public class Answers {
 
     private LocalDateTime updatedAt;
 
+    public Answers(String answer, Questions questions, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.answer = answer;
+        this.questions = questions;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 }
