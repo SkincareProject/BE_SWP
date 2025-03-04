@@ -140,7 +140,7 @@ public class PaymentService {
         String data = order.get("app_id") +"|"+ order.get("app_trans_id") +"|"+ order.get("app_user") +"|"+ order.get("amount")
                 +"|"+ order.get("app_time") +"|"+ order.get("embed_data") +"|"+ order.get("item");
         order.put("mac", HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, config.get("key1"), data));
-        order.put("callback_url","https://9f45-2001-ee0-4fb1-4ab0-cc3b-e0ff-b0b3-b68e.ngrok-free.app/api/payments/callback/zaloPay");
+        order.put("callback_url","https://admin.tamdeptrai.com/api/payments/callback/zaloPay");
 
         System.out.println(order.toString());
 
@@ -184,9 +184,6 @@ public class PaymentService {
         JSONObject result = new JSONObject();
 
         JSONObject cbdata = null;
-//        cbdata = new JSONObject(jsonStr);
-//        String dataStrOut = cbdata.getString("data");
-//        String reqMac = cbdata.getString("mac");
         try {
             cbdata = new JSONObject(jsonStr);
             String dataStrOut = cbdata.getString("data");
@@ -257,15 +254,13 @@ public class PaymentService {
                 put("zp_trans_id", payments.getZpTransId()+"");
                 put("m_refund_id", getCurrentTimeString("yyMMdd") + "_" + app_id + "_" + uid);
                 put("timestamp", timestamp);
-                put("amount", 50000);
+                put("amount", (long)payments.getPrice());
                 put("description", "Refund");
             }};
 
             String data = order.get("app_id") +"|"+ order.get("zp_trans_id") +"|"+ order.get("amount")
                     +"|"+ order.get("description") +"|"+ order.get("timestamp");
             order.put("mac", HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, config.get("key1"), data));
-
-            System.out.println("Still Ok 2");
 
             CloseableHttpClient client = HttpClients.createDefault();
             HttpPost post = new HttpPost(config.get("refund_url"));
