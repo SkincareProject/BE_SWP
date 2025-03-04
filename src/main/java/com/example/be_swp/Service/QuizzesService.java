@@ -30,7 +30,6 @@ public class QuizzesService {
     public Quizzes createQuiz(QuizDTO quizDTO, Users user) {
         Quizzes quiz = new Quizzes();
         quiz.setName(quizDTO.getName());
-        quiz.setUsers(user);
         quiz.setCreateAt(LocalDateTime.now());
         if(quizDTO.getQuestions() != null){
             quiz.setQuestionsList(quizDTO.getQuestions());
@@ -65,7 +64,6 @@ public class QuizzesService {
         QuizDTO dto = new QuizDTO();
         dto.setQuizId(quiz.getQuizId());
         dto.setName(quiz.getName());
-        dto.setExpertName(quiz.getUsers().getUsername());
         dto.setCreateAt(quiz.getCreateAt());
         dto.setQuestions(quiz.getQuestionsList());
         return dto;
