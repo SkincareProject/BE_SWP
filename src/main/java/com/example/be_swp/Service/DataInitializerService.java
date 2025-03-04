@@ -1,6 +1,5 @@
 package com.example.be_swp.Service;
 
-import com.example.be_swp.DTOs.ExpertOccupiedTimesDTO;
 import com.example.be_swp.Models.*;
 import com.example.be_swp.Repository.*;
 import jakarta.annotation.PostConstruct;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -358,43 +356,125 @@ public class DataInitializerService {
             _paymentRepository.save(payments);
 
             Quizzes quizzes = new Quizzes();
+            quizzes.setName("Skin Quiz");
+            quizzes.setQuestionsList(new ArrayList<>());
+            quizzes.setQuizResultsList(new ArrayList<>());
+            quizzes.setCreateAt(LocalDateTime.now());
+            quizzes.setUpdateAt(LocalDateTime.now());
 
+            List<Questions> questionsList = new ArrayList<>();
+
+//            Quest1
             Questions question1 = new Questions();
-            Questions question2 = new Questions();
-            Questions question3 = new Questions();
-            Questions question4 = new Questions();
-            Questions question5 = new Questions();
-            Questions question6 = new Questions();
 
-            List<Answers> question1AnswersList = new ArrayList<>(Arrays.asList(
-                    new Answers(question1,LocalDateTime.now(),LocalDateTime.now()),
-                    new Answers(),
-                    new Answers(),
-                    new Answers()
-            ));
             question1.setTitle("After washing your face, how does your skin feel?");
-            question1.setAnswersList(question1AnswersList);
-            question1.setQuizzes(quizzes);
             question1.setCreatedAt(LocalDateTime.now());
             question1.setUpdatedAt(LocalDateTime.now());
+            question1.setAnswersList(new ArrayList<>());
 
-            List<Answers> question2AnswersList = new ArrayList<>();
-            List<Answers> question3AnswersList = new ArrayList<>();
-            List<Answers> question4AnswersList = new ArrayList<>();
-            List<Answers> question5AnswersList = new ArrayList<>();
-            List<Answers> question6AnswersList = new ArrayList<>();
-
-            List<Questions> questionsList = new ArrayList<>(Arrays.asList(
-                    question1,
-                    question2,
-                    question3,
-                    question4,
-                    question5,
-                    question6
+            List<Answers> question1AnswersList = new ArrayList<>(Arrays.asList(
+                    new Answers("Smooth, Not Dry.",question1,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Tight and Dry.",question1,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Oily.",question1,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("The T-zone is oily, but the cheeks are dry.",question1,LocalDateTime.now(),LocalDateTime.now())
             ));
+            question1.setAnswersList(question1AnswersList);
+            questionsList.add(question1);
+            question1.setQuizzes(quizzes);
 
-            quizzes.setName("Skin Quiz");
+//            Quest2
+            Questions question2 = new Questions();
 
+            question2.setTitle("When during the day does your skin usually get shiny/oily?");
+            question2.setCreatedAt(LocalDateTime.now());
+            question2.setUpdatedAt(LocalDateTime.now());
+            question2.setAnswersList(new ArrayList<>());
+
+            List<Answers> question2AnswersList = new ArrayList<>(Arrays.asList(
+                    new Answers("Almost never gets oily.", question2,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Never oily throughout the day, might be slightly dry.", question2,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Always oily, especially in the forehead, nose, and chin areas.", question2,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Only oily in the T-zone, other areas are normal or dry.", question2,LocalDateTime.now(),LocalDateTime.now())
+            ));
+            question2.setAnswersList(question2AnswersList);
+            questionsList.add(question2);
+            question2.setQuizzes(quizzes);
+
+//            Quest3
+            Questions question3 = new Questions();
+
+            question3.setTitle("How does your skin react when the weather changes?");
+            question3.setCreatedAt(LocalDateTime.now());
+            question3.setUpdatedAt(LocalDateTime.now());
+            question3.setAnswersList(new ArrayList<>());
+
+            List<Answers> question3AnswersList = new ArrayList<>(Arrays.asList(
+                    new Answers("Little change, skin remains stable.", question3,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Very dry, easily flakes.", question3,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Prone to breakouts, gets oilier in hot weather.", question3,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Becomes more sensitive, T-zone gets oily, cheeks get dry.", question3,LocalDateTime.now(),LocalDateTime.now())
+            ));
+            question3.setAnswersList(question3AnswersList);
+            questionsList.add(question3);
+            question3.setQuizzes(quizzes);
+
+//            Quest4
+            Questions question4 = new Questions();
+
+            question4.setTitle("How would you describe your pores?");
+            question4.setCreatedAt(LocalDateTime.now());
+            question4.setUpdatedAt(LocalDateTime.now());
+            question4.setAnswersList(new ArrayList<>());
+
+            List<Answers> question4AnswersList = new ArrayList<>(Arrays.asList(
+                    new Answers("Small pores, difficult to see.", question4,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Very small or not clearly visible.", question4,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Large, easily visible.", question4,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Large in the T-zone, but small on the cheeks.", question4,LocalDateTime.now(),LocalDateTime.now())
+            ));
+            question4.setAnswersList(question4AnswersList);
+            questionsList.add(question4);
+            question4.setQuizzes(quizzes);
+
+//            Quest5
+            Questions question5 = new Questions();
+
+            question5.setTitle("How does your skin typically feel after applying moisturizer?");
+            question5.setCreatedAt(LocalDateTime.now());
+            question5.setUpdatedAt(LocalDateTime.now());
+            question5.setAnswersList(new ArrayList<>());
+
+            List<Answers> question5AnswersList = new ArrayList<>(Arrays.asList(
+                    new Answers("Feels comfortable, neither too shiny nor dry.", question5,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Skin absorbs moisture immediately, but still feels dry.", question5,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Usually feels greasy or sticky.", question5,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("T-zone becomes slightly shiny, other areas feel comfortable.", question5,LocalDateTime.now(),LocalDateTime.now())
+            ));
+            question5.setAnswersList(question5AnswersList);
+            questionsList.add(question5);
+            question5.setQuizzes(quizzes);
+
+//            Quest6
+            Questions question6 = new Questions();
+
+            question6.setTitle("Do you experience problems with acne or skin irritation?");
+            question6.setCreatedAt(LocalDateTime.now());
+            question6.setUpdatedAt(LocalDateTime.now());
+            question6.setAnswersList(new ArrayList<>());
+
+            List<Answers> question6AnswersList = new ArrayList<>(Arrays.asList(
+                    new Answers("Rarely occurs.", question6,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Skin is easily irritated, itchy, or flaky.", question6,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Frequently get acne, clogged pores.", question6,LocalDateTime.now(),LocalDateTime.now()),
+                    new Answers("Acne appears mainly in the T-zone.", question6,LocalDateTime.now(),LocalDateTime.now())
+            ));
+            question6.setAnswersList(question6AnswersList);
+            questionsList.add(question6);
+            question6.setQuizzes(quizzes);
+
+            quizzes.setQuestionsList(questionsList);
+
+            _quizzesRepository.save(quizzes);
 
         }
     }
