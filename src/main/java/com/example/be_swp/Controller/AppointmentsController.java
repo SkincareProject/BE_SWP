@@ -3,7 +3,6 @@ package com.example.be_swp.Controller;
 import com.example.be_swp.DTOs.Appointments.AppointmentUserDTO;
 import com.example.be_swp.DTOs.Appointments.AppointmentsDTO;
 import com.example.be_swp.Models.ApiResponse;
-import com.example.be_swp.Repository.AppointmentRepository;
 import com.example.be_swp.Service.AppointmentsService;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,12 +53,43 @@ public class AppointmentsController {
         return new ApiResponse<>(status,appointmentsDTO,message);
     }
 
+//    @PostMapping("/add")
+//    public ApiResponse<AppointmentsDTO> saveAppointment(@RequestBody AppointmentUserDTO appointmentUserDTO) {
+//        AppointmentsDTO appointmentsDTO = _appointmentsService.add(appointmentUserDTO);
+//        String status = "200";
+//        String message = "Saved Appointment!";
+//        return new ApiResponse<>(status,appointmentsDTO,message);
+//    }
+
     @PostMapping("/add")
     public ApiResponse<AppointmentsDTO> saveAppointment(@RequestBody AppointmentUserDTO appointmentUserDTO) {
         AppointmentsDTO appointmentsDTO = _appointmentsService.add(appointmentUserDTO);
-        String status = "200";
-        String message = "Saved Appointment!";
-        return new ApiResponse<>(status,appointmentsDTO,message);
+        String status;
+        String message;
+
+        switch (appointmentsDTO.getAppointmentId()) {
+            case -1:
+                status = "404";
+                message = "User not found!";
+                break;
+            case -2:
+                status = "404";
+                message = "Expert not found!";
+                break;
+            case -3:
+                status = "404";
+                message = "Service not found!";
+                break;
+            case -4:
+                status = "500";
+                message = "Error creating appointment!";
+                break;
+            default:
+                status = "200";
+                message = "Appointment created successfully!";
+        }
+
+        return new ApiResponse<>(status, appointmentsDTO, message);
     }
 
     @PutMapping("/update/{id}")

@@ -3,7 +3,14 @@ package com.example.be_swp.Controller;
 
 import com.example.be_swp.Models.ApiResponse;
 import com.example.be_swp.Service.PaymentService;
+import jakarta.xml.bind.DatatypeConverter;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/payments")
@@ -15,6 +22,11 @@ public class PaymentController {
 
         _paymentService = paymentService;
 
+    }
+
+    @GetMapping("/success")
+    public ApiResponse<String> paymentSuccess(){
+        return new ApiResponse<>("200","Payment Complete!","OK");
     }
 
     @GetMapping
@@ -41,17 +53,20 @@ public class PaymentController {
     }
 
     @GetMapping("/create/zaloPay")
-    public ApiResponse<String> createPayment(@RequestParam int userId, @RequestParam int serviceId) throws Exception {
+    public ApiResponse<String> createPayment(@RequestParam int userId, @RequestParam int appointmentId) throws Exception {
 
-        String orderUrl = _paymentService.createOrderUrl(userId, serviceId);
+        String orderUrl = _paymentService.createZaloOrderUrl(userId, appointmentId);
 
         String status = "";
         String message = "";
 
         if (orderUrl.equals("-1")){
             status = "404";
-            message = "Not Found Service Or User!";
-        }else{
+            message = "Not Found Service Or Customer!";
+        } else if (orderUrl.equals("-2")) {
+            status = "400";
+            message = "This Appointment Already Has A Payment";
+        } else{
             status = "200";
             message = "Get Order URL Successfully!";
         }
@@ -59,5 +74,27 @@ public class PaymentController {
         return new ApiResponse<>(status,orderUrl,message);
     }
 
+    @PostMapping("/callback/zaloPay")
+    public String callback(@RequestBody String jsonStr) {
+        return _paymentService.callbackZalo(jsonStr);
+    }
+
+    @PostMapping("/refund/zaloPay/{paymentId}")
+    public ApiResponse<String> refundZaloPay(@PathVariable int paymentId) throws IOException {
+        String refund = _paymentService.refundZaloPay(paymentId);
+
+        String status = "";
+        String message = "";
+
+        if (refund.equals("-1")){
+            status = "404";
+            message = "Payment Not Found";
+        }else {
+            status = "200";
+            message = "Refund Successfully";
+        }
+
+        return new ApiResponse<>(status,paymentId+"",message);
+    }
 
 }

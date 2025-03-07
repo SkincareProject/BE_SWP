@@ -32,4 +32,9 @@ public class Questions {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+
+    private String title;
+
+
 }
