@@ -14,7 +14,6 @@ import java.util.List;
 public class QuizDTO {
     private int quizId;
     private String name;
-    private String expertName;
     private LocalDateTime createAt;
     private List<Questions> questions;
 

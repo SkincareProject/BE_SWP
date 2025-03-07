@@ -24,11 +24,12 @@ public class Questions {
     @JoinColumn(name = "quiz_id")
     private Quizzes quizzes;
 
+    private String title;
+
     @OneToMany(mappedBy = "questions", cascade = CascadeType.ALL)
     private List<Answers> answersList;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
-
 }

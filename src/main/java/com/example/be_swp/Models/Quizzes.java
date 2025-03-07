@@ -23,9 +23,9 @@ public class Quizzes {
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "expert_id")
-    private Users users;
+//    @ManyToOne
+//    @JoinColumn(name = "expert_id")
+//    private Users users;
 
     @OneToMany(mappedBy = "quizzes", cascade = CascadeType.ALL)
     List<Questions> questionsList;
