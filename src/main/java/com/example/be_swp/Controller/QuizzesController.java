@@ -22,10 +22,10 @@ public class QuizzesController {
     private  QuizzesService quizzesService;
 
     @PostMapping
-    public ResponseEntity<?> createQuiz(@RequestBody QuizDTO quizDTO, @RequestParam String username) {
+    public ResponseEntity<?> createQuiz(@RequestBody QuizDTO quizDTO,  String username) {
         Users user = quizzesService.getUserByUsername(username);
         if (user.getRoles().getId() == 4 || user.getRoles().getId() == 1) { // Expert hoặc Admin
-            Quizzes newQuiz = quizzesService.createQuiz(quizDTO, user);
+            Quizzes newQuiz = quizzesService.createQuiz(quizDTO);
             QuizDTO responseDTO = quizzesService.convertToDTO(newQuiz);
             return ResponseEntity.ok(responseDTO);
         }
@@ -52,7 +52,7 @@ public class QuizzesController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateQuiz(@PathVariable int id, @RequestBody QuizDTO quizDTO, @RequestParam String username) {
+    public ResponseEntity<?> updateQuiz(@PathVariable int id, @RequestBody QuizDTO quizDTO,  String username) {
         Users user = quizzesService.getUserByUsername(username);
         if (user.getRoles().getId() == 4 || user.getRoles().getId() == 1) { // Expert hoặc Admin
             Quizzes updatedQuiz = quizzesService.updateQuiz(id, quizDTO);
@@ -63,12 +63,10 @@ public class QuizzesController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteQuiz(@PathVariable int id, Principal principal) {
-        Users user = quizzesService.getUserByUsername(principal.getName());
-        if (user.getRoles().getId() == 4 || user.getRoles().getId() == 1) { // Expert hoặc Admin
+    public ResponseEntity<?> deleteQuiz(@PathVariable int id) {
             quizzesService.deleteQuiz(id);
             return ResponseEntity.ok("Quiz deleted successfully");
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have permission to delete quiz");
+
     }
-}
+

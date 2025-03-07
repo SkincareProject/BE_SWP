@@ -24,6 +24,8 @@ public class Questions {
     @JoinColumn(name = "quiz_id")
     private Quizzes quizzes;
 
+    private String title;
+
     @OneToMany(mappedBy = "questions", cascade = CascadeType.ALL)
     private List<Answers> answersList;
 
@@ -31,6 +33,8 @@ public class Questions {
 
     private LocalDateTime updatedAt;
 
+
     private String title;
+
 
 }

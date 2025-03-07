@@ -3,6 +3,7 @@ package com.example.be_swp.Service;
 
 
 import com.example.be_swp.DTOs.Test.QuizDTO;
+import com.example.be_swp.Exceptions.UserNotFoundException;
 import com.example.be_swp.Models.Quizzes;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Repository.QuizzesRepository;
@@ -27,7 +28,7 @@ public class QuizzesService {
         return usersRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public Quizzes createQuiz(QuizDTO quizDTO, Users user) {
+    public Quizzes createQuiz(QuizDTO quizDTO) {
         Quizzes quiz = new Quizzes();
         quiz.setName(quizDTO.getName());
         quiz.setCreateAt(LocalDateTime.now());
@@ -46,7 +47,7 @@ public class QuizzesService {
     }
 
     public Quizzes updateQuiz(int id, QuizDTO quizDTO) {
-        Quizzes quiz = quizzesRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
+        Quizzes quiz = quizzesRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Quiz not found"));
         quiz.setName(quizDTO.getName());
         quiz.setUpdateAt(LocalDateTime.now());
         if(quizDTO.getQuestions() != null){
@@ -56,7 +57,7 @@ public class QuizzesService {
     }
 
     public void deleteQuiz(int id) {
-        Quizzes quiz = quizzesRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
+        Quizzes quiz = quizzesRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Quiz not found"));
         quizzesRepository.delete(quiz);
     }
 

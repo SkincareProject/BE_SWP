@@ -23,6 +23,7 @@ public class Quizzes {
 
     private String name;
 
+
     @OneToMany(mappedBy = "quizzes", cascade = CascadeType.ALL)
     List<Questions> questionsList;
 
