@@ -70,6 +70,7 @@ public class PaymentService {
         Services services = new Services();
         Appointments appointments = new Appointments();
         PaymentMethods zaloPay = new PaymentMethods();
+        Payments payments = new Payments();
 
         if (optionalAppointments.isEmpty() || optionalUsers.isEmpty() || optionalPaymentMethods.isEmpty() ){
             return "-1";
@@ -77,12 +78,15 @@ public class PaymentService {
             return "-1";
         }else if (optionalAppointments.get().getUsers().getId() != userId){
             return "-1";
-        } else if (optionalPayments.isPresent()) {
+        } else if (optionalPayments.isPresent() && optionalPayments.get().getStatus() == 4) {
             return "-2";
         } else{
             users = optionalUsers.get();
             appointments = optionalAppointments.get();
             zaloPay = optionalPaymentMethods.get();
+            if (optionalPayments.isPresent()){
+                payments = optionalPayments.get();
+            }
         }
 
         services = appointments.getServices();
@@ -105,24 +109,33 @@ public class PaymentService {
             jsonArrayService.put(jsonObject);
         }
 
-        Payments payments = new Payments();
-        payments.setPaymentMethods(zaloPay);
-        payments.setAppointments(appointments);
-        payments.setPrice(appointments.getTotal());
-        payments.setStatus(2);
-        payments.setZpTransId(0);
-        payments.setCreated_at(LocalDateTime.now());
-        payments.setUpdated_at(LocalDateTime.now());
+        int paymentID = 0;
 
-        _paymentRepository.save(payments);
+        if (optionalPayments.isEmpty()) {
+            Payments newPayments = new Payments();
+            newPayments.setPaymentMethods(zaloPay);
+            newPayments.setAppointments(appointments);
+            newPayments.setPrice(appointments.getTotal());
+            newPayments.setStatus(2);
+            newPayments.setZpTransId(0);
+            newPayments.setCreated_at(LocalDateTime.now());
+            newPayments.setUpdated_at(LocalDateTime.now());
+            _paymentRepository.save(newPayments);
 
+            paymentID = newPayments.getPaymentId();
+        }else{
+            paymentID = payments.getPaymentId();
+            payments.setUpdated_at(LocalDateTime.now());
+            _paymentRepository.save(payments);
+        }
 
         Random rand = new Random();
         int random_id = rand.nextInt(1000000);
 
+        int finalPaymentID = paymentID;
         final Map embed_data = new HashMap<String,Object>(){{
-            put("redirecturl","http://localhost:3000");
-            put("paymentId", payments.getPaymentId());
+            put("redirecturl","http://3.26.7.116:3000");
+            put("paymentId", finalPaymentID);
         }};
 
         Map<String, Object> order = new HashMap<String, Object>(){{
