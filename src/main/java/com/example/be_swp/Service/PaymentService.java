@@ -121,7 +121,7 @@ public class PaymentService {
         int random_id = rand.nextInt(1000000);
 
         final Map embed_data = new HashMap<String,Object>(){{
-            put("redirecturl","http://3.26.7.116:3000");
+            put("redirecturl","http://localhost:3000");
             put("paymentId", payments.getPaymentId());
         }};
 
@@ -140,7 +140,7 @@ public class PaymentService {
         String data = order.get("app_id") +"|"+ order.get("app_trans_id") +"|"+ order.get("app_user") +"|"+ order.get("amount")
                 +"|"+ order.get("app_time") +"|"+ order.get("embed_data") +"|"+ order.get("item");
         order.put("mac", HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, config.get("key1"), data));
-        order.put("callback_url","https://admin.tamdeptrai.com/api/payments/callback/zaloPay");
+        order.put("callback_url","https://cc67-118-69-182-149.ngrok-free.app/api/payments/callback/zaloPay");
 
         System.out.println(order.toString());
 

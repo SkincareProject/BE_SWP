@@ -140,10 +140,12 @@ public class DataInitializerService {
             //Experts
 
             String imageBase64 = "";
+            String imageBase64two = "";
 
             try {
                 BufferedReader reader = new BufferedReader(new FileReader("src\\image\\Image.txt"));
                 imageBase64 = reader.readLine();
+                imageBase64two = reader.readLine();
                 reader.close();
             }catch (IOException e){
 
@@ -151,7 +153,7 @@ public class DataInitializerService {
 
             Experts expert = new Experts("Facial Treatments", 6, "This is John Expert One, John can make your face more beautiful.", imageBase64, 1, LocalDateTime.now(), LocalDateTime.now());
 
-            Experts expert2 = new Experts("Massage", 5, "This is John Expert Two, John can make your fatigue go away.", imageBase64, 1, LocalDateTime.now(), LocalDateTime.now());
+            Experts expert2 = new Experts("Massage", 5, "This is John Expert Two, John can make your fatigue go away.", imageBase64two, 1, LocalDateTime.now(), LocalDateTime.now());
 
             //Map User and Expert
 
