@@ -190,6 +190,19 @@ public class UserService implements UserDetailsService{
         return usersDTO;
     }
 
+    public UsersDTO getById(int id){
+        Optional<Users> optionalUsers = _usersRepository.findById(id);
+        UsersDTO usersDTO = new UsersDTO();
+        if(optionalUsers.isEmpty()){
+            usersDTO.setId(-1);
+        }else{
+            Users users = optionalUsers.get();
+            usersDTO = new UsersDTO(users.getId(), users.getUsername(), users.getPassword(), users.getFullName(),  users.getEmail(), users.getPhone(), users.is_active()
+                    , users.getRoles().getId(), users.getCreated_at(), users.getUpdated_at());
+        }
+        return usersDTO;
+    }
+
 
 
 }

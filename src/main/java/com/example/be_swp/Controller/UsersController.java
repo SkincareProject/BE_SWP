@@ -83,6 +83,12 @@ public class UsersController {
         return ResponseEntity.ok(usersDTO);
     }
 
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<UsersDTO> getUserById (@PathVariable int id){
+        UsersDTO usersDTO = _userService.getById(id);
+        return ResponseEntity.ok(usersDTO);
+    }
+
     @GetMapping("/userName")
     public ResponseEntity<UsersDTO> getUserByName (@RequestParam String username){
         UsersDTO usersDTO = _userService.getUserByName(username);
