@@ -1,6 +1,8 @@
 package com.example.be_swp.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +24,6 @@ public class Quizzes {
     private int quizId;
 
     private String name;
-
 
     @OneToMany(mappedBy = "quizzes", cascade = CascadeType.ALL)
     List<Questions> questionsList;
