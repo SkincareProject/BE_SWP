@@ -198,7 +198,7 @@ public class WorkScheduleController {
                 break;
             case -33:
                 status = "403";
-                message = "Too Early To Check In! Please Check In After: " + workScheduleDTO.getWork_date() + " " + workScheduleDTO.getStart_at().minusMinutes(45) + "!" + "  Now: " + LocalDateTime.now();
+                message = "Too Early To Check In! Please Check In After: " + workScheduleDTO.getWork_date() + " " + workScheduleDTO.getStart_at().minusMinutes(45) + "!";
                 break;
             case -43:
                 status = "403";
@@ -246,7 +246,7 @@ public class WorkScheduleController {
                 break;
             case -34:
                 status = "403";
-                message = "Check Out Too Early! Please Check Out At: " + workScheduleDTO.getWork_date() + " " + workScheduleDTO.getEnd_at().minusMinutes(15) + " Or Later!"  + "  Now: " + LocalDateTime.now();
+                message = "Check Out Too Early! Please Check Out At: " + workScheduleDTO.getWork_date() + " " + workScheduleDTO.getEnd_at().minusMinutes(15) + " Or Later!";
                 break;
             default:
                 status = "200";
