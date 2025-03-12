@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,8 +66,34 @@ public class QuizzesService {
         return quizzesRepository.save(quiz);
     }
 
+//    public List<Quizzes> getAllQuizzes() {
+//        return quizzesRepository.findAll();
+//    }
+
+//    public List<QuizDTO> getAllQuizzes() {
+//        List<Quizzes> quizzesList = quizzesRepository.findAll();
+//        List<QuizDTO> quizDTOList = new ArrayList<>();
+//        if(!quizzesList.isEmpty()){
+//            for(Quizzes quizzes : quizzesList){
+//                QuizDTO quizDTO = new QuizDTO();
+//                quizDTO.setQuizId(quizzes.getQuizId());
+//                quizDTO.setName(quizzes.getName());
+//
+//                quizDTO.setCreateAt(quizzes.getCreateAt());
+//
+//                quizDTOList.add(quizDTO);
+//            }
+//        }
+//        return quizDTOList;
+//    }
+
     public List<Quizzes> getAllQuizzes() {
-        return quizzesRepository.findAll();
+        List<Quizzes> quizzesList = quizzesRepository.findAll();
+        if(!quizzesList.isEmpty()){
+            Quizzes quizzes1 = new Quizzes();
+            quizzesList.add(quizzes1);
+        }
+        return quizzesList;
     }
 
     public Quizzes getQuizById(int id) {
