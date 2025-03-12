@@ -53,14 +53,6 @@ public class AppointmentsController {
         return new ApiResponse<>(status,appointmentsDTO,message);
     }
 
-//    @PostMapping("/add")
-//    public ApiResponse<AppointmentsDTO> saveAppointment(@RequestBody AppointmentUserDTO appointmentUserDTO) {
-//        AppointmentsDTO appointmentsDTO = _appointmentsService.add(appointmentUserDTO);
-//        String status = "200";
-//        String message = "Saved Appointment!";
-//        return new ApiResponse<>(status,appointmentsDTO,message);
-//    }
-
     @PostMapping("/add")
     public ApiResponse<AppointmentsDTO> saveAppointment(@RequestBody AppointmentUserDTO appointmentUserDTO) {
         AppointmentsDTO appointmentsDTO = _appointmentsService.add(appointmentUserDTO);
@@ -128,5 +120,22 @@ public class AppointmentsController {
 
         return new ApiResponse<>(status,appointmentsDTO,message);
 
+    }
+
+    @GetMapping("/findByUserId/{userId}")
+    public ApiResponse<List<AppointmentsDTO>> findByUserId(@PathVariable int userId) {
+        List<AppointmentsDTO> appointmentsDTOList = _appointmentsService.findByUserId(userId);
+        String status;
+        String message;
+
+        if (appointmentsDTOList.isEmpty()) {
+            status = "404";
+            message = "No appointments found for user ID: " + userId;
+        } else {
+            status = "200";
+            message = "Found appointments for user ID: " + userId;
+        }
+
+        return new ApiResponse<>(status, appointmentsDTOList, message);
     }
 }

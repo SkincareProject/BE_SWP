@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface AppointmentRepository extends ListCrudRepository<Appointments, Integer> {
     @Query(value = "SELECT e FROM Appointments e WHERE e.users.id = ?1")
-    Optional<Appointments> findByUserId(int user_id);
+    List<Appointments> findByUserId(int user_id);
 
     @Query(value = "SELECT ex FROM Appointments ex WHERE ex.users.fullName LIKE %:name%")
     List<Appointments> findByName(@Param("name") String name);
