@@ -48,12 +48,18 @@ public class QuestionService {
         return questionsRepository.save(question);
     }
 
-    public List<Questions> getAllQuestions(){
-        return questionsRepository.findAll();
+    public List<QuestionDTO> findAllQuestions() {
+        List<Questions> questionsList = questionsRepository.findAllWithAnswers();
+        return questionsList.stream()
+                .map(QuestionDTO::new) // Chuyển đổi sang DTO
+                .collect(Collectors.toList());
     }
 
-    public Questions getQuestionById(int id){
-        return questionsRepository.findById(id).orElse(null);
+    public QuestionDTO findQuestionById(Integer id) {
+        Questions question = questionsRepository.findByIdWithAnswers(id)
+                .orElseThrow(() -> new UserNotFoundException( "Question not found"));
+
+        return new QuestionDTO(question);
     }
 
     public Questions updateQuestion(int id , QuestionDTO questionDTO){

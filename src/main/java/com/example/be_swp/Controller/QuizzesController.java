@@ -5,7 +5,6 @@ import com.example.be_swp.DTOs.QuizDTO;
 import com.example.be_swp.Models.Quizzes;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Service.QuizzesService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,19 +32,15 @@ public class QuizzesController {
 
 
     @GetMapping("/findAll")
-    public ResponseEntity<List<Quizzes>> getAllQuizzes() {
-        List<Quizzes> quizzes = quizzesService.getAllQuizzes();
-        return ResponseEntity.ok(quizzes);
+    public ResponseEntity<List<QuizDTO>> getAllQuizzes() {
+    List<QuizDTO> quizzes = quizzesService.getAllQuizzes();
+    return ResponseEntity.ok(quizzes);
     }
 
-    @Transactional
-    @GetMapping("/findById/{id}")
-    public ResponseEntity<?> getQuizById(@PathVariable int id) {
-        Quizzes quiz = quizzesService.getQuizById(id);
-        if (quiz != null) {
-            return ResponseEntity.ok(quiz);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Quiz not found");
+
+    @GetMapping("/{quizId}")
+    public ResponseEntity<QuizDTO> getQuizById(@PathVariable Integer quizId) {
+        return ResponseEntity.ok(quizzesService.findQuizById(quizId));
     }
 
     @PutMapping("/update/{id}")

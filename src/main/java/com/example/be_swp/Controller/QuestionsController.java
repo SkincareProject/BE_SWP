@@ -5,7 +5,6 @@ import com.example.be_swp.Models.Questions;
 import com.example.be_swp.Service.QuestionService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -25,19 +24,16 @@ public class QuestionsController {
         return ResponseEntity.ok(newQuestion);
     }
 
-    @GetMapping("/findAll")
-    public ResponseEntity<List<Questions>> getAllQuestions() {
-        List<Questions> questions = questionService.getAllQuestions();
+    @GetMapping
+    public ResponseEntity<List<QuestionDTO>> findAllQuestions() {
+        List<QuestionDTO> questions = questionService.findAllQuestions();
         return ResponseEntity.ok(questions);
     }
 
-    @GetMapping("/findById/{id}")
-    public ResponseEntity<?> getQuestionById(@PathVariable int id) {
-        Questions questions = questionService.getQuestionById(id);
-        if (questions != null) {
-            return ResponseEntity.ok(questions);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question is not found");
+    @GetMapping("/{id}")
+    public ResponseEntity<QuestionDTO> findQuestionById(@PathVariable Integer id) {
+        QuestionDTO questionDTO = questionService.findQuestionById(id);
+        return ResponseEntity.ok(questionDTO);
     }
 
     @PutMapping("/update/{id}")
