@@ -1,7 +1,7 @@
 package com.example.be_swp.Controller;
 
 
-import com.example.be_swp.DTOs.Test.QuizDTO;
+import com.example.be_swp.DTOs.QuizDTO;
 import com.example.be_swp.Models.Quizzes;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Service.QuizzesService;
@@ -20,7 +20,7 @@ public class QuizzesController {
     private  QuizzesService quizzesService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createQuiz(@RequestBody QuizDTO quizDTO,  String username) {
+    public ResponseEntity<?> createQuiz(@RequestBody QuizDTO quizDTO, String username) {
         Users user = quizzesService.getUserByUsername(username);
         if (user.getRoles().getId() == 4 || user.getRoles().getId() == 1) { // Expert hoặc Admin
             Quizzes newQuiz = quizzesService.createQuiz(quizDTO);

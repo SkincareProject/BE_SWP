@@ -1,6 +1,6 @@
 package com.example.be_swp.Controller;
 
-import com.example.be_swp.DTOs.Test.QuestionDTO;
+import com.example.be_swp.DTOs.QuestionDTO;
 import com.example.be_swp.Models.Questions;
 import com.example.be_swp.Service.QuestionService;
 import jakarta.transaction.Transactional;
