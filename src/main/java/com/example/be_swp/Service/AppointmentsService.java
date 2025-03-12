@@ -7,6 +7,7 @@ import com.example.be_swp.Repository.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,12 +18,14 @@ public class AppointmentsService {
     private final ServicesRepository _servicesRepository;
     private final UsersRepository _usersRepository;
     private final ExpertRepository _expertRepository;
+    private final ExpertOccupiedTimeRepository _expertOccupiedTimeRepository;
 
-    public AppointmentsService(UsersRepository usersRepository,ExpertRepository expertRepository,ServicesRepository servicesRepository,AppointmentRepository appointmentRepository) {
+    public AppointmentsService(UsersRepository usersRepository,ExpertRepository expertRepository,ServicesRepository servicesRepository,AppointmentRepository appointmentRepository,ExpertOccupiedTimeRepository expertOccupiedTimeRepository) {
         _appointmentsRepository = appointmentRepository;
         _servicesRepository = servicesRepository;
         _usersRepository = usersRepository;
         _expertRepository = expertRepository;
+        _expertOccupiedTimeRepository = expertOccupiedTimeRepository;
     }
 
     public List<AppointmentsDTO> findAll(){
@@ -95,6 +98,17 @@ public class AppointmentsService {
             newAppointment.setUpdated_at(LocalDateTime.now());
 
             Appointments savedAppointment = _appointmentsRepository.save(newAppointment);
+
+            ExpertOccupiedTimes expertOccupiedTimes = new ExpertOccupiedTimes();
+            expertOccupiedTimes.setExperts(expertOptional.get());
+            expertOccupiedTimes.setStartAt(savedAppointment.getStart_at().toLocalTime());
+            expertOccupiedTimes.setEndAt(savedAppointment.getEnd_at().toLocalTime());
+            expertOccupiedTimes.setDate(savedAppointment.getStart_at().toLocalDate());
+            expertOccupiedTimes.setStatus(1);
+            expertOccupiedTimes.setCreated_at(LocalDateTime.now());
+            expertOccupiedTimes.setUpdated_at(LocalDateTime.now());
+
+            _expertOccupiedTimeRepository.save(expertOccupiedTimes);
 
             return new AppointmentsDTO(
                     savedAppointment.getAppointmentId(),
