@@ -9,7 +9,6 @@ import java.util.TimeZone;
 @EnableJpaRepositories("com.example.be_swp.Repository")  
 public class SWPApplication {
     public static void main(String[] args) {
-        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Bangkok"));
         
         SpringApplication.run(SWPApplication.class, args);
     }
