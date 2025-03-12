@@ -1,18 +1,18 @@
-package com.example.be_swp.DTOs.Test;
+package com.example.be_swp.DTOs;
 
-import com.example.be_swp.Models.Answers;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionDTO {
-    private int questionId;
-    private String title;
+public class QuizDTO {
+    private int quizId;
+    private String name;
     private LocalDateTime createAt;
-    private List<AnswerDTO> answerDTO;
+    private List<QuestionDTO> questionDTO;
 }

@@ -2,7 +2,7 @@ package com.example.be_swp.Service;
 
 
 
-import com.example.be_swp.DTOs.Test.QuizDTO;
+import com.example.be_swp.DTOs.QuizDTO;
 import com.example.be_swp.Exceptions.UserNotFoundException;
 import com.example.be_swp.Models.Answers;
 import com.example.be_swp.Models.Questions;

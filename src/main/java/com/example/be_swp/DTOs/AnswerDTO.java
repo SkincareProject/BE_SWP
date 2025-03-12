@@ -1,4 +1,4 @@
-package com.example.be_swp.DTOs.Test;
+package com.example.be_swp.DTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,3 +11,4 @@ public class AnswerDTO {
     private String answer;
 
 }
+
