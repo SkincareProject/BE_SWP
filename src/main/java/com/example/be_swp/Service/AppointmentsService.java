@@ -28,20 +28,29 @@ public class AppointmentsService {
         _expertOccupiedTimeRepository = expertOccupiedTimeRepository;
     }
 
-    public List<AppointmentsDTO> findAll(){
+    public List<AppointmentsDTO> findAll() {
         List<Appointments> appointmentsList = _appointmentsRepository.findAll();
-        List<AppointmentsDTO> AppointmentsDTOList = new ArrayList<>();
-        if (!appointmentsList.isEmpty()){
-            for (Appointments appointment: appointmentsList){
-                AppointmentsDTO appointmentsDTO = new AppointmentsDTO(appointment.getAppointmentId()
-                        ,appointment.getUsers().getId(),appointment.getExperts().getExpertId()
-                        ,appointment.getServices().getServiceId(),appointment.getTotal()
-                        ,appointment.getStart_at(),appointment.getEnd_at(),appointment.getStatus()
-                        ,appointment.getCreated_at(),appointment.getUpdated_at());
-                AppointmentsDTOList.add(appointmentsDTO);
+        List<AppointmentsDTO> appointmentsDTOList = new ArrayList<>();
+
+        if (!appointmentsList.isEmpty()) {
+            for (Appointments appointment : appointmentsList) {
+                // Check for null relationships before accessing them
+                AppointmentsDTO appointmentsDTO = new AppointmentsDTO(
+                        appointment.getAppointmentId(),
+                        appointment.getUsers() != null ? appointment.getUsers().getId() : 0,
+                        appointment.getExperts() != null ? appointment.getExperts().getExpertId() : 0,
+                        appointment.getServices() != null ? appointment.getServices().getServiceId() : 0,
+                        appointment.getTotal(),
+                        appointment.getStart_at(),
+                        appointment.getEnd_at(),
+                        appointment.getStatus(),
+                        appointment.getCreated_at(),
+                        appointment.getUpdated_at()
+                );
+                appointmentsDTOList.add(appointmentsDTO);
             }
         }
-        return AppointmentsDTOList;
+        return appointmentsDTOList;
     }
 
     public AppointmentsDTO findById(int id){
