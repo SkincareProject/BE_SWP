@@ -55,7 +55,7 @@ public class PostService {
         Optional<Posts> post = _postRepository.findById(id);
         if(post.isPresent()){
             Experts experts = _expertRepository.findById(postDTO.getExpertsId()).get();
-            Posts updatedPost = new Posts();
+            Posts updatedPost = post.get();
             updatedPost.setPostId(postDTO.getPostId());
             updatedPost.setExperts(experts );
             updatedPost.setTitle(postDTO.getTitle());

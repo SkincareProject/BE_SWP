@@ -65,7 +65,7 @@ public class ServicesService {
     public ServicesDTO update(ServicesDTO servicesDTO, int id){
         Optional<Services> optionalServices = _servicesRepository.findById(id);
         if (optionalServices.isPresent()){
-            Services updateServices = new Services();
+            Services updateServices = optionalServices.get();
             updateServices.setServiceName(servicesDTO.getServiceName());
             updateServices.setPrice(servicesDTO.getPrice());
             updateServices.setDescription(servicesDTO.getDescription());
