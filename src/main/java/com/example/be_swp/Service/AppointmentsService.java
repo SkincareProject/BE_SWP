@@ -133,13 +133,11 @@ public class AppointmentsService {
     public AppointmentsDTO update(AppointmentsDTO appointmentsDTO, int id){
         Optional<Appointments> optionalAppointments = _appointmentsRepository.findById(id);
         if (optionalAppointments.isPresent()){
-            Appointments updateAppointment = new Appointments();
-            updateAppointment.setAppointmentId(appointmentsDTO.getAppointmentId());
+            Appointments updateAppointment = optionalAppointments.get();
             updateAppointment.setTotal(appointmentsDTO.getTotal());
-            updateAppointment.setStart_at(LocalDateTime.now());
-            updateAppointment.setEnd_at(LocalDateTime.now());
+            updateAppointment.setStart_at(appointmentsDTO.getStart_at());
+            updateAppointment.setEnd_at(appointmentsDTO.getEnd_at());
             updateAppointment.setStatus(appointmentsDTO.getStatus());
-            updateAppointment.setCreated_at(LocalDateTime.now());
             updateAppointment.setUpdated_at(LocalDateTime.now());
             _appointmentsRepository.save(updateAppointment);
         } else {
