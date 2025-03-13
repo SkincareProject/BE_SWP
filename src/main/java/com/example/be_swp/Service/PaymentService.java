@@ -134,7 +134,7 @@ public class PaymentService {
 
         int finalPaymentID = paymentID;
         final Map embed_data = new HashMap<String,Object>(){{
-            put("redirecturl","http://localhost:3000/");
+            put("redirecturl","http://localhost:3000/success");
             put("paymentId", finalPaymentID);
         }};
 
