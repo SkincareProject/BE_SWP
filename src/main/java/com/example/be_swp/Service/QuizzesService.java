@@ -11,6 +11,7 @@ import com.example.be_swp.Models.Quizzes;
 import com.example.be_swp.Models.Users;
 import com.example.be_swp.Repository.QuizzesRepository;
 import com.example.be_swp.Repository.UsersRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+
 public class QuizzesService {
     @Autowired
     private QuizzesRepository  quizzesRepository;
@@ -66,10 +68,11 @@ public class QuizzesService {
         return quizzesRepository.save(quiz);
     }
 
-public List<QuizDTO> getAllQuizzes() {
-    List<Quizzes> quizzesList = quizzesRepository.findAllWithQuestions();
-    return quizzesList.stream().map(QuizDTO::new).collect(Collectors.toList());
-}
+    @Transactional
+    public List<QuizDTO> getAllQuizzes() {
+        List<Quizzes> quizzesList = quizzesRepository.findAllWithQuestions();
+        return quizzesList.stream().map(QuizDTO::new).collect(Collectors.toList());
+    }
 
 
 

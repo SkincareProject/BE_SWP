@@ -24,7 +24,7 @@ public class Quizzes {
 
     private String name;
 
-    @OneToMany(mappedBy = "quizzes", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "quizzes", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Questions> questionsList;
 
     @OneToMany(mappedBy = "quizzes", cascade = CascadeType.ALL)
