@@ -29,7 +29,7 @@ public class Questions {
 
     private String title;
 
-    @OneToMany(mappedBy = "questions", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "questions", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Answers> answersList;
 
     private LocalDateTime createdAt;
