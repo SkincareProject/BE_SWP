@@ -1,7 +1,9 @@
 package com.example.be_swp.Controller;
 
 
+import com.example.be_swp.DTOs.PaymentDTO;
 import com.example.be_swp.Models.ApiResponse;
+import com.example.be_swp.Models.Payments;
 import com.example.be_swp.Service.PaymentService;
 import jakarta.xml.bind.DatatypeConverter;
 import org.json.JSONObject;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -22,6 +25,60 @@ public class PaymentController {
 
         _paymentService = paymentService;
 
+    }
+
+    @GetMapping("/findById/{paymentId}")
+    public ApiResponse<PaymentDTO> findById(@PathVariable int paymentId){
+        PaymentDTO paymentDTO = _paymentService.findById(paymentId);
+
+        String status = "";
+        String message = "";
+
+        if (paymentDTO.getPaymentId() == -1){
+            status = "404";
+            message = "Not Found Payment!";
+        }else{
+            status = "200";
+            message = "Get Payment Successfully!";
+        }
+
+        return new ApiResponse<>(status,paymentDTO,message);
+    }
+
+    @GetMapping("/findByAppointmentId/{appointmentId}")
+    public ApiResponse<PaymentDTO> findByAppointmentId(@PathVariable int appointmentId){
+        PaymentDTO paymentDTO = _paymentService.findByAppointmentId(appointmentId);
+
+        String status = "";
+        String message = "";
+
+        if (paymentDTO.getPaymentId() == -1){
+            status = "404";
+            message = "Not Found Payment!";
+        }else{
+            status = "200";
+            message = "Get Payment Successfully!";
+        }
+
+        return new ApiResponse<>(status,paymentDTO,message);
+    }
+
+    @GetMapping("/findAllByUserId/{userId}")
+    public ApiResponse<List<PaymentDTO>> findAllByUserId(@PathVariable int userId){
+        List<PaymentDTO> paymentDTOList = _paymentService.findAllByUserId(userId);
+
+        String status = "";
+        String message = "";
+
+        if (paymentDTOList.isEmpty()){
+            status = "404";
+            message = "Not Found Payment!";
+        }else{
+            status = "200";
+            message = "Get Payment Successfully!";
+        }
+
+        return new ApiResponse<>(status,paymentDTOList,message);
     }
 
     @GetMapping("/success")

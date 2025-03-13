@@ -1,5 +1,6 @@
 package com.example.be_swp.Service;
 
+import com.example.be_swp.DTOs.PaymentDTO;
 import com.example.be_swp.Models.*;
 import com.example.be_swp.Repository.*;
 import com.example.be_swp.Util.HMACUtil;
@@ -42,6 +43,47 @@ public class PaymentService {
         this._servicesRepository = _servicesRepository;
         this._appointmentRepository = _appointmentRepository;
         this._paymentMethodRepository = _paymentMethodRepository;
+    }
+
+    public PaymentDTO findById(int id){
+        PaymentDTO paymentDTO = new PaymentDTO();
+        Optional<Payments> optionalPayments = _paymentRepository.findById(id);
+        if (optionalPayments.isEmpty()){
+            paymentDTO.setPaymentId(-1);
+        }else{
+            Payments payments = optionalPayments.get();
+
+            paymentDTO = new PaymentDTO(payments.getPaymentId(),payments.getAppointments().getAppointmentId(),payments.getPaymentMethods().getPaymentMethodId(),payments.getPrice(),payments.getStatus(),payments.getCreated_at(),payments.getUpdated_at(),payments.getZpTransId());
+        }
+
+        return paymentDTO;
+    }
+
+    public PaymentDTO findByAppointmentId(int id){
+        PaymentDTO paymentDTO = new PaymentDTO();
+        Optional<Payments> optionalPayments = _paymentRepository.findByAppointmentId(id);
+        if (optionalPayments.isEmpty()){
+            paymentDTO.setPaymentId(-1);
+        }else{
+            Payments payments = optionalPayments.get();
+            paymentDTO = new PaymentDTO(payments.getPaymentId(),payments.getAppointments().getAppointmentId(),payments.getPaymentMethods().getPaymentMethodId(),payments.getPrice(),payments.getStatus(),payments.getCreated_at(),payments.getUpdated_at(),payments.getZpTransId());
+        }
+
+        return paymentDTO;
+    }
+
+    public List<PaymentDTO> findAllByUserId(int id){
+        List<Payments> paymentsList = _paymentRepository.findByUserId(id);
+        List<PaymentDTO> paymentDTOList = new ArrayList<>();
+
+        if (!paymentsList.isEmpty()){
+            for (Payments payments: paymentsList){
+                PaymentDTO paymentDTO = new PaymentDTO(payments.getPaymentId(),payments.getAppointments().getAppointmentId(),payments.getPaymentMethods().getPaymentMethodId(),payments.getPrice(),payments.getStatus(),payments.getCreated_at(),payments.getUpdated_at(),payments.getZpTransId());
+                paymentDTOList.add(paymentDTO);
+            }
+        }
+
+        return paymentDTOList;
     }
 
     private Map<String, String> config = new HashMap<String, String>(){{
