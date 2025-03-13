@@ -24,6 +24,8 @@ public class AppointmentsDTO {
 
     private int expertsId;
 
+    private String expertsName;
+
     private int servicesId;
 
     private double total;

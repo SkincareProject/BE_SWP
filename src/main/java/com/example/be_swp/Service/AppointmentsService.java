@@ -34,10 +34,16 @@ public class AppointmentsService {
         if (!appointmentsList.isEmpty()){
             for (Appointments appointment: appointmentsList){
                 AppointmentsDTO appointmentsDTO = new AppointmentsDTO(appointment.getAppointmentId()
-                        ,appointment.getUsers().getId(),appointment.getExperts().getExpertId()
-                        ,appointment.getServices().getServiceId(),appointment.getTotal()
-                        ,appointment.getStart_at(),appointment.getEnd_at(),appointment.getStatus()
-                        ,appointment.getCreated_at(),appointment.getUpdated_at());
+                        ,appointment.getUsers().getId()
+                        ,appointment.getExperts().getExpertId()
+                        ,appointment.getExperts().getUsers().getFullName()
+                        ,appointment.getServices().getServiceId()
+                        ,appointment.getTotal()
+                        ,appointment.getStart_at()
+                        ,appointment.getEnd_at()
+                        ,appointment.getStatus()
+                        ,appointment.getCreated_at()
+                        ,appointment.getUpdated_at());
                 AppointmentsDTOList.add(appointmentsDTO);
             }
         }
@@ -49,10 +55,17 @@ public class AppointmentsService {
         Optional<Appointments> optionalAppointments = _appointmentsRepository.findById(id);
         if (optionalAppointments.isPresent()){
             Appointments appointments = optionalAppointments.get();
-            appointmentsDTO = new AppointmentsDTO(appointments.getAppointmentId(),appointments.getUsers().getId()
-                    ,appointments.getExperts().getExpertId(),appointments.getServices().getServiceId()
-                    ,appointments.getTotal(),appointments.getStart_at(),appointments.getEnd_at()
-                    ,appointments.getStatus(),appointments.getCreated_at(),appointments.getUpdated_at());
+            appointmentsDTO = new AppointmentsDTO(appointments.getAppointmentId()
+                    ,appointments.getUsers().getId()
+                    ,appointments.getExperts().getExpertId()
+                    ,appointments.getExperts().getUsers().getFullName()
+                    ,appointments.getServices().getServiceId()
+                    ,appointments.getTotal()
+                    ,appointments.getStart_at()
+                    ,appointments.getEnd_at()
+                    ,appointments.getStatus()
+                    ,appointments.getCreated_at()
+                    ,appointments.getUpdated_at());
         }else{
             appointmentsDTO.setAppointmentId(-1);
         }
@@ -114,6 +127,7 @@ public class AppointmentsService {
                     savedAppointment.getAppointmentId(),
                     savedAppointment.getUsers().getId(),
                     savedAppointment.getExperts().getExpertId(),
+                    savedAppointment.getExperts().getUsers().getFullName(),
                     savedAppointment.getServices().getServiceId(),
                     savedAppointment.getTotal(),
                     savedAppointment.getStart_at(),
@@ -151,10 +165,17 @@ public class AppointmentsService {
         AppointmentsDTO appointmentsDTO = new AppointmentsDTO();
         if (optionalAppointments.isPresent()){
             Appointments appointments = optionalAppointments.get();
-            appointmentsDTO = new AppointmentsDTO(appointments.getAppointmentId(),appointments.getUsers().getId()
-                    ,appointments.getExperts().getExpertId(),appointments.getServices().getServiceId()
-                    ,appointments.getTotal(),appointments.getStart_at(),appointments.getEnd_at()
-                    ,appointments.getStatus(),appointments.getCreated_at(),appointments.getUpdated_at());
+            appointmentsDTO = new AppointmentsDTO(appointments.getAppointmentId()
+                    ,appointments.getUsers().getId()
+                    ,appointments.getExperts().getExpertId()
+                    ,appointments.getExperts().getUsers().getFullName()
+                    ,appointments.getServices().getServiceId()
+                    ,appointments.getTotal()
+                    ,appointments.getStart_at()
+                    ,appointments.getEnd_at()
+                    ,appointments.getStatus()
+                    ,appointments.getCreated_at()
+                    ,appointments.getUpdated_at());
             _appointmentsRepository.delete(appointments);
         } else{
             appointmentsDTO.setAppointmentId(-1);
@@ -168,16 +189,17 @@ public class AppointmentsService {
 
         for (Appointments appointment : appointments) {
             AppointmentsDTO appointmentDTO = new AppointmentsDTO(
-                    appointment.getAppointmentId(),
-                    appointment.getUsers().getId(),
-                    appointment.getExperts().getExpertId(),
-                    appointment.getServices().getServiceId(),
-                    appointment.getTotal(),
-                    appointment.getStart_at(),
-                    appointment.getEnd_at(),
-                    appointment.getStatus(),
-                    appointment.getCreated_at(),
-                    appointment.getUpdated_at()
+                    appointment.getAppointmentId()
+                    ,appointment.getUsers().getId()
+                    ,appointment.getExperts().getExpertId()
+                    ,appointment.getExperts().getUsers().getFullName()
+                    ,appointment.getServices().getServiceId()
+                    ,appointment.getTotal()
+                    ,appointment.getStart_at()
+                    ,appointment.getEnd_at()
+                    ,appointment.getStatus()
+                    ,appointment.getCreated_at()
+                    ,appointment.getUpdated_at()
             );
             appointmentsDTOList.add(appointmentDTO);
         }
