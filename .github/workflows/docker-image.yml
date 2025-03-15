@@ -36,50 +36,50 @@ jobs:
       - name: Deploy to Server
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: '34.142.180.62'
-          username: 'tamhmse162189'
-          key: ${{ secrets.SERVER_SSH_KEY }}
+          host: '34.142.180.62'  # Your server's public IP
+          username: 'tamhmse162189'  # SSH user
+          key: ${{ secrets.SERVER_SSH_KEY }}  # SSH private key stored as GitHub secret
           use_insecure_cipher: true
           debug: true
           script: |
             echo "🚀 Starting deployment..."
 
-            # Chỉnh múi giờ về Việt Nam (UTC+7)
+            # Change timezone to Vietnam (UTC+7)
             echo "🌍 Setting timezone to Asia/Ho_Chi_Minh..."
             sudo timedatectl set-timezone Asia/Ho_Chi_Minh
 
-            # Backup authorized_keys trước khi deploy
+            # Backup authorized_keys before deploy
             echo "🔑 Backing up authorized_keys..."
             cp ~/.ssh/authorized_keys ~/.ssh/authorized_keys.bak
 
-            # Kiểm tra và gán quyền đúng cho thư mục SSH
+            # Check and set permissions for SSH folder
             chmod 700 ~/.ssh
             chmod 600 ~/.ssh/authorized_keys
 
-            # Stop và remove container cũ nếu tồn tại (chỉ be_swp)
+            # Stop and remove old container (be_swp) if it exists
             if docker ps -a --format '{{.Names}}' | grep -q '^be_swp$'; then
               echo "🛑 Stopping and removing old be_swp container..."
               docker stop be_swp
               docker rm be_swp
             fi
 
-            # Tạo Docker network nếu chưa tồn tại để kết nối với MySQL
+            # Create Docker network if it doesn't exist
             if ! docker network ls --format '{{.Name}}' | grep -q '^app-network$'; then
               echo "🌐 Creating Docker network 'app-network'..."
               docker network create app-network
             fi
 
-            # Kết nối container MySQL hiện có vào network
+            # Connect existing MySQL container to network
             if docker ps -a --format '{{.Names}}' | grep -q '^mysql8-container$'; then
               echo "🔗 Connecting existing MySQL container to network..."
               docker network connect app-network mysql8-container || echo "MySQL already connected or unavailable"
             fi
 
-            # Pull image mới từ Docker Hub
+            # Pull the latest Docker image
             echo "📦 Pulling latest Docker image..."
             docker pull ${{ secrets.DOCKER_USERNAME }}/be_swp:latest
 
-            # Chạy container mới với network để kết nối MySQL
+            # Run new container with the network to connect MySQL
             echo "🚢 Starting new container..."
             docker run -d \
               --name be_swp \
@@ -89,13 +89,13 @@ jobs:
               -v ~/.ssh:/root/.ssh \
               ${{ secrets.DOCKER_USERNAME }}/be_swp:latest
 
-            # Restore authorized_keys nếu bị mất
+            # Restore authorized_keys if it's lost
             if [ ! -f ~/.ssh/authorized_keys ]; then
               echo "🔄 Restoring authorized_keys..."
               cp ~/.ssh/authorized_keys.bak ~/.ssh/authorized_keys
             fi
 
-            # Kiểm tra lại quyền trên thư mục SSH sau khi restore
+            # Check permissions on the SSH directory after restore
             chmod 700 ~/.ssh
             chmod 600 ~/.ssh/authorized_keys
 
