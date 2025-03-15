@@ -38,6 +38,7 @@ jobs:
         with:
           host: '34.142.180.62'
           username: 'tamhmse162189'
+          
           key: ${{ secrets.SERVER_SSH_KEY }}
           use_insecure_cipher: true
           debug: true
