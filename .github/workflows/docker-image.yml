@@ -34,7 +34,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Deploy to Server
-        uses: appleboy/ssh-action@v0.1.10
+        uses: appleboy/ssh-action@v1.0.0
         with:
           host: '34.142.180.62'
           username: 'tamhmse162189'
