@@ -31,9 +31,12 @@ public class DataInitializerService {
     private final QuizzesRepository _quizzesRepository;
     private final QuestionsRepository _questionsRepository;
     private final AnswersRepository _answersRepository;
+    private final QuizResultsRepository _quizResultsRepository;
+    private final ServiceRatingsRepository _serviceRatingsRepository;
+    private final ExpertRatingsRepository _expertRatingsRepository;
 
 
-    public DataInitializerService(RolesRepository _rolesRepository, UsersRepository _usersRepository, WorkScheduleRepository _workScheduleRepository, PaymentMethodRepository _paymentMethodRepository, PaymentRepository _paymentRepository, ExpertRepository _expertRepository, AppointmentRepository _appointmentRepository, ServicesRepository _servicesRepository, ExpertOccupiedTimeRepository _expertOccupiedTimeRepository, QuizzesRepository _quizzesRepository, QuestionsRepository _questionsRepository, AnswersRepository _answersRepository) {
+    public DataInitializerService(RolesRepository _rolesRepository, UsersRepository _usersRepository, WorkScheduleRepository _workScheduleRepository, PaymentMethodRepository _paymentMethodRepository, PaymentRepository _paymentRepository, ExpertRepository _expertRepository, AppointmentRepository _appointmentRepository, ServicesRepository _servicesRepository, ExpertOccupiedTimeRepository _expertOccupiedTimeRepository, QuizzesRepository _quizzesRepository, QuestionsRepository _questionsRepository, AnswersRepository _answersRepository, QuizResultsRepository _quizResultsRepository, ServiceRatingsRepository _serviceRatingsRepository, ExpertRatingsRepository _expertRatingsRepository) {
         this._rolesRepository = _rolesRepository;
         this._usersRepository = _usersRepository;
         this._workScheduleRepository = _workScheduleRepository;
@@ -46,6 +49,9 @@ public class DataInitializerService {
         this._quizzesRepository = _quizzesRepository;
         this._questionsRepository = _questionsRepository;
         this._answersRepository = _answersRepository;
+        this._quizResultsRepository = _quizResultsRepository;
+        this._serviceRatingsRepository = _serviceRatingsRepository;
+        this._expertRatingsRepository = _expertRatingsRepository;
     }
 
     @PostConstruct
@@ -216,7 +222,7 @@ public class DataInitializerService {
             //Service
 
             Services facialService = new Services("All Your Facial Treatments", 100000, "All of skincare for yo face", 60, 1, "Facial Treatment", "Dry skin" , LocalDateTime.now(), LocalDateTime.now());
-            Services massageService = new Services("All Your Skin Treatments", 100000, "Make all of your fatigue go away", 60, 1, "Massage Treatment", "Dry skin" , LocalDateTime.now(), LocalDateTime.now());
+            Services massageService = new Services("All Your Skin Treatments", 150000, "Make all of your fatigue go away", 60, 1, "Massage Treatment", "Dry skin" , LocalDateTime.now(), LocalDateTime.now());
 
             _servicesRepository.save(facialService);
             _servicesRepository.save(massageService);
@@ -252,6 +258,30 @@ public class DataInitializerService {
             expert.setAppointmentsList(appointmentsList);
 
             _appointmentRepository.save(appointments);
+
+            // Done Appointment
+
+            Appointments appointmentsDone = new Appointments();
+
+            appointmentsDone.setTotal(massageService.getPrice());
+            appointmentsDone.setStart_at(LocalDateTime.of(today.minusDays(1), startTime));
+            appointmentsDone.setEnd_at(LocalDateTime.of(today.minusDays(1), endTime));
+            appointmentsDone.setStatus(4);
+            appointmentsDone.setCreated_at(LocalDateTime.now());
+            appointmentsDone.setUpdated_at(LocalDateTime.now());
+
+            appointmentsDone.setServices(massageService);
+            appointmentsDone.setUsers(usersCustomer);
+            appointmentsDone.setExperts(expert2);
+
+            List<Appointments> appointmentsListDone = new ArrayList<>();
+            appointmentsListDone.add(appointments);
+
+            massageService.setAppointmentsList(appointmentsListDone);
+            usersCustomer.getAppointmentsList().add(appointmentsDone);
+            expert2.setAppointmentsList(appointmentsListDone);
+
+            _appointmentRepository.save(appointmentsDone);
 
             // Random Appointment
 
@@ -313,6 +343,24 @@ public class DataInitializerService {
             expert.setExpertOccupiedTimesList(expertOccupiedTimesList);
 
             _expertOccupiedTimeRepository.save(expertOccupiedTimes);
+            //Occupied Time Done
+
+            List<ExpertOccupiedTimes> expertOccupiedTimesListDone = new ArrayList<>();
+
+            ExpertOccupiedTimes expertOccupiedTimesDone = new ExpertOccupiedTimes();
+
+            expertOccupiedTimesDone.setExperts(expert2);
+            expertOccupiedTimesDone.setStartAt(appointmentsDone.getStart_at().toLocalTime());
+            expertOccupiedTimesDone.setEndAt(appointmentsDone.getEnd_at().toLocalTime());
+            expertOccupiedTimesDone.setDate(appointmentsDone.getStart_at().toLocalDate());
+            expertOccupiedTimesDone.setCreated_at(LocalDateTime.now());
+            expertOccupiedTimesDone.setUpdated_at(LocalDateTime.now());
+            expertOccupiedTimesDone.setStatus(4);
+
+            expertOccupiedTimesListDone.add(expertOccupiedTimes);
+            expert2.setExpertOccupiedTimesList(expertOccupiedTimesListDone);
+
+            _expertOccupiedTimeRepository.save(expertOccupiedTimesDone);
 
             //Occupied Time Random
             ExpertOccupiedTimes randomExpertOccupiedTimes = new ExpertOccupiedTimes();
@@ -346,7 +394,7 @@ public class DataInitializerService {
                 payments.setStatus(2);
             }
 
-            payments.setZpTransId(123);
+            payments.setZpTransId(0);
 
             payments.setAppointments(appointments);
             appointments.setPayments(payments);
@@ -359,6 +407,68 @@ public class DataInitializerService {
 
             _paymentRepository.save(payments);
 
+            //Payment Done
+
+            Payments paymentsDone = new Payments(4, appointmentsDone.getTotal(), LocalDateTime.now(), LocalDateTime.now());
+
+            paymentsDone.setZpTransId(0);
+
+            paymentsDone.setAppointments(appointmentsDone);
+            appointmentsDone.setPayments(paymentsDone);
+
+            List<Payments> paymentsListDone = new ArrayList<>();
+            paymentsListDone.add(paymentsDone);
+
+            paymentsDone.setPaymentMethods(cash);
+            cash.setPayments(paymentsListDone);
+
+            _paymentRepository.save(paymentsDone);
+
+            //Service Ratings
+
+            ServiceRatings serviceRatingsDone = new ServiceRatings();
+
+            serviceRatingsDone.setAppointments(appointmentsDone);
+            serviceRatingsDone.setUsers(usersCustomer);
+            serviceRatingsDone.setServices(massageService);
+            serviceRatingsDone.setRating(5);
+            serviceRatingsDone.setFeedback("Good Service!");
+            serviceRatingsDone.setStatus(4);
+            serviceRatingsDone.setUpdated_at(LocalDateTime.now());
+            serviceRatingsDone.setCreated_at(LocalDateTime.now());
+
+            List<ServiceRatings> serviceRatingsListDone = new ArrayList<>();
+            serviceRatingsListDone.add(serviceRatingsDone);
+
+            appointmentsDone.setServiceRatings(serviceRatingsDone);
+            usersCustomer.setServiceRatingsList(serviceRatingsListDone);
+            massageService.setServiceRatingsList(serviceRatingsListDone);
+
+            _serviceRatingsRepository.save(serviceRatingsDone);
+
+            //Expert Ratings
+
+            ExpertRatings expertRatingsDone = new ExpertRatings();
+            expertRatingsDone.setAppointments(appointmentsDone);
+            expertRatingsDone.setUsers(usersCustomer);
+            expertRatingsDone.setExperts(expert2);
+            expertRatingsDone.setRating(5);
+            expertRatingsDone.setFeedback("Friendly");
+            expertRatingsDone.setStatus(1);
+            expertRatingsDone.setCreated_at(LocalDateTime.now());
+            expertRatingsDone.setUpdated_at(LocalDateTime.now());
+
+            List<ExpertRatings> expertRatingsListDone = new ArrayList<>();
+            expertRatingsListDone.add(expertRatingsDone);
+
+            appointmentsDone.setExpertRatings(expertRatingsDone);
+            usersCustomer.setExpertRatingsList(expertRatingsListDone);
+            expert2.setExpertRatingsList(expertRatingsListDone);
+
+            _expertRatingsRepository.save(expertRatingsDone);
+
+            //Quizzes
+
             Quizzes quizzes = new Quizzes();
             quizzes.setName("Skin Quiz");
             quizzes.setQuestionsList(new ArrayList<>());
@@ -368,7 +478,7 @@ public class DataInitializerService {
 
             List<Questions> questionsList = new ArrayList<>();
 
-//            Quest1
+            //Quest1
             Questions question1 = new Questions();
 
             question1.setTitle("After washing your face, how does your skin feel?");
@@ -386,7 +496,7 @@ public class DataInitializerService {
             questionsList.add(question1);
             question1.setQuizzes(quizzes);
 
-//            Quest2
+            //Quest2
             Questions question2 = new Questions();
 
             question2.setTitle("When during the day does your skin usually get shiny/oily?");
@@ -404,7 +514,7 @@ public class DataInitializerService {
             questionsList.add(question2);
             question2.setQuizzes(quizzes);
 
-//            Quest3
+            //Quest3
             Questions question3 = new Questions();
 
             question3.setTitle("How does your skin react when the weather changes?");
@@ -422,7 +532,7 @@ public class DataInitializerService {
             questionsList.add(question3);
             question3.setQuizzes(quizzes);
 
-//            Quest4
+            //Quest4
             Questions question4 = new Questions();
 
             question4.setTitle("How would you describe your pores?");
@@ -440,7 +550,7 @@ public class DataInitializerService {
             questionsList.add(question4);
             question4.setQuizzes(quizzes);
 
-//            Quest5
+            //Quest5
             Questions question5 = new Questions();
 
             question5.setTitle("How does your skin typically feel after applying moisturizer?");
@@ -458,7 +568,7 @@ public class DataInitializerService {
             questionsList.add(question5);
             question5.setQuizzes(quizzes);
 
-//            Quest6
+            //Quest6
             Questions question6 = new Questions();
 
             question6.setTitle("Do you experience problems with acne or skin irritation?");
@@ -479,6 +589,20 @@ public class DataInitializerService {
             quizzes.setQuestionsList(questionsList);
 
             _quizzesRepository.save(quizzes);
+
+            QuizResults quizResults1 = new QuizResults();
+            quizResults1.setQuizzes(quizzes);
+            quizResults1.setUsers(usersCustomer);
+            quizResults1.setFinalResult("Dry Skin");
+            quizResults1.setUpdatedAt(LocalDateTime.now());
+            quizResults1.setCreatedAt(LocalDateTime.now());
+
+            List<QuizResults> quizResultsList = new ArrayList<>();
+            quizResultsList.add(quizResults1);
+
+            quizzes.setQuizResultsList(quizResultsList);
+
+            _quizResultsRepository.save(quizResults1);
 
         }
     }
