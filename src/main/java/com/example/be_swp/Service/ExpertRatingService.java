@@ -37,7 +37,7 @@ public class ExpertRatingService {
 
         if (!expertRatingsList.isEmpty()){
             for (ExpertRatings expertRatings: expertRatingsList){
-                ExpertRatingDTO expertRatingDTO = new ExpertRatingDTO(expertRatings.getExpertRatingId(), expertRatings.getAppointments().getAppointmentId(), expertRatings.getUsers().getId(), expertRatings.getExperts().getExpertId(), expertRatings.getRating(), expertRatings.getFeedback(), expertRatings.getStatus(), expertRatings.getCreated_at(), expertRatings.getUpdated_at());
+                ExpertRatingDTO expertRatingDTO = convertToDTO(expertRatings);
                 expertRatingDTOList.add(expertRatingDTO);
             }
         }
@@ -54,7 +54,7 @@ public class ExpertRatingService {
             expertRatingDTO.setExpertRatingId(-1);
         }else {
             ExpertRatings expertRatings = optionalExpertRatings.get();
-            expertRatingDTO = new ExpertRatingDTO(expertRatings.getExpertRatingId(), expertRatings.getAppointments().getAppointmentId(), expertRatings.getUsers().getId(), expertRatings.getExperts().getExpertId(), expertRatings.getRating(), expertRatings.getFeedback(), expertRatings.getStatus(), expertRatings.getCreated_at(), expertRatings.getUpdated_at());
+            expertRatingDTO = convertToDTO(expertRatings);
         }
 
         return expertRatingDTO;
@@ -69,7 +69,7 @@ public class ExpertRatingService {
             expertRatingDTO.setExpertRatingId(-1);
         }else {
             ExpertRatings expertRatings = optionalExpertRatings.get();
-            expertRatingDTO = new ExpertRatingDTO(expertRatings.getExpertRatingId(), expertRatings.getAppointments().getAppointmentId(), expertRatings.getUsers().getId(), expertRatings.getExperts().getExpertId(), expertRatings.getRating(), expertRatings.getFeedback(), expertRatings.getStatus(), expertRatings.getCreated_at(), expertRatings.getUpdated_at());
+            expertRatingDTO = convertToDTO(expertRatings);
         }
 
         return expertRatingDTO;
@@ -139,12 +139,16 @@ public class ExpertRatingService {
         }else {
             ExpertRatings expertRatings = optionalExpertRatings.get();
 
-            expertRatingDTO = new ExpertRatingDTO(expertRatings.getExpertRatingId(), expertRatings.getAppointments().getAppointmentId(), expertRatings.getUsers().getId(), expertRatings.getExperts().getExpertId(), expertRatings.getRating(), expertRatings.getFeedback(), expertRatings.getStatus(), expertRatings.getCreated_at(), expertRatings.getUpdated_at());
+            expertRatingDTO = convertToDTO(expertRatings);
 
             _expertRatingsRepository.delete(expertRatings);
         }
 
         return expertRatingDTO;
+    }
+
+    public ExpertRatingDTO convertToDTO(ExpertRatings expertRatings){
+        return new ExpertRatingDTO(expertRatings.getExpertRatingId(), expertRatings.getAppointments().getAppointmentId(), expertRatings.getUsers().getId(), expertRatings.getExperts().getExpertId(), expertRatings.getExperts().getUsers().getFullName(), expertRatings.getRating(), expertRatings.getFeedback(), expertRatings.getStatus(), expertRatings.getCreated_at(), expertRatings.getUpdated_at());
     }
 
 }

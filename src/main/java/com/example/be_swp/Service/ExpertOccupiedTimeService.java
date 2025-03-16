@@ -25,7 +25,7 @@ public class ExpertOccupiedTimeService {
 
         if (!expertOccupiedTimesList.isEmpty()){
             for (ExpertOccupiedTimes occupiedTimes: expertOccupiedTimesList){
-                ExpertOccupiedTimesDTO expertOccupiedTimesDTO = new ExpertOccupiedTimesDTO(occupiedTimes.getExpertOccupiedTimeId(), occupiedTimes.getExperts().getExpertId(), occupiedTimes.getDate(), occupiedTimes.getStartAt(), occupiedTimes.getEndAt(),occupiedTimes.getStatus(), occupiedTimes.getCreated_at(), occupiedTimes.getUpdated_at());
+                ExpertOccupiedTimesDTO expertOccupiedTimesDTO = convertToDTO(occupiedTimes);
                 expertOccupiedTimesDTOList.add(expertOccupiedTimesDTO);
             }
         }
@@ -39,7 +39,7 @@ public class ExpertOccupiedTimeService {
 
         if (!expertOccupiedTimesList.isEmpty()){
             for (ExpertOccupiedTimes occupiedTimes: expertOccupiedTimesList){
-                ExpertOccupiedTimesDTO expertOccupiedTimesDTO = new ExpertOccupiedTimesDTO(occupiedTimes.getExpertOccupiedTimeId(), occupiedTimes.getExperts().getExpertId(), occupiedTimes.getDate(), occupiedTimes.getStartAt(), occupiedTimes.getEndAt(),occupiedTimes.getStatus(), occupiedTimes.getCreated_at(), occupiedTimes.getUpdated_at());
+                ExpertOccupiedTimesDTO expertOccupiedTimesDTO = convertToDTO(occupiedTimes);
                 expertOccupiedTimesDTOList.add(expertOccupiedTimesDTO);
             }
         }
@@ -53,7 +53,7 @@ public class ExpertOccupiedTimeService {
 
         if (!expertOccupiedTimesList.isEmpty()){
             for (ExpertOccupiedTimes occupiedTimes: expertOccupiedTimesList){
-                ExpertOccupiedTimesDTO expertOccupiedTimesDTO = new ExpertOccupiedTimesDTO(occupiedTimes.getExpertOccupiedTimeId(), occupiedTimes.getExperts().getExpertId(), occupiedTimes.getDate(), occupiedTimes.getStartAt(), occupiedTimes.getEndAt(),occupiedTimes.getStatus(), occupiedTimes.getCreated_at(), occupiedTimes.getUpdated_at());
+                ExpertOccupiedTimesDTO expertOccupiedTimesDTO = convertToDTO(occupiedTimes);
                 expertOccupiedTimesDTOList.add(expertOccupiedTimesDTO);
             }
         }
@@ -67,11 +67,15 @@ public class ExpertOccupiedTimeService {
 
         if (!expertOccupiedTimesList.isEmpty()){
             for (ExpertOccupiedTimes occupiedTimes: expertOccupiedTimesList){
-                ExpertOccupiedTimesDTO expertOccupiedTimesDTO = new ExpertOccupiedTimesDTO(occupiedTimes.getExpertOccupiedTimeId(), occupiedTimes.getExperts().getExpertId(), occupiedTimes.getDate(), occupiedTimes.getStartAt(), occupiedTimes.getEndAt(),occupiedTimes.getStatus(), occupiedTimes.getCreated_at(), occupiedTimes.getUpdated_at());
+                ExpertOccupiedTimesDTO expertOccupiedTimesDTO = convertToDTO(occupiedTimes);
                 expertOccupiedTimesDTOList.add(expertOccupiedTimesDTO);
             }
         }
 
         return expertOccupiedTimesDTOList;
+    }
+
+    public ExpertOccupiedTimesDTO convertToDTO(ExpertOccupiedTimes occupiedTimes){
+        return new ExpertOccupiedTimesDTO(occupiedTimes.getExpertOccupiedTimeId(), occupiedTimes.getExperts().getExpertId(), occupiedTimes.getExperts().getUsers().getFullName(), occupiedTimes.getDate(), occupiedTimes.getStartAt(), occupiedTimes.getEndAt(),occupiedTimes.getStatus(), occupiedTimes.getCreated_at(), occupiedTimes.getUpdated_at());
     }
 }
