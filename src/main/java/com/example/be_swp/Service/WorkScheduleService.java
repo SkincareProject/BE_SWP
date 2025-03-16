@@ -30,7 +30,7 @@ public class WorkScheduleService {
 
         if (!workScheduleList.isEmpty()){
             for (WorkSchedule ws: workScheduleList){
-                WorkScheduleDTO workScheduleDTO = new WorkScheduleDTO(ws.getWorkScheduleId(), ws.getExperts().getExpertId(), ws.getStart_at(), ws.getEnd_at(), ws.getWork_date(), ws.getStatus(), ws.getCreated_at(), ws.getUpdated_at());
+                WorkScheduleDTO workScheduleDTO = convertToDTO(ws);
                 workScheduleDTOList.add(workScheduleDTO);
             }
         }
@@ -46,7 +46,7 @@ public class WorkScheduleService {
             workScheduleDTO.setWorkScheduleId(-1);
         }else{
             WorkSchedule workSchedule = optionalWorkSchedule.get();
-            workScheduleDTO = new WorkScheduleDTO(workSchedule.getWorkScheduleId(),workSchedule.getExperts().getExpertId(),workSchedule.getStart_at(), workSchedule.getEnd_at(),workSchedule.getWork_date(),workSchedule.getStatus(), workSchedule.getCreated_at(),workSchedule.getUpdated_at());
+            workScheduleDTO = convertToDTO(workSchedule);
         }
 
         return workScheduleDTO;
@@ -67,7 +67,7 @@ public class WorkScheduleService {
 
             if (!workScheduleList.isEmpty()) {
                 for (WorkSchedule ws : workScheduleList) {
-                    WorkScheduleDTO workScheduleDTO = new WorkScheduleDTO(ws.getWorkScheduleId(), ws.getExperts().getExpertId(), ws.getStart_at(), ws.getEnd_at(), ws.getWork_date(), ws.getStatus(), ws.getCreated_at(), ws.getUpdated_at());
+                    WorkScheduleDTO workScheduleDTO = convertToDTO(ws);
                     workScheduleDTOList.add(workScheduleDTO);
                 }
             }
@@ -78,7 +78,7 @@ public class WorkScheduleService {
             List<WorkSchedule> workScheduleList = _workScheduleRepository.findByExpertName(nameOrId.trim());
             if (!workScheduleList.isEmpty()) {
                 for (WorkSchedule ws : workScheduleList) {
-                    WorkScheduleDTO workScheduleDTO = new WorkScheduleDTO(ws.getWorkScheduleId(), ws.getExperts().getExpertId(), ws.getStart_at(), ws.getEnd_at(), ws.getWork_date(), ws.getStatus(), ws.getCreated_at(), ws.getUpdated_at());
+                    WorkScheduleDTO workScheduleDTO = convertToDTO(ws);
                     workScheduleDTOList.add(workScheduleDTO);
                 }
             }
@@ -94,7 +94,7 @@ public class WorkScheduleService {
 
         if (!workScheduleList.isEmpty()){
             for (WorkSchedule ws: workScheduleList){
-                WorkScheduleDTO workScheduleDTO = new WorkScheduleDTO(ws.getWorkScheduleId(), ws.getExperts().getExpertId(), ws.getStart_at(), ws.getEnd_at(), ws.getWork_date(), ws.getStatus(), ws.getCreated_at(), ws.getUpdated_at());
+                WorkScheduleDTO workScheduleDTO = convertToDTO(ws);
                 workScheduleDTOList.add(workScheduleDTO);
             }
         }
@@ -108,7 +108,7 @@ public class WorkScheduleService {
 
         if (!workScheduleList.isEmpty()){
             for (WorkSchedule ws: workScheduleList){
-                WorkScheduleDTO workScheduleDTO = new WorkScheduleDTO(ws.getWorkScheduleId(), ws.getExperts().getExpertId(), ws.getStart_at(), ws.getEnd_at(), ws.getWork_date(), ws.getStatus(), ws.getCreated_at(), ws.getUpdated_at());
+                WorkScheduleDTO workScheduleDTO = convertToDTO(ws);
                 workScheduleDTOList.add(workScheduleDTO);
             }
         }
@@ -174,7 +174,7 @@ public class WorkScheduleService {
         }else {
             WorkSchedule workSchedule = optionalWorkSchedule.get();
 
-            workScheduleDTO = new WorkScheduleDTO(workSchedule.getWorkScheduleId(),workSchedule.getExperts().getExpertId(),workSchedule.getStart_at(), workSchedule.getEnd_at(),workSchedule.getWork_date(),workSchedule.getStatus(), workSchedule.getCreated_at(),workSchedule.getUpdated_at());
+            workScheduleDTO = convertToDTO(workSchedule);
 
             Optional<Experts> optionalExperts = _expertRepository.findById(workSchedule.getExperts().getExpertId());
             Experts experts = optionalExperts.get();
@@ -198,7 +198,7 @@ public class WorkScheduleService {
         }else{
             WorkSchedule workSchedule = optionalWorkSchedule.get();
 
-            workScheduleDTO = new WorkScheduleDTO(workSchedule.getWorkScheduleId(), workSchedule.getExperts().getExpertId(), workSchedule.getStart_at(), workSchedule.getEnd_at(), workSchedule.getWork_date(), workSchedule.getStatus(), workSchedule.getCreated_at(), workSchedule.getUpdated_at());
+            workScheduleDTO = convertToDTO(workSchedule);
 
             if (workSchedule.getStatus() == 0){
                 workScheduleDTO.setWorkScheduleId(-3);
@@ -226,7 +226,7 @@ public class WorkScheduleService {
 
                 _workScheduleRepository.save(workSchedule);
 
-                workScheduleDTO = new WorkScheduleDTO(workSchedule.getWorkScheduleId(), workSchedule.getExperts().getExpertId(), workSchedule.getStart_at(), workSchedule.getEnd_at(), workSchedule.getWork_date(), workSchedule.getStatus(), workSchedule.getCreated_at(), workSchedule.getUpdated_at());
+                workScheduleDTO = convertToDTO(workSchedule);
 
                 if (LocalDateTime.now().isAfter(LocalDateTime.of(workSchedule.getWork_date(), workSchedule.getStart_at()).plusMinutes(60))) {
                     workScheduleDTO.setWorkScheduleId(-53);
@@ -249,7 +249,7 @@ public class WorkScheduleService {
         }else{
             WorkSchedule workSchedule = optionalWorkSchedule.get();
 
-            workScheduleDTO = new WorkScheduleDTO(workSchedule.getWorkScheduleId(), workSchedule.getExperts().getExpertId(), workSchedule.getStart_at(), workSchedule.getEnd_at(), workSchedule.getWork_date(), workSchedule.getStatus(), workSchedule.getCreated_at(), workSchedule.getUpdated_at());
+            workScheduleDTO = convertToDTO(workSchedule);
 
             if (workSchedule.getStatus() == 0){
                 workScheduleDTO.setWorkScheduleId(-4);
@@ -268,13 +268,17 @@ public class WorkScheduleService {
 
                 _workScheduleRepository.save(workSchedule);
 
-                workScheduleDTO = new WorkScheduleDTO(workSchedule.getWorkScheduleId(), workSchedule.getExperts().getExpertId(), workSchedule.getStart_at(), workSchedule.getEnd_at(), workSchedule.getWork_date(), workSchedule.getStatus(), workSchedule.getCreated_at(), workSchedule.getUpdated_at());
+                workScheduleDTO = convertToDTO(workSchedule);
 
             }
 
         }
 
         return workScheduleDTO;
+    }
+
+    public WorkScheduleDTO convertToDTO(WorkSchedule workSchedule){
+        return new WorkScheduleDTO(workSchedule.getWorkScheduleId(), workSchedule.getExperts().getExpertId(), workSchedule.getExperts().getUsers().getFullName(), workSchedule.getStart_at(), workSchedule.getEnd_at(), workSchedule.getWork_date(), workSchedule.getStatus(), workSchedule.getCreated_at(), workSchedule.getUpdated_at());
     }
 
 }

@@ -25,6 +25,8 @@ public class ExpertRatingDTO {
 
     private int expertId;
 
+    private String expertName;
+
     private int rating;
 
     private String feedback;

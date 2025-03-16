@@ -22,6 +22,8 @@ public class ExpertOccupiedTimesDTO {
 
     private int expertId;
 
+    private String expertName;
+
     private LocalDate date;
 
     private LocalTime startAt;

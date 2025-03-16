@@ -23,6 +23,8 @@ public class WorkScheduleDTO {
 
     private int expertId;
 
+    private String expertName;
+
     private LocalTime start_at;
 
     private LocalTime end_at;
