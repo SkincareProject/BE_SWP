@@ -98,7 +98,7 @@ public class AppointmentsService {
                 return errorDto;
             }
 
-            Optional<ExpertOccupiedTimes> optionalExpertOccupiedTimes = _expertOccupiedTimeRepository.findByExpertIdWithTime(expertOptional.get().getExpertId(),appointmentUserDTO.getAppointmentsDTO().getStart_at().toLocalDate(), appointmentUserDTO.getAppointmentsDTO().getStart_at().toLocalTime());
+            Optional<ExpertOccupiedTimes> optionalExpertOccupiedTimes = _expertOccupiedTimeRepository.findByExpertIdWithTime(expertOptional.get().getExpertId(),appointmentUserDTO.getAppointmentsDTO().getStart_at().toLocalDate(), appointmentUserDTO.getAppointmentsDTO().getStart_at().toLocalTime(), appointmentUserDTO.getAppointmentsDTO().getEnd_at().toLocalTime());
             if (optionalExpertOccupiedTimes.isEmpty()) {
                 // Create new appointment
                 Appointments newAppointment = new Appointments();

@@ -23,7 +23,7 @@ public interface ExpertOccupiedTimeRepository extends ListCrudRepository<ExpertO
     @Query(value = "SELECT eot FROM ExpertOccupiedTimes eot WHERE eot.date = :today AND eot.experts.expertId = :expertId")
     public List<ExpertOccupiedTimes> findAllTodayByExpertId(@Param("today")LocalDate today, @Param("expertId") int expertId);
 
-    @Query(value = "SELECT eot FROM ExpertOccupiedTimes eot WHERE eot.experts.expertId = :expertId AND eot.date = :date AND :time BETWEEN eot.startAt AND eot.endAt")
-    public Optional<ExpertOccupiedTimes> findByExpertIdWithTime(@Param("expertId") int expertId, @Param("date") LocalDate date, @Param("time")LocalTime time);
+    @Query(value = "SELECT eot FROM ExpertOccupiedTimes eot WHERE eot.experts.expertId = :expertId AND eot.date = :date AND (:time BETWEEN eot.startAt AND eot.endAt OR :endTime BETWEEN eot.startAt AND eot.endAt)")
+    public Optional<ExpertOccupiedTimes> findByExpertIdWithTime(@Param("expertId") int expertId, @Param("date") LocalDate date, @Param("time")LocalTime time, @Param("endTime") LocalTime endTime);
 
 }
