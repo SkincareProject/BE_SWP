@@ -73,12 +73,6 @@ public class ExpertService {
     }
 
     public ExpertsDTO add(UserExpertDTO userExpertDTO){
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        String phoneRegex = "^\\d{10}$";
-
-        Pattern emailPattern = Pattern.compile(emailRegex);
-        Pattern phonePattern = Pattern.compile(phoneRegex);
-
 
         Optional<Users> userWithUsername = _userRepository.findByUsername(userExpertDTO.getUsersDTO().getUsername());
         Optional<Users> userWithEmail = _userRepository.findByEmail(userExpertDTO.getUsersDTO().getEmail());
@@ -92,13 +86,6 @@ public class ExpertService {
 
         }else if (userWithPhone.isPresent()){
             userExpertDTO.getExpertsDTO().setExpertId(-3);
-
-        }else if (!emailPattern.matcher(userExpertDTO.getUsersDTO().getEmail()).matches()){
-            userExpertDTO.getExpertsDTO().setExpertId(-4);
-
-        } else if (!phonePattern.matcher(userExpertDTO.getUsersDTO().getPhone()).matches()) {
-            userExpertDTO.getExpertsDTO().setExpertId(-5);
-
         } else{
 
             Users users = new Users(userExpertDTO.getUsersDTO().getUsername(), userExpertDTO.getUsersDTO().getPassword(), userExpertDTO.getUsersDTO().getFullName(), userExpertDTO.getUsersDTO().getEmail(), userExpertDTO.getUsersDTO().getPhone(), true, LocalDateTime.now(), LocalDateTime.now());
