@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,5 +22,8 @@ public interface ExpertOccupiedTimeRepository extends ListCrudRepository<ExpertO
 
     @Query(value = "SELECT eot FROM ExpertOccupiedTimes eot WHERE eot.date = :today AND eot.experts.expertId = :expertId")
     public List<ExpertOccupiedTimes> findAllTodayByExpertId(@Param("today")LocalDate today, @Param("expertId") int expertId);
+
+    @Query(value = "SELECT eot FROM ExpertOccupiedTimes eot WHERE eot.experts.expertId = :expertId AND eot.date = :date AND :time BETWEEN eot.startAt AND eot.endAt")
+    public Optional<ExpertOccupiedTimes> findByExpertIdWithTime(@Param("expertId") int expertId, @Param("date") LocalDate date, @Param("time")LocalTime time);
 
 }
