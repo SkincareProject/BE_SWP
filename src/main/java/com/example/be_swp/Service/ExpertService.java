@@ -9,6 +9,7 @@ import com.example.be_swp.Repository.ExpertRepository;
 import com.example.be_swp.Repository.RolesRepository;
 import com.example.be_swp.Repository.UsersRepository;
 import org.apache.catalina.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ public class ExpertService {
     private final ExpertRepository _expertRepository;
     private final UsersRepository _userRepository;
     private final RolesRepository _rolesRepository;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public ExpertService(ExpertRepository expertRepository, UsersRepository usersRepository, RolesRepository rolesRepository){
         _expertRepository = expertRepository;
@@ -88,7 +90,7 @@ public class ExpertService {
             userExpertDTO.getExpertsDTO().setExpertId(-3);
         } else{
 
-            Users users = new Users(userExpertDTO.getUsersDTO().getUsername(), userExpertDTO.getUsersDTO().getPassword(), userExpertDTO.getUsersDTO().getFullName(), userExpertDTO.getUsersDTO().getEmail(), userExpertDTO.getUsersDTO().getPhone(), true, LocalDateTime.now(), LocalDateTime.now());
+            Users users = new Users(userExpertDTO.getUsersDTO().getUsername(), passwordEncoder.encode(userExpertDTO.getUsersDTO().getPassword()), userExpertDTO.getUsersDTO().getFullName(), userExpertDTO.getUsersDTO().getEmail(), userExpertDTO.getUsersDTO().getPhone(), true, LocalDateTime.now(), LocalDateTime.now());
 
             Experts experts = new Experts(userExpertDTO.getExpertsDTO().getSpecialization(), userExpertDTO.getExpertsDTO().getYearOfExperiences(), userExpertDTO.getExpertsDTO().getDescription(), userExpertDTO.getExpertsDTO().getImageBase64(), 1, LocalDateTime.now(), LocalDateTime.now());
 
