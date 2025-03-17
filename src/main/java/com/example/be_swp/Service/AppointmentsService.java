@@ -98,44 +98,51 @@ public class AppointmentsService {
                 return errorDto;
             }
 
-            // Create new appointment
-            Appointments newAppointment = new Appointments();
-            newAppointment.setUsers(userOptional.get());
-            newAppointment.setExperts(expertOptional.get());
-            newAppointment.setServices(serviceOptional.get());
-            newAppointment.setTotal(appointmentUserDTO.getAppointmentsDTO().getTotal());
-            newAppointment.setStart_at(appointmentUserDTO.getAppointmentsDTO().getStart_at());
-            newAppointment.setEnd_at(appointmentUserDTO.getAppointmentsDTO().getEnd_at());
-            newAppointment.setStatus(1); // Initial status
-            newAppointment.setCreated_at(LocalDateTime.now());
-            newAppointment.setUpdated_at(LocalDateTime.now());
+            Optional<ExpertOccupiedTimes> optionalExpertOccupiedTimes = _expertOccupiedTimeRepository.findByExpertIdWithTime(expertOptional.get().getExpertId(),appointmentUserDTO.getAppointmentsDTO().getStart_at().toLocalDate(), appointmentUserDTO.getAppointmentsDTO().getStart_at().toLocalTime(), appointmentUserDTO.getAppointmentsDTO().getEnd_at().toLocalTime());
+            if (optionalExpertOccupiedTimes.isEmpty()) {
+                // Create new appointment
+                Appointments newAppointment = new Appointments();
+                newAppointment.setUsers(userOptional.get());
+                newAppointment.setExperts(expertOptional.get());
+                newAppointment.setServices(serviceOptional.get());
+                newAppointment.setTotal(appointmentUserDTO.getAppointmentsDTO().getTotal());
+                newAppointment.setStart_at(appointmentUserDTO.getAppointmentsDTO().getStart_at());
+                newAppointment.setEnd_at(appointmentUserDTO.getAppointmentsDTO().getEnd_at());
+                newAppointment.setStatus(1); // Initial status
+                newAppointment.setCreated_at(LocalDateTime.now());
+                newAppointment.setUpdated_at(LocalDateTime.now());
 
-            Appointments savedAppointment = _appointmentsRepository.save(newAppointment);
+                Appointments savedAppointment = _appointmentsRepository.save(newAppointment);
 
-            ExpertOccupiedTimes expertOccupiedTimes = new ExpertOccupiedTimes();
-            expertOccupiedTimes.setExperts(expertOptional.get());
-            expertOccupiedTimes.setStartAt(savedAppointment.getStart_at().toLocalTime());
-            expertOccupiedTimes.setEndAt(savedAppointment.getEnd_at().toLocalTime());
-            expertOccupiedTimes.setDate(savedAppointment.getStart_at().toLocalDate());
-            expertOccupiedTimes.setStatus(1);
-            expertOccupiedTimes.setCreated_at(LocalDateTime.now());
-            expertOccupiedTimes.setUpdated_at(LocalDateTime.now());
+                ExpertOccupiedTimes expertOccupiedTimes = new ExpertOccupiedTimes();
+                expertOccupiedTimes.setExperts(expertOptional.get());
+                expertOccupiedTimes.setStartAt(savedAppointment.getStart_at().toLocalTime());
+                expertOccupiedTimes.setEndAt(savedAppointment.getEnd_at().toLocalTime());
+                expertOccupiedTimes.setDate(savedAppointment.getStart_at().toLocalDate());
+                expertOccupiedTimes.setStatus(1);
+                expertOccupiedTimes.setCreated_at(LocalDateTime.now());
+                expertOccupiedTimes.setUpdated_at(LocalDateTime.now());
 
-            _expertOccupiedTimeRepository.save(expertOccupiedTimes);
+                _expertOccupiedTimeRepository.save(expertOccupiedTimes);
 
-            return new AppointmentsDTO(
-                    savedAppointment.getAppointmentId(),
-                    savedAppointment.getUsers().getId(),
-                    savedAppointment.getExperts().getExpertId(),
-                    savedAppointment.getExperts().getUsers().getFullName(),
-                    savedAppointment.getServices().getServiceId(),
-                    savedAppointment.getTotal(),
-                    savedAppointment.getStart_at(),
-                    savedAppointment.getEnd_at(),
-                    savedAppointment.getStatus(),
-                    savedAppointment.getCreated_at(),
-                    savedAppointment.getUpdated_at()
-            );
+                return new AppointmentsDTO(
+                        savedAppointment.getAppointmentId(),
+                        savedAppointment.getUsers().getId(),
+                        savedAppointment.getExperts().getExpertId(),
+                        savedAppointment.getExperts().getUsers().getFullName(),
+                        savedAppointment.getServices().getServiceId(),
+                        savedAppointment.getTotal(),
+                        savedAppointment.getStart_at(),
+                        savedAppointment.getEnd_at(),
+                        savedAppointment.getStatus(),
+                        savedAppointment.getCreated_at(),
+                        savedAppointment.getUpdated_at()
+                );
+            }else{
+                AppointmentsDTO errorDto = new AppointmentsDTO();
+                errorDto.setAppointmentId(-5);
+                return errorDto;
+            }
 
         } catch (Exception e) {
             AppointmentsDTO errorDto = new AppointmentsDTO();

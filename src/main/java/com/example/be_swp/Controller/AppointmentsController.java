@@ -76,6 +76,10 @@ public class AppointmentsController {
                 status = "500";
                 message = "Error creating appointment!";
                 break;
+            case -5:
+                status = "400";
+                message = "Invalid Time";
+                break;
             default:
                 status = "200";
                 message = "Appointment created successfully!";
