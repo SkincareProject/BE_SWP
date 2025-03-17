@@ -12,6 +12,7 @@ import com.example.be_swp.Repository.UsersRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -94,7 +95,8 @@ public class ExpertRatingService {
             Experts experts = optionalExperts.get();
             Appointments appointments = optionalAppointments.get();
 
-            ExpertRatings expertRatings = new ExpertRatings(appointments, experts, customer, expertRatingDTO.getRating(), expertRatingDTO.getFeedback(), 1, LocalDateTime.now(), LocalDateTime.now());
+            ExpertRatings expertRatings = new ExpertRatings(appointments, experts, customer, expertRatingDTO.getRating(), expertRatingDTO.getFeedback(), 1, LocalDateTime.now(
+                    ZoneId.of("Asia/Ho_Chi_Minh")), LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
             customer.getExpertRatingsList().add(expertRatings);
             experts.getExpertRatingsList().add(expertRatings);
             appointments.setExpertRatings(expertRatings);
@@ -119,7 +121,7 @@ public class ExpertRatingService {
 
             expertRatings.setRating(expertRatingDTO.getRating());
             expertRatings.setFeedback(expertRatingDTO.getFeedback());
-            expertRatings.setUpdated_at(LocalDateTime.now());
+            expertRatings.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
             _expertRatingsRepository.save(expertRatings);
 

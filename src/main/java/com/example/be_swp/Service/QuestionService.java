@@ -11,6 +11,7 @@ import com.example.be_swp.Repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,14 +34,14 @@ public class QuestionService {
         Questions question = new Questions();
         question.setQuizzes(quizzes1);
         question.setTitle(questionDTO.getTitle());
-        question.setCreatedAt(LocalDateTime.now());
-        question.setUpdatedAt(LocalDateTime.now());
+        question.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+        question.setUpdatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
         List<Answers> answers = questionDTO.getAnswerDTO().stream().map(answerDTO -> {
             Answers answers1 = new Answers();
             answers1.setAnswer(answerDTO.getAnswer());
-            answers1.setCreatedAt(LocalDateTime.now());
-            answers1.setUpdatedAt(LocalDateTime.now());
+            answers1.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+            answers1.setUpdatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
             answers1.setQuestions(question);
             return answers1;
         }).collect(Collectors.toList());
@@ -65,14 +66,14 @@ public class QuestionService {
     public Questions updateQuestion(int id , QuestionDTO questionDTO){
         Questions questions = questionsRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Question is not found"));
         questions.setTitle(questionDTO.getTitle());
-        questions.setUpdatedAt(LocalDateTime.now());
+        questions.setUpdatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
         if(questionDTO.getAnswerDTO() != null && !questionDTO.getAnswerDTO().isEmpty()){
             List<Answers> answers = questionDTO.getAnswerDTO().stream().map(answerDTO -> {
                 Answers answers1 = new Answers();
                 answers1.setAnswer(answerDTO.getAnswer());
-                answers1.setCreatedAt(LocalDateTime.now());
-                answers1.setUpdatedAt(LocalDateTime.now());
+                answers1.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+                answers1.setUpdatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
                 answers1.setQuestions(questions);
                 return answers1;
             }).collect(Collectors.toList());

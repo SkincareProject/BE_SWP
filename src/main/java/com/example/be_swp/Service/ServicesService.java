@@ -6,6 +6,7 @@ import com.example.be_swp.Repository.ServicesRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -54,8 +55,8 @@ public class ServicesService {
         newServices.setDuration(servicesDTO.getDuration());
         newServices.setStatus(servicesDTO.getStatus());
         newServices.setType(servicesDTO.getType());
-        newServices.setCreated_at(LocalDateTime.now());
-        newServices.setUpdated_at(LocalDateTime.now());
+        newServices.setCreated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+        newServices.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
         _servicesRepository.save(newServices);
         servicesDTO.setServiceId(newServices.getServiceId());
@@ -72,8 +73,8 @@ public class ServicesService {
             updateServices.setDuration(servicesDTO.getDuration());
             updateServices.setStatus(servicesDTO.getStatus());
             updateServices.setType(servicesDTO.getType());
-            updateServices.setCreated_at(LocalDateTime.now());
-            updateServices.setUpdated_at(LocalDateTime.now());
+            updateServices.setCreated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+            updateServices.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
             _servicesRepository.save(updateServices);
         }else {
             servicesDTO.setServiceId(-1);

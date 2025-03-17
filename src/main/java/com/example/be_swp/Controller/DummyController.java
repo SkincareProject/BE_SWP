@@ -4,6 +4,7 @@ package com.example.be_swp.Controller;
 import com.example.be_swp.Models.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @RestController
 @RequestMapping("/api/dummy")
@@ -16,7 +17,7 @@ public class DummyController {
 
     @GetMapping("/dateTime")
     public ApiResponse<LocalDateTime> dateTime(){
-        return new ApiResponse<>("200",LocalDateTime.now(),"Message");
+        return new ApiResponse<>("200",LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")),"Message");
     }
 
     @PostMapping("/add")

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -109,8 +110,8 @@ public class AppointmentsService {
                 newAppointment.setStart_at(appointmentUserDTO.getAppointmentsDTO().getStart_at());
                 newAppointment.setEnd_at(appointmentUserDTO.getAppointmentsDTO().getEnd_at());
                 newAppointment.setStatus(1); // Initial status
-                newAppointment.setCreated_at(LocalDateTime.now());
-                newAppointment.setUpdated_at(LocalDateTime.now());
+                newAppointment.setCreated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+                newAppointment.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
                 Appointments savedAppointment = _appointmentsRepository.save(newAppointment);
 
@@ -120,8 +121,8 @@ public class AppointmentsService {
                 expertOccupiedTimes.setEndAt(savedAppointment.getEnd_at().toLocalTime());
                 expertOccupiedTimes.setDate(savedAppointment.getStart_at().toLocalDate());
                 expertOccupiedTimes.setStatus(1);
-                expertOccupiedTimes.setCreated_at(LocalDateTime.now());
-                expertOccupiedTimes.setUpdated_at(LocalDateTime.now());
+                expertOccupiedTimes.setCreated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+                expertOccupiedTimes.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
                 _expertOccupiedTimeRepository.save(expertOccupiedTimes);
 
@@ -159,7 +160,7 @@ public class AppointmentsService {
             updateAppointment.setStart_at(appointmentsDTO.getStart_at());
             updateAppointment.setEnd_at(appointmentsDTO.getEnd_at());
             updateAppointment.setStatus(appointmentsDTO.getStatus());
-            updateAppointment.setUpdated_at(LocalDateTime.now());
+            updateAppointment.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
             _appointmentsRepository.save(updateAppointment);
         } else {
             appointmentsDTO.setAppointmentId(-1);

@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,22 +39,22 @@ public class QuizzesService {
     public Quizzes createQuiz(QuizDTO quizDTO) {
         Quizzes quiz = new Quizzes();
         quiz.setName(quizDTO.getName());
-        quiz.setCreateAt(LocalDateTime.now());
-        quiz.setUpdateAt(LocalDateTime.now());
+        quiz.setCreateAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+        quiz.setUpdateAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
 
         List<Questions> questions = quizDTO.getQuestionDTO().stream().map(questionDTO -> {
             Questions questions1 = new Questions();
             questions1.setTitle(questionDTO.getTitle());
-            questions1.setCreatedAt(LocalDateTime.now());
-            questions1.setUpdatedAt(LocalDateTime.now());
+            questions1.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+            questions1.setUpdatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
             questions1.setQuizzes(quiz);
 
             List<Answers> answers = questionDTO.getAnswerDTO().stream().map(answerDTO -> {
                 Answers answers1 = new Answers();
                 answers1.setAnswer(answerDTO.getAnswer());
-                answers1.setCreatedAt(LocalDateTime.now());
-                answers1.setUpdatedAt(LocalDateTime.now());
+                answers1.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+                answers1.setUpdatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
                 answers1.setQuestions(questions1);
 
                 return answers1;
@@ -86,21 +87,21 @@ public class QuizzesService {
     public Quizzes updateQuiz(int id, QuizDTO quizDTO) {
         Quizzes quiz = quizzesRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Quiz not found"));
         quiz.setName(quizDTO.getName());
-        quiz.setUpdateAt(LocalDateTime.now());
+        quiz.setUpdateAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
         if(quizDTO.getQuestionDTO() != null && !quizDTO.getQuestionDTO().isEmpty()){
             List<Questions> questions = quizDTO.getQuestionDTO().stream().map(questionDTO -> {
                 Questions questions1 = new Questions();
                 questions1.setTitle(questionDTO.getTitle());
-                questions1.setCreatedAt(LocalDateTime.now());
-                questions1.setUpdatedAt(LocalDateTime.now());
+                questions1.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+                questions1.setUpdatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
                 questions1.setQuizzes(quiz);
 
                 List<Answers> answers = questionDTO.getAnswerDTO().stream().map(answerDTO -> {
                     Answers answers1 = new Answers();
                     answers1.setAnswer(answerDTO.getAnswer());
-                    answers1.setCreatedAt(LocalDateTime.now());
-                    answers1.setUpdatedAt(LocalDateTime.now());
+                    answers1.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+                    answers1.setUpdatedAt(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
                     answers1.setQuestions(questions1);
 
                     return answers1;

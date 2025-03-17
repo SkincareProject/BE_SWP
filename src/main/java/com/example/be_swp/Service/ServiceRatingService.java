@@ -9,6 +9,7 @@ import com.example.be_swp.Repository.UsersRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -116,7 +117,7 @@ public class ServiceRatingService {
 
             serviceRatings.setRating(serviceRatingsDTO.getRating());
             serviceRatings.setFeedback(serviceRatingsDTO.getFeedback());
-            serviceRatings.setUpdated_at(LocalDateTime.now());
+            serviceRatings.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
             _serviceRatingsRepository.save(serviceRatings);
         }

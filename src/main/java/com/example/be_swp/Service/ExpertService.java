@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -90,9 +91,10 @@ public class ExpertService {
             userExpertDTO.getExpertsDTO().setExpertId(-3);
         } else{
 
-            Users users = new Users(userExpertDTO.getUsersDTO().getUsername(), passwordEncoder.encode(userExpertDTO.getUsersDTO().getPassword()), userExpertDTO.getUsersDTO().getFullName(), userExpertDTO.getUsersDTO().getEmail(), userExpertDTO.getUsersDTO().getPhone(), true, LocalDateTime.now(), LocalDateTime.now());
+            Users users = new Users(userExpertDTO.getUsersDTO().getUsername(), passwordEncoder.encode(userExpertDTO.getUsersDTO().getPassword()), userExpertDTO.getUsersDTO().getFullName(), userExpertDTO.getUsersDTO().getEmail(), userExpertDTO.getUsersDTO().getPhone(), true, LocalDateTime.now(
+                    ZoneId.of("Asia/Ho_Chi_Minh")), LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
-            Experts experts = new Experts(userExpertDTO.getExpertsDTO().getSpecialization(), userExpertDTO.getExpertsDTO().getYearOfExperiences(), userExpertDTO.getExpertsDTO().getDescription(), userExpertDTO.getExpertsDTO().getImageBase64(), 1, LocalDateTime.now(), LocalDateTime.now());
+            Experts experts = new Experts(userExpertDTO.getExpertsDTO().getSpecialization(), userExpertDTO.getExpertsDTO().getYearOfExperiences(), userExpertDTO.getExpertsDTO().getDescription(), userExpertDTO.getExpertsDTO().getImageBase64(), 1, LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")), LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
             Optional<Roles> roles = _rolesRepository.findById(4);
 
@@ -120,7 +122,7 @@ public class ExpertService {
             experts.setSpecialization(expertsDTO.getSpecialization());
             experts.setYearOfExperiences(expertsDTO.getYearOfExperiences());
             experts.setDescription(expertsDTO.getDescription());
-            experts.setUpdated_at(LocalDateTime.now());
+            experts.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
             _expertRepository.save(experts);
 

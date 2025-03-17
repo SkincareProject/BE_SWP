@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -160,14 +161,14 @@ public class PaymentService {
             newPayments.setPrice(appointments.getTotal());
             newPayments.setStatus(2);
             newPayments.setZpTransId(0);
-            newPayments.setCreated_at(LocalDateTime.now());
-            newPayments.setUpdated_at(LocalDateTime.now());
+            newPayments.setCreated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+            newPayments.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
             _paymentRepository.save(newPayments);
 
             paymentID = newPayments.getPaymentId();
         }else{
             paymentID = payments.getPaymentId();
-            payments.setUpdated_at(LocalDateTime.now());
+            payments.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
             _paymentRepository.save(payments);
         }
 
@@ -282,7 +283,7 @@ public class PaymentService {
         if (optionalPayments.isPresent()){
             Payments payments = optionalPayments.get();
             payments.setZpTransId(zpId);
-            payments.setUpdated_at(LocalDateTime.now());
+            payments.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
             payments.setStatus(4);
 
             _paymentRepository.save(payments);
@@ -342,7 +343,7 @@ public class PaymentService {
             }
 
             payments.setStatus(1);
-            payments.setUpdated_at(LocalDateTime.now());
+            payments.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
             _paymentRepository.save(payments);
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -149,8 +150,8 @@ public class WorkScheduleService {
             workSchedule.setEnd_at(workScheduleDTO.getEnd_at());
             workSchedule.setWork_date(workScheduleDTO.getWork_date());
             workSchedule.setStatus(1);
-            workSchedule.setCreated_at(LocalDateTime.now());
-            workSchedule.setUpdated_at(LocalDateTime.now());
+            workSchedule.setCreated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+            workSchedule.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
             _workScheduleRepository.save(workSchedule);
 
@@ -180,7 +181,7 @@ public class WorkScheduleService {
             Experts experts = optionalExperts.get();
 
             experts.getWorkScheduleList().remove(workSchedule);
-            experts.setUpdated_at(LocalDateTime.now());
+            experts.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
             _workScheduleRepository.delete(workSchedule);
 
         }
@@ -209,26 +210,26 @@ public class WorkScheduleService {
             }else if(workSchedule.getStatus() > 3){
                 workScheduleDTO.setWorkScheduleId(-23);
 
-            }else if (LocalDateTime.now().isBefore(LocalDateTime.of(workSchedule.getWork_date(), workSchedule.getStart_at()).minusMinutes(45))){
+            }else if (LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")).isBefore(LocalDateTime.of(workSchedule.getWork_date(), workSchedule.getStart_at()).minusMinutes(45))){
                 workScheduleDTO.setWorkScheduleId(-33);
 
-            } else if(LocalDateTime.now().isAfter(LocalDateTime.of(workSchedule.getWork_date(), workSchedule.getStart_at()).plusMinutes(150))){
+            } else if(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")).isAfter(LocalDateTime.of(workSchedule.getWork_date(), workSchedule.getStart_at()).plusMinutes(150))){
                 workScheduleDTO.setWorkScheduleId(-43);
 
                 workSchedule.setStatus(0);
-                workSchedule.setUpdated_at(LocalDateTime.now());
+                workSchedule.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
                 _workScheduleRepository.save(workSchedule);
 
             }else {
                 workSchedule.setStatus(3);
-                workSchedule.setUpdated_at(LocalDateTime.now());
+                workSchedule.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
                 _workScheduleRepository.save(workSchedule);
 
                 workScheduleDTO = convertToDTO(workSchedule);
 
-                if (LocalDateTime.now().isAfter(LocalDateTime.of(workSchedule.getWork_date(), workSchedule.getStart_at()).plusMinutes(60))) {
+                if (LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")).isAfter(LocalDateTime.of(workSchedule.getWork_date(), workSchedule.getStart_at()).plusMinutes(60))) {
                     workScheduleDTO.setWorkScheduleId(-53);
                 }
 
@@ -260,11 +261,11 @@ public class WorkScheduleService {
             }else if(workSchedule.getStatus() == 4){
                 workScheduleDTO.setWorkScheduleId(-24);
 
-            } else if(LocalDateTime.now().isBefore(LocalDateTime.of(workSchedule.getWork_date(), workSchedule.getEnd_at()).minusMinutes(15))){
+            } else if(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")).isBefore(LocalDateTime.of(workSchedule.getWork_date(), workSchedule.getEnd_at()).minusMinutes(15))){
                 workScheduleDTO.setWorkScheduleId(-34);
             }else {
                 workSchedule.setStatus(4);
-                workSchedule.setUpdated_at(LocalDateTime.now());
+                workSchedule.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
                 _workScheduleRepository.save(workSchedule);
 

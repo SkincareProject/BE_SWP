@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -75,8 +76,8 @@ public class UserService implements UserDetailsService{
         users.setPhone(usersDTO.getPhone());
         users.setPassword(passwordEncoder.encode(usersDTO.getPassword()));
         users.setRoles(role.get());
-        users.setCreated_at(LocalDateTime.now());
-        users.setUpdated_at(LocalDateTime.now());
+        users.setCreated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
+        users.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
         _usersRepository.save(users);
         return ("Register successfully!!!");
@@ -164,7 +165,7 @@ public class UserService implements UserDetailsService{
                 users.setFullName(usersDTO.getFullName());
                 users.setEmail(usersDTO.getEmail());
                 users.setPhone(usersDTO.getPhone());
-                users.setUpdated_at(LocalDateTime.now());
+                users.setUpdated_at(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
 
                 _usersRepository.save(users);
 
