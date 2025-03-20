@@ -38,6 +38,7 @@ public class AppointmentsService {
                         ,appointment.getExperts().getExpertId()
                         ,appointment.getExperts().getUsers().getFullName()
                         ,appointment.getServices().getServiceId()
+                        ,appointment.getPayments() == null ? 0 : appointment.getPayments().getStatus()
                         ,appointment.getTotal()
                         ,appointment.getStart_at()
                         ,appointment.getEnd_at()
@@ -60,6 +61,7 @@ public class AppointmentsService {
                     ,appointments.getExperts().getExpertId()
                     ,appointments.getExperts().getUsers().getFullName()
                     ,appointments.getServices().getServiceId()
+                    ,appointments.getPayments() == null ? 0 : appointments.getPayments().getStatus()
                     ,appointments.getTotal()
                     ,appointments.getStart_at()
                     ,appointments.getEnd_at()
@@ -131,6 +133,7 @@ public class AppointmentsService {
                         savedAppointment.getExperts().getExpertId(),
                         savedAppointment.getExperts().getUsers().getFullName(),
                         savedAppointment.getServices().getServiceId(),
+                        savedAppointment.getPayments() == null ? 0 : savedAppointment.getPayments().getStatus(),
                         savedAppointment.getTotal(),
                         savedAppointment.getStart_at(),
                         savedAppointment.getEnd_at(),
@@ -177,6 +180,7 @@ public class AppointmentsService {
                     ,appointments.getExperts().getExpertId()
                     ,appointments.getExperts().getUsers().getFullName()
                     ,appointments.getServices().getServiceId()
+                    ,appointments.getPayments() == null ? 0 : appointments.getPayments().getStatus()
                     ,appointments.getTotal()
                     ,appointments.getStart_at()
                     ,appointments.getEnd_at()
@@ -201,6 +205,7 @@ public class AppointmentsService {
                     ,appointment.getExperts().getExpertId()
                     ,appointment.getExperts().getUsers().getFullName()
                     ,appointment.getServices().getServiceId()
+                    ,appointment.getPayments() == null ? 0 : appointment.getPayments().getStatus()
                     ,appointment.getTotal()
                     ,appointment.getStart_at()
                     ,appointment.getEnd_at()

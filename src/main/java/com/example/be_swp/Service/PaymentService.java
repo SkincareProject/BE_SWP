@@ -158,7 +158,7 @@ public class PaymentService {
             newPayments.setPaymentMethods(zaloPay);
             newPayments.setAppointments(appointments);
             newPayments.setPrice(appointments.getTotal());
-            newPayments.setStatus(2);
+            newPayments.setStatus(4);
             newPayments.setZpTransId(0);
             newPayments.setCreated_at(LocalDateTime.now());
             newPayments.setUpdated_at(LocalDateTime.now());

@@ -28,6 +28,8 @@ public class AppointmentsDTO {
 
     private int servicesId;
 
+    private int paymentStatus;
+
     private double total;
 
     private LocalDateTime start_at;
