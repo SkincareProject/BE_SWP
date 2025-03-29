@@ -17,77 +17,77 @@ public class ExpertOccupiedTimesController {
         _expertOccupiedTimeService = expertOccupiedTimeService;
     }
 
-    @GetMapping("/findAll")
-    public ApiResponse<List<ExpertOccupiedTimesDTO>> findAll(){
-        List<ExpertOccupiedTimesDTO> expertOccupiedTimesDTOList = _expertOccupiedTimeService.findAll();
+//    @GetMapping("/findAll")
+//    public ApiResponse<List<ExpertOccupiedTimesDTO>> findAll(){
+//        List<ExpertOccupiedTimesDTO> expertOccupiedTimesDTOList = _expertOccupiedTimeService.findAll();
+//
+//        String status = "";
+//        String message = "";
+//
+//        if (expertOccupiedTimesDTOList.isEmpty()){
+//            status = "404";
+//            message = "No Occupied Time Found!";
+//        }else{
+//            status = "200";
+//            message = "Get all occupied time successfully";
+//        }
+//
+//        return new ApiResponse<>(status,expertOccupiedTimesDTOList,message);
+//    }
+//
+//    @GetMapping("/findByExpertId/{id}")
+//    public ApiResponse<List<ExpertOccupiedTimesDTO>> findByExpertId(@PathVariable int id){
+//        List<ExpertOccupiedTimesDTO> expertOccupiedTimesDTOList = _expertOccupiedTimeService.findByExpertId(id);
+//
+//        String status = "";
+//        String message = "";
+//
+//        if (expertOccupiedTimesDTOList.isEmpty()){
+//            status = "404";
+//            message = "No Occupied Time Found With Id: " + id + "!" ;
+//        }else{
+//            status = "200";
+//            message = "Get all occupied time successfully with id: " +id + "!";
+//        }
+//
+//        return new ApiResponse<>(status,expertOccupiedTimesDTOList,message);
+//    }
+//
+//    @GetMapping("/findAllToday")
+//    public ApiResponse<List<ExpertOccupiedTimesDTO>> findAllToday(){
+//        List<ExpertOccupiedTimesDTO> expertOccupiedTimesDTOList = _expertOccupiedTimeService.findAllToday();
+//
+//        String status = "";
+//        String message = "";
+//
+//        if (expertOccupiedTimesDTOList.isEmpty()){
+//            status = "404";
+//            message = "No Occupied Time Found For Today!" ;
+//        }else{
+//            status = "200";
+//            message = "Get all occupied time for today successfully!";
+//        }
+//
+//        return new ApiResponse<>(status,expertOccupiedTimesDTOList,message);
+//    }
 
-        String status = "";
-        String message = "";
-
-        if (expertOccupiedTimesDTOList.isEmpty()){
-            status = "404";
-            message = "No Occupied Time Found!";
-        }else{
-            status = "200";
-            message = "Get all occupied time successfully";
-        }
-
-        return new ApiResponse<>(status,expertOccupiedTimesDTOList,message);
-    }
-
-    @GetMapping("/findByExpertId/{id}")
-    public ApiResponse<List<ExpertOccupiedTimesDTO>> findByExpertId(@PathVariable int id){
-        List<ExpertOccupiedTimesDTO> expertOccupiedTimesDTOList = _expertOccupiedTimeService.findByExpertId(id);
-
-        String status = "";
-        String message = "";
-
-        if (expertOccupiedTimesDTOList.isEmpty()){
-            status = "404";
-            message = "No Occupied Time Found With Id: " + id + "!" ;
-        }else{
-            status = "200";
-            message = "Get all occupied time successfully with id: " +id + "!";
-        }
-
-        return new ApiResponse<>(status,expertOccupiedTimesDTOList,message);
-    }
-
-    @GetMapping("/findAllToday")
-    public ApiResponse<List<ExpertOccupiedTimesDTO>> findAllToday(){
-        List<ExpertOccupiedTimesDTO> expertOccupiedTimesDTOList = _expertOccupiedTimeService.findAllToday();
-
-        String status = "";
-        String message = "";
-
-        if (expertOccupiedTimesDTOList.isEmpty()){
-            status = "404";
-            message = "No Occupied Time Found For Today!" ;
-        }else{
-            status = "200";
-            message = "Get all occupied time for today successfully!";
-        }
-
-        return new ApiResponse<>(status,expertOccupiedTimesDTOList,message);
-    }
-
-    @GetMapping("/findAllTodayByExpertId/{id}")
-    public ApiResponse<List<ExpertOccupiedTimesDTO>> findAllTodayByExpertId(@PathVariable int id){
-        List<ExpertOccupiedTimesDTO> expertOccupiedTimesDTOList = _expertOccupiedTimeService.findAllTodayByExpertId(id);
-
-        String status = "";
-        String message = "";
-
-        if (expertOccupiedTimesDTOList.isEmpty()){
-            status = "404";
-            message = "No Occupied Time Found For Today With Id: " + id + "!" ;
-        }else{
-            status = "200";
-            message = "Get all occupied time for today successfully with id: " +id + "!";
-        }
-
-        return new ApiResponse<>(status,expertOccupiedTimesDTOList,message);
-    }
+//    @GetMapping("/findAllTodayByExpertId/{id}")
+//    public ApiResponse<List<ExpertOccupiedTimesDTO>> findAllTodayByExpertId(@PathVariable int id){
+//        List<ExpertOccupiedTimesDTO> expertOccupiedTimesDTOList = _expertOccupiedTimeService.findAllTodayByExpertId(id);
+//
+//        String status = "";
+//        String message = "";
+//
+//        if (expertOccupiedTimesDTOList.isEmpty()){
+//            status = "404";
+//            message = "No Occupied Time Found For Today With Id: " + id + "!" ;
+//        }else{
+//            status = "200";
+//            message = "Get all occupied time for today successfully with id: " +id + "!";
+//        }
+//
+//        return new ApiResponse<>(status,expertOccupiedTimesDTOList,message);
+//    }
 
     @PostMapping
     public ApiResponse<String> Post (){

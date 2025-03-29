@@ -119,7 +119,7 @@ public class WorkScheduleService {
 
     public WorkScheduleDTO add(WorkScheduleDTO workScheduleDTO, int expertId){
 
-        Optional<Experts> optionalExperts = _expertRepository.findById(expertId);
+        Optional<Experts> optionalExperts = _expertRepository.findById((long)expertId);
 
         boolean is_exist = false;
         List<WorkSchedule> workScheduleList = _workScheduleRepository.findAll();

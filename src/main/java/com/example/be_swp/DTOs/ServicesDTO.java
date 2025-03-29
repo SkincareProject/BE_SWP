@@ -17,8 +17,7 @@ import java.time.LocalDateTime;
 public class ServicesDTO {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int serviceId;
+    private Long serviceId;
 
     private String serviceName;
 
@@ -33,6 +32,8 @@ public class ServicesDTO {
     private String type;
 
     private String skinType;
+
+    private String image;
 
     private LocalDateTime created_at;
 

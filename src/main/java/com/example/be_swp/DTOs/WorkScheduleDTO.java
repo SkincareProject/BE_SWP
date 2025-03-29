@@ -21,7 +21,7 @@ public class WorkScheduleDTO {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int workScheduleId;
 
-    private int expertId;
+    private Long expertId;
 
     private String expertName;
 

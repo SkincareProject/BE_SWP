@@ -14,6 +14,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;
@@ -32,7 +33,9 @@ public class PaymentService {
 
     private final PaymentRepository _paymentRepository;
     private final UsersRepository _usersRepository;
+    @Autowired
     private final ServicesRepository _servicesRepository;
+    @Autowired
     private final AppointmentRepository _appointmentRepository;
     private final PaymentMethodRepository _paymentMethodRepository;
 
@@ -102,9 +105,9 @@ public class PaymentService {
     }
 
     public String createZaloOrderUrl(int userId, int appointmentId) throws Exception{
-
+        Long apointID=(long)appointmentId;
         Optional<Users> optionalUsers = _usersRepository.findById(userId);
-        Optional<Appointments> optionalAppointments = _appointmentRepository.findById(appointmentId);
+        Optional<Appointments> optionalAppointments = _appointmentRepository.findById(apointID);
         Optional<PaymentMethods> optionalPaymentMethods = _paymentMethodRepository.findById(6);
         Optional<Payments> optionalPayments = _paymentRepository.findByAppointmentId(appointmentId);
 
@@ -118,7 +121,8 @@ public class PaymentService {
             return "-1";
         }else if (optionalUsers.get().getRoles().getId() != 2) {
             return "-1";
-        }else if (optionalAppointments.get().getUsers().getId() != userId){
+        }else if (optionalAppointments.get().getUsers()
+                .getId() != userId){
             return "-1";
         } else if (optionalPayments.isPresent() && optionalPayments.get().getStatus() == 4) {
             return "-2";
@@ -131,7 +135,7 @@ public class PaymentService {
             }
         }
 
-        services = appointments.getServices();
+       Services   servicesById =_servicesRepository.findById(appointments.getServiceId()).orElse(null);
 
         Users finalCustomer = users;
         Services finalServices = services;

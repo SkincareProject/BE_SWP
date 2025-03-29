@@ -1,6 +1,7 @@
 package com.example.be_swp.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -18,6 +19,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL) // Ignore null fields in JSON
+
 public class Users implements UserDetails {
 
     @Id

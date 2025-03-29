@@ -1,6 +1,9 @@
 package com.example.be_swp.Repository;
 
+import com.example.be_swp.DTOs.Appointments.AppointmentsDTO;
 import com.example.be_swp.Models.Appointments;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -10,10 +13,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AppointmentRepository extends ListCrudRepository<Appointments, Integer> {
-    @Query(value = "SELECT e FROM Appointments e WHERE e.users.id = ?1")
-    List<Appointments> findByUserId(int user_id);
+public interface AppointmentRepository extends JpaRepository<Appointments, Long>, JpaSpecificationExecutor<Appointments>{
 
-    @Query(value = "SELECT ex FROM Appointments ex WHERE ex.users.fullName LIKE %:name%")
-    List<Appointments> findByName(@Param("name") String name);
 }

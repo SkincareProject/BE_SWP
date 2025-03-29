@@ -1,5 +1,7 @@
 package com.example.be_swp.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,17 +10,18 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Table(name="experts")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL) // Ignore null fields in JSON
 public class Experts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int expertId;
+    private Long expertId;
 
     private String specialization;
 
@@ -35,24 +38,34 @@ public class Experts {
 
     private LocalDateTime updated_at;
 
+
+
+
+    @JsonIgnore
     @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
     private List<WorkSchedule> workScheduleList;
 
-    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "expertId", cascade = CascadeType.ALL)
     private List<Appointments> appointmentsList;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
     private List<ExpertRatings> expertRatingsList;
 
-    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "expertId", cascade = CascadeType.ALL)
     private List<ExpertOccupiedTimes> expertOccupiedTimesList;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
     private List<Posts> postsList;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id")
     private Users users;
+
 
 
     public Experts(String specialization, int yearOfExperiences, String description, String imageBase64, int status, LocalDateTime created_at, LocalDateTime updated_at) {

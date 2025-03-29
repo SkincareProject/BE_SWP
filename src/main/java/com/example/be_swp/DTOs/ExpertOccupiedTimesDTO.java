@@ -20,7 +20,7 @@ public class ExpertOccupiedTimesDTO {
 
     private int expertOccupiedTimeId;
 
-    private int expertId;
+    private Long expertId;
 
     private String expertName;
 

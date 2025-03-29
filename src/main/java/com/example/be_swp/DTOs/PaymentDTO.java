@@ -18,7 +18,7 @@ public class PaymentDTO {
 
     private int paymentId;
 
-    private int appointmentId;
+    private Long appointmentId;
 
     private int paymentMethod;
 

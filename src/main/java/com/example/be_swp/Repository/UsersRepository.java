@@ -12,7 +12,7 @@ public interface UsersRepository extends ListCrudRepository<Users,Integer> {
     Optional<Users> findByPhone(String phone);
     Optional<Users> findByEmail(String email);
     Optional<Users> findByUsername(String username);
-    Optional<Users> findById(int id);
+    Optional<Users> findById(Long id);
 
 
 }

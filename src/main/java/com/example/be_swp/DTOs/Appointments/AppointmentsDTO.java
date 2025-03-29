@@ -18,7 +18,7 @@ public class AppointmentsDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int appointmentId;
+    private Long appointmentId;
 
     private int usersId;
 
@@ -32,9 +32,9 @@ public class AppointmentsDTO {
 
     private double total;
 
-    private LocalDateTime start_at;
+    private Long start_at;
 
-    private LocalDateTime end_at;
+    private Long end_at;
 
     private int status;
 

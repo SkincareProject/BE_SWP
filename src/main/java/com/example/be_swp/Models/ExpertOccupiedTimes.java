@@ -8,33 +8,33 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+
+@Table(name = "expert_occupied_times")  // Đảm bảo đúng tên bảng
 public class ExpertOccupiedTimes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int expertOccupiedTimeId;
+    private Long expertOccupiedTimeId;
 
+    @Column(name="date")
     private LocalDate date;
 
-    private LocalTime startAt;
+    @Column(name = "start_at")  // Kiểm tra đúng tên cột
+    private int startAt;
 
-    private LocalTime endAt;
+    @Column(name = "end_at")   // Kiểm tra đúng tên cột
+    private int endAt;
 
     private int status;
 
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    private LocalDateTime updated_at;
-
-    @ManyToOne
-    @JoinColumn(name = "expert_id")
-    private Experts experts;
-
+    private Long expertId;
 }
