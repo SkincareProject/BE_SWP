@@ -48,7 +48,7 @@ public class PaymentService {
         this._paymentMethodRepository = _paymentMethodRepository;
     }
 
-    public PaymentDTO findById(int id){
+    public PaymentDTO findById(Long id){
         PaymentDTO paymentDTO = new PaymentDTO();
         Optional<Payments> optionalPayments = _paymentRepository.findById(id);
         if (optionalPayments.isEmpty()){
@@ -56,38 +56,12 @@ public class PaymentService {
         }else{
             Payments payments = optionalPayments.get();
 
-            paymentDTO = new PaymentDTO(payments.getPaymentId(),payments.getAppointments().getAppointmentId(),payments.getPaymentMethods().getPaymentMethodId(),payments.getPrice(),payments.getStatus(),payments.getCreated_at(),payments.getUpdated_at(),payments.getZpTransId());
+            paymentDTO = new PaymentDTO(payments.getPaymentId(),payments.getAppointmentId(),payments.getPaymentMethods().getPaymentMethodId(),payments.getPrice(),payments.getStatus(),payments.getCreated_at(),payments.getUpdated_at(),payments.getZpTransId());
         }
 
         return paymentDTO;
     }
 
-    public PaymentDTO findByAppointmentId(int id){
-        PaymentDTO paymentDTO = new PaymentDTO();
-        Optional<Payments> optionalPayments = _paymentRepository.findByAppointmentId(id);
-        if (optionalPayments.isEmpty()){
-            paymentDTO.setPaymentId(-1);
-        }else{
-            Payments payments = optionalPayments.get();
-            paymentDTO = new PaymentDTO(payments.getPaymentId(),payments.getAppointments().getAppointmentId(),payments.getPaymentMethods().getPaymentMethodId(),payments.getPrice(),payments.getStatus(),payments.getCreated_at(),payments.getUpdated_at(),payments.getZpTransId());
-        }
-
-        return paymentDTO;
-    }
-
-    public List<PaymentDTO> findAllByUserId(int id){
-        List<Payments> paymentsList = _paymentRepository.findByUserId(id);
-        List<PaymentDTO> paymentDTOList = new ArrayList<>();
-
-        if (!paymentsList.isEmpty()){
-            for (Payments payments: paymentsList){
-                PaymentDTO paymentDTO = new PaymentDTO(payments.getPaymentId(),payments.getAppointments().getAppointmentId(),payments.getPaymentMethods().getPaymentMethodId(),payments.getPrice(),payments.getStatus(),payments.getCreated_at(),payments.getUpdated_at(),payments.getZpTransId());
-                paymentDTOList.add(paymentDTO);
-            }
-        }
-
-        return paymentDTOList;
-    }
 
     private Map<String, String> config = new HashMap<String, String>(){{
         put("app_id", "2554");
@@ -104,72 +78,66 @@ public class PaymentService {
         return fmt.format(cal.getTimeInMillis());
     }
 
-    public String createZaloOrderUrl(int userId, int appointmentId) throws Exception{
-        Long apointID=(long)appointmentId;
+    public String createZaloOrderUrl(int userId, int appointmentId) throws Exception {
+        Long apointID = (long) appointmentId;
         Optional<Users> optionalUsers = _usersRepository.findById(userId);
         Optional<Appointments> optionalAppointments = _appointmentRepository.findById(apointID);
         Optional<PaymentMethods> optionalPaymentMethods = _paymentMethodRepository.findById(6);
-        Optional<Payments> optionalPayments = _paymentRepository.findByAppointmentId(appointmentId);
+        Payments optionalPayments = _paymentRepository.findByAppointmentId(apointID);
 
-        Users users = new Users();
-        Services services = new Services();
-        Appointments appointments = new Appointments();
-        PaymentMethods zaloPay = new PaymentMethods();
-        Payments payments = new Payments();
-
-        if (optionalAppointments.isEmpty() || optionalUsers.isEmpty() || optionalPaymentMethods.isEmpty() ){
+        if (optionalAppointments.isEmpty() || optionalUsers.isEmpty() || optionalPaymentMethods.isEmpty()) {
             return "-1";
-        }else if (optionalUsers.get().getRoles().getId() != 2) {
-            return "-1";
-        }else if (optionalAppointments.get().getUsers()
-                .getId() != userId){
-            return "-1";
-        } else if (optionalPayments.isPresent() && optionalPayments.get().getStatus() == 4) {
-            return "-2";
-        } else{
-            users = optionalUsers.get();
-            appointments = optionalAppointments.get();
-            zaloPay = optionalPaymentMethods.get();
-            if (optionalPayments.isPresent()){
-                payments = optionalPayments.get();
-            }
         }
 
-       Services   servicesById =_servicesRepository.findById(appointments.getServiceId()).orElse(null);
+        Users users = optionalUsers.get();
+        Appointments appointments = optionalAppointments.get();
+        PaymentMethods zaloPay = optionalPaymentMethods.get();
+        Payments payments = optionalPayments;
+        if(payments==null){
+            payments = new Payments();
+        }
 
-        Users finalCustomer = users;
-        Services finalServices = services;
-        final Map[] service = {
-                new HashMap<String, Object>(){{
-                    put("serviceId", finalServices.getServiceId());
-                    put("serviceName", finalServices.getServiceName());
-                    put("serviceDescription", finalServices.getDescription());
-                    put("servicePrice", finalServices.getPrice());
-                    put("serviceDuration", finalServices.getDuration());
-                }}
-        };
+        if (users.getRoles().getId() != 2 || appointments.getUserId() != userId) {
+            return "-1";
+        }
+        if (optionalPayments!=null && optionalPayments.getStatus() == 4) {
+            return "-2";
+        }
+
+        Services services = _servicesRepository.findByServiceId(appointments.getServiceId());
+        if (services == null) {
+            throw new Exception("Service not found");
+        }
 
         JSONArray jsonArrayService = new JSONArray();
-        for (Map map: service){
-            JSONObject jsonObject = new JSONObject(map);
-            jsonArrayService.put(jsonObject);
-        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("serviceId", services.getServiceId());
+        jsonObject.put("serviceName", services.getServiceName());
+        jsonObject.put("serviceDescription", services.getDescription());
+        jsonObject.put("servicePrice", services.getPrice());
+        jsonObject.put("serviceDuration", services.getDuration());
+        jsonArrayService.put(jsonObject);
 
-        int paymentID = 0;
-
-        if (optionalPayments.isEmpty()) {
+        int paymentID;
+        if (optionalPayments==null) {
             Payments newPayments = new Payments();
             newPayments.setPaymentMethods(zaloPay);
-            newPayments.setAppointments(appointments);
+            newPayments.setAppointmentId(appointments.getAppointmentId());
             newPayments.setPrice(appointments.getTotal());
             newPayments.setStatus(4);
             newPayments.setZpTransId(0);
             newPayments.setCreated_at(LocalDateTime.now());
+
             newPayments.setUpdated_at(LocalDateTime.now());
+
+
             _paymentRepository.save(newPayments);
 
+            appointments.setStatus(1);
+
+            _appointmentRepository.save(appointments);
             paymentID = newPayments.getPaymentId();
-        }else{
+        } else {
             paymentID = payments.getPaymentId();
             payments.setUpdated_at(LocalDateTime.now());
             _paymentRepository.save(payments);
@@ -178,30 +146,27 @@ public class PaymentService {
         Random rand = new Random();
         int random_id = rand.nextInt(1000000);
 
-        int finalPaymentID = paymentID;
-        final Map embed_data = new HashMap<String,Object>(){{
-            put("redirecturl","http://localhost:3000/success");
-            put("paymentId", finalPaymentID);
-        }};
+        Map<String, Object> embed_data = new HashMap<>();
+        embed_data.put("redirecturl", "http://localhost:3000/success");
 
-        Map<String, Object> order = new HashMap<String, Object>(){{
-            put("app_id", config.get("app_id"));
-            put("app_trans_id", getCurrentTimeString("yyMMdd") +"_"+ random_id);
-            put("app_time", System.currentTimeMillis()); // miliseconds
-            put("app_user", "CustomerID:" + finalCustomer.getId());
-            put("amount", (long)finalServices.getPrice());
-            put("description", "Beauty Booking - Payment for the order #"+random_id);
-            put("bank_code", "");
-            put("item", jsonArrayService);
-            put("embed_data", new JSONObject(embed_data).toString());
-        }};
+        embed_data.put("paymentId", paymentID);
 
-        String data = order.get("app_id") +"|"+ order.get("app_trans_id") +"|"+ order.get("app_user") +"|"+ order.get("amount")
-                +"|"+ order.get("app_time") +"|"+ order.get("embed_data") +"|"+ order.get("item");
+        Map<String, Object> order = new HashMap<>();
+        order.put("app_id", config.get("app_id"));
+        order.put("app_trans_id", getCurrentTimeString("yyMMdd") + "_" + random_id);
+        order.put("app_time", System.currentTimeMillis());
+        order.put("app_user", "CustomerID:" + users.getId());
+        order.put("amount", (long) services.getPrice());
+        order.put("description", "Beauty Booking - Payment for order #" + random_id);
+        order.put("bank_code", "");
+        order.put("item", jsonArrayService);
+        order.put("embed_data", new JSONObject(embed_data).toString());
+
+        String data = order.get("app_id") + "|" + order.get("app_trans_id") + "|" + order.get("app_user") + "|" +
+                order.get("amount") + "|" + order.get("app_time") + "|" + order.get("embed_data") + "|" + order.get("item");
         order.put("mac", HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, config.get("key1"), data));
-        order.put("callback_url","https://admin.tamdeptrai.com/api/payments/callback/zaloPay");
+        order.put("callback_url", "https://fac35f30970e8984bcc6b4f09c9812be.serveo.net/api/payments/callback/zaloPay");
 
-        System.out.println(order.toString());
 
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(config.get("endpoint"));
@@ -210,26 +175,32 @@ public class PaymentService {
         for (Map.Entry<String, Object> e : order.entrySet()) {
             params.add(new BasicNameValuePair(e.getKey(), e.getValue().toString()));
         }
-
-        // Content-Type: application/x-www-form-urlencoded
         post.setEntity(new UrlEncodedFormEntity(params));
 
         CloseableHttpResponse res = client.execute(post);
         BufferedReader rd = new BufferedReader(new InputStreamReader(res.getEntity().getContent()));
         StringBuilder resultJsonStr = new StringBuilder();
         String line;
-
         while ((line = rd.readLine()) != null) {
             resultJsonStr.append(line);
         }
 
         JSONObject result = new JSONObject(resultJsonStr.toString());
-        for (String key : result.keySet()) {
-            System.out.format("%s = %s\n", key, result.get(key));
+        int statusCode = res.getStatusLine().getStatusCode();
+        System.out.println("HTTP Status Code: " + statusCode);
+
+        if (statusCode != 200 || !result.has("order_url")) {
+            System.out.println("ZaloPay Response: " + result.toString());
+            if (result.has("return_code")) {
+                throw new Exception("ZaloPay API Error: " + result.getInt("return_code") + " - " + result.getString("return_message"));
+            } else {
+                throw new Exception("Unexpected response from ZaloPay: " + result.toString());
+            }
         }
 
         return result.getString("order_url");
     }
+
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private Mac HmacSHA256;
@@ -278,16 +249,23 @@ public class PaymentService {
         JSONObject embedJsonObject = new JSONObject(embedStr);
         int paymentId = embedJsonObject.getInt("paymentId");
 
-        System.out.println("zp_trans_id: " + zpId);
-        System.out.println("paymentId: " + paymentId);
-        System.out.println("Return Code: " + result.get("return_code"));
+//        System.out.println("zp_trans_id: " + zpId);
+//        System.out.println("paymentId: " + paymentId);
+//        System.out.println("Return Code: " + result.get("return_code"));
 
-        Optional<Payments> optionalPayments = _paymentRepository.findById(paymentId);
+        Optional<Payments> optionalPayments = _paymentRepository.findById((long)paymentId);
         if (optionalPayments.isPresent()){
             Payments payments = optionalPayments.get();
             payments.setZpTransId(zpId);
             payments.setUpdated_at(LocalDateTime.now());
             payments.setStatus(4);
+
+
+
+            _appointmentRepository.findById(optionalPayments.get().getAppointmentId()).ifPresent(appointment -> {
+                appointment.setPaymentId((long)optionalPayments.get().getPaymentId());
+                _appointmentRepository.save(appointment);
+            });
 
             _paymentRepository.save(payments);
         }
@@ -295,7 +273,7 @@ public class PaymentService {
         return result.toString();
     }
 
-    public String refundZaloPay(int paymentId) throws IOException {
+    public String refundZaloPay(Long paymentId) throws IOException {
 
         Optional<Payments> optionalPayments = _paymentRepository.findById(paymentId);
 

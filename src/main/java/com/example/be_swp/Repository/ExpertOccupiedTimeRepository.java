@@ -31,7 +31,9 @@ import java.util.Optional;
          );
 
 
+         ExpertOccupiedTimes findByAppointmentId(Long appointmentId);
 
+         List<ExpertOccupiedTimes> findByExpertIdAndDate(Long expertId, LocalDate date);
 
-
+         ExpertOccupiedTimes findByExpertOccupiedTimeId(Long expertScheduleId);
      }

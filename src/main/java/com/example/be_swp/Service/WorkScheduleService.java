@@ -179,8 +179,8 @@ public class WorkScheduleService {
             Optional<Experts> optionalExperts = _expertRepository.findById(workSchedule.getExperts().getExpertId());
             Experts experts = optionalExperts.get();
 
-            experts.getWorkScheduleList().remove(workSchedule);
-            experts.setUpdated_at(LocalDateTime.now());
+//            experts.getWorkScheduleList().remove(workSchedule);
+//            experts.setUpdated_at(LocalDateTime.now());
             _workScheduleRepository.delete(workSchedule);
 
         }

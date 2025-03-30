@@ -21,6 +21,7 @@ public class Experts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="expert_id")
     private Long expertId;
 
     private String specialization;
@@ -34,32 +35,16 @@ public class Experts {
 
     private int status;
 
-    private LocalDateTime created_at;
-
-    private LocalDateTime updated_at;
 
 
 
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
-    private List<WorkSchedule> workScheduleList;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "expertId", cascade = CascadeType.ALL)
-    private List<Appointments> appointmentsList;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
-    private List<ExpertRatings> expertRatingsList;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "expertId", cascade = CascadeType.ALL)
-    private List<ExpertOccupiedTimes> expertOccupiedTimesList;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
-    private List<Posts> postsList;
+
+
 
     @JsonIgnore
     @OneToOne
@@ -74,7 +59,6 @@ public class Experts {
         this.description = description;
         this.imageBase64 = imageBase64;
         this.status = status;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+
     }
 }

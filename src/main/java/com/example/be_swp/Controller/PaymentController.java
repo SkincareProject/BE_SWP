@@ -4,9 +4,11 @@ package com.example.be_swp.Controller;
 import com.example.be_swp.DTOs.PaymentDTO;
 import com.example.be_swp.Models.ApiResponse;
 import com.example.be_swp.Models.Payments;
+import com.example.be_swp.Repository.PaymentRepository;
 import com.example.be_swp.Service.PaymentService;
 import jakarta.xml.bind.DatatypeConverter;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.Mac;
@@ -18,17 +20,19 @@ import java.util.logging.Logger;
 @RestController
 @RequestMapping("/api/payments")
 public class PaymentController {
-
+   @Autowired
     private final PaymentService _paymentService;
+   @Autowired
+    private final PaymentRepository paymentRepository;
 
-    public PaymentController(PaymentService paymentService){
+    public PaymentController(PaymentService paymentService, PaymentRepository paymentRepository){
 
         _paymentService = paymentService;
-
+        this.paymentRepository = paymentRepository;
     }
 
     @GetMapping("/findById/{paymentId}")
-    public ApiResponse<PaymentDTO> findById(@PathVariable int paymentId){
+    public ApiResponse<PaymentDTO> findById(@PathVariable Long paymentId){
         PaymentDTO paymentDTO = _paymentService.findById(paymentId);
 
         String status = "";
@@ -46,8 +50,8 @@ public class PaymentController {
     }
 
     @GetMapping("/findByAppointmentId/{appointmentId}")
-    public ApiResponse<PaymentDTO> findByAppointmentId(@PathVariable int appointmentId){
-        PaymentDTO paymentDTO = _paymentService.findByAppointmentId(appointmentId);
+    public ApiResponse<?> findByAppointmentId(@PathVariable Long appointmentId){
+        Payments paymentDTO = paymentRepository.findByAppointmentId(appointmentId);
 
         String status = "";
         String message = "";
@@ -64,8 +68,8 @@ public class PaymentController {
     }
 
     @GetMapping("/findAllByUserId/{userId}")
-    public ApiResponse<List<PaymentDTO>> findAllByUserId(@PathVariable int userId){
-        List<PaymentDTO> paymentDTOList = _paymentService.findAllByUserId(userId);
+    public ApiResponse<List<?>> findAllByUserId(@PathVariable Long userId){
+        List<PaymentDTO> paymentDTOList = paymentRepository.findAllByUserId(userId);
 
         String status = "";
         String message = "";
@@ -137,7 +141,7 @@ public class PaymentController {
     }
 
     @PostMapping("/refund/zaloPay/{paymentId}")
-    public ApiResponse<String> refundZaloPay(@PathVariable int paymentId) throws IOException {
+    public ApiResponse<String> refundZaloPay(@PathVariable Long paymentId) throws IOException {
         String refund = _paymentService.refundZaloPay(paymentId);
 
         String status = "";

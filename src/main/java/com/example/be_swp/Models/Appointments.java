@@ -19,14 +19,12 @@ public class Appointments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appointmentId;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "user_id")
-    private Users users;
+    @Column(nullable = false, updatable = false,name = "user_id")
+    private Long userId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "expert_id")
-    private Experts expertId;
+
+    @Column(nullable = false, updatable = false,name = "expert_id")
+    private Long expertId;
 
     private Long serviceId;
 
@@ -38,9 +36,12 @@ public class Appointments {
     @OneToOne(mappedBy = "appointments", cascade = CascadeType.ALL)
     private ServiceRatings serviceRatings;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "appointments", cascade = CascadeType.ALL)
-    private Payments payments;
+//    @JsonIgnore
+//    @OneToOne(mappedBy = "appointmentId", cascade = CascadeType.ALL)
+
+
+    @Column(name = "payment_id", nullable = true)
+    private Long paymentId;
 
     private double total;
 
@@ -56,6 +57,8 @@ public class Appointments {
 
     @Column(name = "end_at")
     private Long endAt;
+
+
 
     private int status;
 

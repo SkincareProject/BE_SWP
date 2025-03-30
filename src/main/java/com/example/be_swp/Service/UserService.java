@@ -153,10 +153,10 @@ public class UserService implements UserDetailsService{
         );
     }
 
-    public UsersDTO update(UsersDTO usersDTO , int id){
+    public UsersDTO update(UsersDTO usersDTO , Long id){
         Optional<Users> optionalUsers = _usersRepository.findById(id);
             if(optionalUsers.isEmpty()){
-                usersDTO.setId(-1);
+                usersDTO.setId(-1L);
             }else{
                 Users users = optionalUsers.get();
                 users.setUsername(usersDTO.getUsername());
@@ -175,11 +175,11 @@ public class UserService implements UserDetailsService{
             return usersDTO;
     }
 
-    public UsersDTO delete(int id){
+    public UsersDTO delete(Long id){
         Optional<Users> optionalUsers = _usersRepository.findById(id);
         UsersDTO usersDTO = new UsersDTO();
         if(optionalUsers.isEmpty()){
-            usersDTO.setId(-1);
+            usersDTO.setId(-1L);
         }else{
             Users users = optionalUsers.get();
             usersDTO = new UsersDTO(users.getId(), users.getUsername(), users.getPassword(), users.getFullName(),  users.getEmail(), users.getPhone(), users.is_active()
@@ -194,7 +194,7 @@ public class UserService implements UserDetailsService{
         Optional<Users> optionalUsers = _usersRepository.findById(id);
         UsersDTO usersDTO = new UsersDTO();
         if(optionalUsers.isEmpty()){
-            usersDTO.setId(-1);
+            usersDTO.setId(-1L);
         }else{
             Users users = optionalUsers.get();
             usersDTO = new UsersDTO(users.getId(), users.getUsername(), users.getPassword(), users.getFullName(),  users.getEmail(), users.getPhone(), users.is_active()

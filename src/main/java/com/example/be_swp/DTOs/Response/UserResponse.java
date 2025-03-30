@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public class UserResponse {
 
-    public int id;
+    public Long id;
     @NotBlank(message = "Username can not blank")
     public String username;
     @NotBlank(message = "Password can not blank")
@@ -30,7 +30,7 @@ public class UserResponse {
 
     public String token;
 
-    public UserResponse(int id, String username, String password, String fullName, String email, String phone, boolean is_active, Integer role_id, LocalDateTime created_at, LocalDateTime updated_at, String token) {
+    public UserResponse(Long id, String username, String password, String fullName, String email, String phone, boolean is_active, Integer role_id, LocalDateTime created_at, LocalDateTime updated_at, String token) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -47,11 +47,11 @@ public class UserResponse {
     public UserResponse() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

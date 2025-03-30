@@ -22,6 +22,8 @@ public class ExpertMapper {
                 dto1.setImageBase64(expert.getImageBase64());
                 dto1.setStatus(expert.getStatus());
                 dto1.setExpertId(expert.getExpertId());
+                dto1.setUserId(expert.getUsers().getId());
+                dto1.setYearOfExperiences(expert.getYearOfExperiences());
                 dto.add(dto1);
             }
         });

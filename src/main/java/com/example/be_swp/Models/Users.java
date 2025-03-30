@@ -25,7 +25,7 @@ public class Users implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "username" )
     private String username;
@@ -58,9 +58,9 @@ public class Users implements UserDetails {
 
     @OneToOne(mappedBy = "users", cascade = CascadeType.ALL)
     private Experts experts;
-
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    private List<Appointments> appointmentsList;
+//
+//    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+//    private List<Appointments> appointmentsList;
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<ExpertRatings> expertRatingsList;

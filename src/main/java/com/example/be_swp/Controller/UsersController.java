@@ -4,6 +4,7 @@ import com.example.be_swp.DTOs.Request.UserRequest;
 import com.example.be_swp.DTOs.Response.UserResponse;
 import com.example.be_swp.DTOs.UsersDTO;
 import com.example.be_swp.Models.ApiResponse;
+import com.example.be_swp.Models.Users;
 import com.example.be_swp.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class UsersController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ApiResponse<UsersDTO> delete(@PathVariable int id){
+    public ApiResponse<UsersDTO> delete(@PathVariable Long id){
         UsersDTO usersDTO = _userService.delete(id);
 
         String status = "";
@@ -59,7 +60,7 @@ public class UsersController {
     }
 
     @PutMapping("/update/{id}")
-    public ApiResponse<UsersDTO> update(@RequestBody UsersDTO usersDTO,@PathVariable int id){
+    public ApiResponse<UsersDTO> update(@RequestBody UsersDTO usersDTO,@PathVariable Long id){
         usersDTO = _userService.update(usersDTO,id);
 
         String status = "";
