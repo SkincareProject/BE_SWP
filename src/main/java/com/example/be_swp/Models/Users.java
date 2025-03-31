@@ -62,11 +62,11 @@ public class Users implements UserDetails {
 //    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
 //    private List<Appointments> appointmentsList;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    private List<ExpertRatings> expertRatingsList;
+//    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+//    private List<ExpertRatings> expertRatingsList;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    private List<ServiceRatings> serviceRatingsList;
+//    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+//    private List<ServiceRatings> serviceRatingsList;
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<QuizResults> quizResultsList;

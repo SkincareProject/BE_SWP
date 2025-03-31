@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,37 +20,21 @@ public class ServiceRatings {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long serviceRatingId;
 
-    @OneToOne
-    @JoinColumn(name = "appointment_id")
-    private Appointments appointments;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Users users;
-
-    @ManyToOne
-    @JoinColumn(name = "service_id")
-    private Services services;
-
-    private int rating;
+    private Long rating;
 
     private String feedback;
 
-    private int status;
+    @Column(name="user_id")
+    private Long userId;
 
-    private LocalDateTime created_at;
 
-    private LocalDateTime updated_at;
+    @Column(name="service_id")
+    private Long serviceId;
 
-    public ServiceRatings(Long serviceRatingId, Appointments appointments, Users users, Services services, ServiceRatings serviceRatings, int rating, String feedback, int status, LocalDateTime created_at, LocalDateTime updated_at) {
-        this.serviceRatingId = serviceRatingId;
-        this.appointments = appointments;
-        this.users = users;
-        this.services = services;
-        this.rating = rating;
-        this.feedback = feedback;
-        this.status = status;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-    }
+    @Column(name="appointment_id")
+    private Long appointmentId;
+
+
+
+
 }

@@ -28,13 +28,7 @@ public class Appointments {
 
     private Long serviceId;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "appointments", cascade = CascadeType.ALL)
-    private ExpertRatings expertRatings;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "appointments", cascade = CascadeType.ALL)
-    private ServiceRatings serviceRatings;
 
 //    @JsonIgnore
 //    @OneToOne(mappedBy = "appointmentId", cascade = CascadeType.ALL)
