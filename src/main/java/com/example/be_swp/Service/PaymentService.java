@@ -165,7 +165,7 @@ public class PaymentService {
         String data = order.get("app_id") + "|" + order.get("app_trans_id") + "|" + order.get("app_user") + "|" +
                 order.get("amount") + "|" + order.get("app_time") + "|" + order.get("embed_data") + "|" + order.get("item");
         order.put("mac", HMACUtil.HMacHexStringEncode(HMACUtil.HMACSHA256, config.get("key1"), data));
-        order.put("callback_url", "https://fac35f30970e8984bcc6b4f09c9812be.serveo.net/api/payments/callback/zaloPay");
+        order.put("callback_url", "https://be.tamdeptrai.com/api/payments/callback/zaloPay");
 
 
         CloseableHttpClient client = HttpClients.createDefault();
