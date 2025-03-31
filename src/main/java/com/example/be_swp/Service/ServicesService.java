@@ -25,25 +25,18 @@ public class ServicesService {
             for (Services services: servicesList){
                 ServicesDTO servicesDTO = new ServicesDTO(services.getServiceId(),services.getServiceName()
                         ,services.getPrice(),services.getDescription(),services.getDuration(),services.getStatus()
-                        ,services.getType(),services.getSkinType(),services.getCreated_at(),services.getUpdated_at());
+                        ,services.getType(),services.getSkinType(),services.getImage(),services.getUpdated_at(),services.getCreated_at());
                 servicesDTOList.add(servicesDTO);
             }
         }
         return servicesDTOList;
     }
 
-    public ServicesDTO findById(int id){
-        ServicesDTO servicesDTO = new ServicesDTO();
-        Optional<Services> optionalServices = _servicesRepository.findById(id);
-        if (optionalServices.isPresent()){
-            Services services = optionalServices.get();
-            servicesDTO = new ServicesDTO(services.getServiceId(),services.getServiceName()
-                    ,services.getPrice(),services.getDescription(),services.getDuration(),services.getStatus()
-                    ,services.getType(),services.getSkinType(),services.getCreated_at(),services.getUpdated_at());
-        }else{
-            servicesDTO.setServiceId(-1);
-        }
-        return servicesDTO;
+    public  Optional<Services> findById(Long id){
+
+        Optional<Services> serivceById = _servicesRepository.findById(id);
+
+        return serivceById;
     }
 
     public ServicesDTO add(ServicesDTO servicesDTO){
@@ -62,7 +55,7 @@ public class ServicesService {
         return servicesDTO;
     }
 
-    public ServicesDTO update(ServicesDTO servicesDTO, int id){
+    public ServicesDTO update(ServicesDTO servicesDTO, Long id){
         Optional<Services> optionalServices = _servicesRepository.findById(id);
         if (optionalServices.isPresent()){
             Services updateServices = optionalServices.get();
@@ -76,22 +69,20 @@ public class ServicesService {
             updateServices.setUpdated_at(LocalDateTime.now());
             _servicesRepository.save(updateServices);
         }else {
-            servicesDTO.setServiceId(-1);
+            servicesDTO.setServiceId(1L);
         }
         return servicesDTO;
     }
 
-    public ServicesDTO delete(int id){
+    public ServicesDTO delete(Long id){
         Optional<Services> optionalServices = _servicesRepository.findById(id);
         ServicesDTO servicesDTO = new ServicesDTO();
         if (optionalServices.isPresent()){
             Services services = optionalServices.get();
-            servicesDTO = new ServicesDTO(services.getServiceId(),services.getServiceName()
+            new ServicesDTO(services.getServiceId(),services.getServiceName()
                     ,services.getPrice(),services.getDescription(),services.getDuration(),services.getStatus()
-                    ,services.getType(),services.getSkinType(),services.getCreated_at(),services.getUpdated_at());
+                    ,services.getType(),services.getSkinType(),services.getImage(),services.getUpdated_at(),services.getCreated_at());
             _servicesRepository.delete(services);
-        }else{
-            servicesDTO.setServiceId(-1);
         }
         return servicesDTO;
     }

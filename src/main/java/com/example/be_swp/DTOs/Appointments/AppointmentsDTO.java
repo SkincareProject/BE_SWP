@@ -1,14 +1,14 @@
 package com.example.be_swp.DTOs.Appointments;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 
 @Data
 @Builder
@@ -16,30 +16,30 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class AppointmentsDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int appointmentId;
-
-    private int usersId;
-
-    private int expertsId;
+    private Long appointmentId;
 
     private String expertsName;
 
-    private int servicesId;
+    private String serviceName;
 
-    private int paymentStatus;
+    private Long serviceId;
 
-    private double total;
+    private Long expertId;
 
-    private LocalDateTime start_at;
+    private Double total;
 
-    private LocalDateTime end_at;
+    private Long startAt;
+
+    private Long endAt;
 
     private int status;
 
-    private LocalDateTime created_at;
+    private LocalDate date;
 
-    private LocalDateTime updated_at;
+    @Nullable
+    private Long expertScheduleId;
+
+    private int duration;
+
 
 }

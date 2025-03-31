@@ -2,99 +2,93 @@ package com.example.be_swp.Controller;
 
 import com.example.be_swp.DTOs.ServicesDTO;
 import com.example.be_swp.Models.ApiResponse;
+import com.example.be_swp.Models.Services;
+import com.example.be_swp.Repository.ServiceRatingsRepository;
+import com.example.be_swp.Repository.ServicesRepository;
 import com.example.be_swp.Service.ServicesService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.server.RequestPath;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/services")
+@AllArgsConstructor
 public class ServiceController {
 
-    private final ServicesService _servicesService;
+    private ServicesRepository servicesRepository;
+    private ServiceRatingsRepository serviceRatingsRepository;
+//    private Ser servicesService;
 
-    public ServiceController(ServicesService _servicesService) {
-        this._servicesService = _servicesService;
+    @GetMapping("/findAll")
+    public ApiResponse<?> findAll(){
+
+        List <Services> services= servicesRepository.findAll();
+
+        return  new ApiResponse<>(null, services, null);
     }
 
-    @GetMapping("/getAll")
-    public ApiResponse<List<ServicesDTO>> getAll() {
-        List<ServicesDTO> servicesDTOList = _servicesService.findAll();
-        String status = "";
-        String message = "";
-        if (servicesDTOList.isEmpty()) {
-            status = "404";
-            message = "Service Not Found!";
-        } else {
-            status = "200";
-            message = "Service Found!";
+    @PostMapping("/createOrUpdate")
+    public ApiResponse<?> createOrUpdate(@RequestBody Services services){
+        if(services==null){
+            return new ApiResponse<>("400", null,null);
         }
-        return new ApiResponse<>(status,servicesDTOList,message);
-    }
+        Services toSave = null;
 
-    @GetMapping("/findById/{id}")
-    public ApiResponse<ServicesDTO> findById(@PathVariable int id){
-        ServicesDTO servicesDTO = _servicesService.findById(id);
 
-        String status = "";
-        String message = "";
 
-        if (servicesDTO.getServiceId() == -1){
-            status = "404";
-            message = "Service Not Found!";
-        } else {
-            status = "200";
-            message = "Service Found!";
+        if(services.getServiceId()!=null){
+          toSave =servicesRepository.findById(services.getServiceId()).orElse(null);
+
+        }else{
+            toSave = new Services();
+
         }
 
-        servicesDTO.setServiceId(id);
 
-        return new ApiResponse<>(status,servicesDTO,message);
+
+
+        ///  update or create
+
+//        toSave.setServiceId(services.getServiceId());
+        toSave.setServiceName(services.getServiceName());
+        toSave.setPrice(services.getPrice());
+        toSave.setStatus(services.getStatus());
+        toSave.setDescription(services.getDescription());
+        toSave.setDuration(services.getDuration());
+        toSave.setSkinType(services.getType());
+        toSave.setImage(services.getImage());
+        toSave=servicesRepository.save(toSave);
+
+
+        return  new ApiResponse<>("200", toSave, "create or update success");
+
     }
 
-    @PostMapping("/add")
-    public ApiResponse<ServicesDTO> add(@RequestBody ServicesDTO servicesDTO) {
-        servicesDTO = _servicesService.add(servicesDTO);
-        String status = "200";
-        String message = "Saved Service!";
-        return new ApiResponse<>(status,servicesDTO,message);
-    }
-
-    @PutMapping("/update/{id}")
-    public ApiResponse<ServicesDTO> update(@PathVariable int id,@RequestBody ServicesDTO servicesDTO) {
-        servicesDTO = _servicesService.update(servicesDTO,id);
-        String status = "";
-        String message = "";
-
-        if (servicesDTO.getServiceId() == -1){
-            status = "404";
-            message = "Service Not Found!";
-        } else {
-            status = "200";
-            message = "Service Updated!";
-        }
-
-        servicesDTO.setServiceId(id);
-
-        return new ApiResponse<>(status,servicesDTO,message);
-    }
 
     @DeleteMapping("/delete/{id}")
-    public ApiResponse<ServicesDTO> delete(@PathVariable int id) {
-        ServicesDTO servicesDTO = _servicesService.delete(id);
-        String status = "";
-        String message = "";
-
-        if (servicesDTO.getServiceId() == -1){
-            status = "404";
-            message = "Service Not Found!";
-        } else {
-            status = "200";
-            message = "Service Deleted!";
+    public ApiResponse<?> delete(@PathVariable Long id){
+        Services toDelete = null;
+        Optional<Services> service =servicesRepository.findById(id);
+        if(id==null || id==0) {
+            return new ApiResponse<>("400", null,null);
         }
-        servicesDTO.setServiceId(id);
-
-        return new ApiResponse<>(status,servicesDTO,message);
+        servicesRepository.deleteById(id);
+        return  new ApiResponse<>("200", toDelete, "delete success");
 
     }
+    @GetMapping("/findById/{id}")
+    public ApiResponse<?> findById(@PathVariable Long id){
+
+        Services service =servicesRepository.findByServiceId(id);
+        if(id==null || id==0) {
+            return new ApiResponse<>("404", null,null);
+        }
+        return  new ApiResponse<>("200", service, "find success");
+
+    }
+
+
 }

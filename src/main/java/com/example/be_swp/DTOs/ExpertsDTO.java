@@ -1,14 +1,12 @@
 package com.example.be_swp.DTOs;
 
-import com.example.be_swp.Models.*;
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -17,11 +15,10 @@ import java.util.List;
 public class ExpertsDTO {
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int expertId;
 
-    private int userId;
+    private Long expertId;
+
+    private Long userId;
 
     private String fullName;
 
@@ -33,9 +30,16 @@ public class ExpertsDTO {
 
     private int status;
 
-    private LocalDateTime created_at;
+    private String customerName;
 
-    private LocalDateTime updated_at;
+    private String serviceName;
+
+    private Long startAt;
+    private Long endAt;
+    private LocalDate date;
+    private int duration;
+    private Double total;
+    private Long appointmentId;
 
     private String imageBase64;
 

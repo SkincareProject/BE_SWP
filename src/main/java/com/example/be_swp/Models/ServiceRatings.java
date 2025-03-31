@@ -17,7 +17,7 @@ public class ServiceRatings {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int serviceRatingId;
+    private Long serviceRatingId;
 
     @OneToOne
     @JoinColumn(name = "appointment_id")
@@ -41,7 +41,7 @@ public class ServiceRatings {
 
     private LocalDateTime updated_at;
 
-    public ServiceRatings(int serviceRatingId, Appointments appointments, Users users, Services services, ServiceRatings serviceRatings, int rating, String feedback, int status, LocalDateTime created_at, LocalDateTime updated_at) {
+    public ServiceRatings(Long serviceRatingId, Appointments appointments, Users users, Services services, ServiceRatings serviceRatings, int rating, String feedback, int status, LocalDateTime created_at, LocalDateTime updated_at) {
         this.serviceRatingId = serviceRatingId;
         this.appointments = appointments;
         this.users = users;

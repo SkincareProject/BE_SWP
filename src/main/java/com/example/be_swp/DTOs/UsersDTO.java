@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UsersDTO {
 
-    private int id;
+    private Long id;
     @NotBlank(message = "Username can not blank")
     private String username;
     @NotBlank(message = "Password can not blank")

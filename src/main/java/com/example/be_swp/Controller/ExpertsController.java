@@ -1,159 +1,100 @@
 package com.example.be_swp.Controller;
 
+import com.example.be_swp.Bean.ExpertRegisterBean;
 import com.example.be_swp.DTOs.ExpertsDTO;
+import com.example.be_swp.DTOs.UsersDTO;
 import com.example.be_swp.Models.ApiResponse;
-import com.example.be_swp.DTOs.UserExpertDTO;
-import com.example.be_swp.Service.ExpertService;
+import com.example.be_swp.Models.Experts;
+import com.example.be_swp.Models.Roles;
+import com.example.be_swp.Models.Users;
+import com.example.be_swp.Repository.ExpertRepository;
+import com.example.be_swp.Repository.RolesRepository;
+import com.example.be_swp.Repository.UsersRepository;
+import com.example.be_swp.mapper.experts.ExpertMapper;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/experts")
 public class ExpertsController {
 
-    private final ExpertService _expertService;
+    @Autowired
+    private ExpertRepository _expertRepository;
+    @Autowired
+    private ExpertMapper _expertMapper;
+    @Autowired
+    private RolesRepository _rolesRepository;
+    @Autowired
+    private UsersRepository _usersRepository;
 
-    public ExpertsController(ExpertService expertService){
-        _expertService = expertService;
-    }
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
+
+
 
     @GetMapping("/findAll")
-    public ApiResponse<List<ExpertsDTO>> findAll(){
-        List<ExpertsDTO> expertsDTOList = _expertService.findAll();
+    public ApiResponse<?> findAll(){
+        List<Experts> experts = _expertRepository.findAll();
+        List<?> expertsDTOList=_expertMapper.mapToExperts(experts);
+
 
         String status = "";
         String message = "";
 
-        if (!expertsDTOList.isEmpty()){
-            status = "200";
-            message = "Get all Experts successfully!";
-        }else {
-            status = "404";
-            message = "No Experts Found!";
-        }
-
-        return new ApiResponse<>(status,expertsDTOList,message);
+        return new ApiResponse<>(status, expertsDTOList, message);
 
     }
 
     @GetMapping("/findById/{id}")
-    public ApiResponse<ExpertsDTO> findById(@PathVariable int id){
-        ExpertsDTO expertsDTO = _expertService.findById(id);
+    public ApiResponse<?> findById(@PathVariable Long id){
+        Optional<Experts> expertsDTO = _expertRepository.findById(id);
 
         String status = "";
         String message = "";
 
-        if (expertsDTO.getExpertId() == -1){
-            status = "404";
-            message = "Expert Not Found!";
-        }else {
-            status = "200";
-            message = "Expert Found!";
-        }
-
-        expertsDTO.setExpertId(id);
 
         return new ApiResponse<>(status,expertsDTO,message);
-    }
-
-    @GetMapping("findByName")
-    public ApiResponse<List<ExpertsDTO>> findByName(@RequestParam String name){
-        List<ExpertsDTO> expertsDTOList = _expertService.findByName(name);
-
-
-        String status = "";
-        String message = "";
-
-        if (expertsDTOList.isEmpty()){
-            status = "404";
-            message = "Experts Not Found!";
-        }else {
-            status = "200";
-            message = "Experts Found!";
-        }
-
-        return new ApiResponse<>(status,expertsDTOList,message);
     }
 
     @PostMapping("/add")
-    public ApiResponse<ExpertsDTO> add(@RequestBody UserExpertDTO userExpertDTO){
-        ExpertsDTO expertsDTO = _expertService.add(userExpertDTO);
+    public ApiResponse<?> add(@RequestBody @Valid ExpertRegisterBean body){
+        Users users = new Users();
+        Experts experts = new Experts();
+        Optional<Roles> role = _rolesRepository.findById(4);
 
-        String status = "";
-        String message = "";
+        users.setUsername(body.getUsername());
+        users.setFullName(body.getFullName());
+        users.setEmail(body.getEmail());
+        users.setPhone(body.getPhone());
+        users.setPassword(passwordEncoder.encode(body.getPassword()));
+        users.setRoles(role.get());
+        users.set_active(true);
+        users.setCreated_at(LocalDateTime.now());
+        users.setUpdated_at(LocalDateTime.now());
+        Users newUser=_usersRepository.save(users);
 
-        switch (expertsDTO.getExpertId()){
-            case -1:
-                status = "400";
-                message = "Username Already Existed!";
-                break;
-            case -2:
-                status = "400";
-                message = "Email Already Existed!";
-                break;
-            case -3:
-                status = "400";
-                message = "Phone Already Existed!";
-                break;
-            case -4:
-                status = "400";
-                message = "Invalid Email!";
-                break;
-            case -5:
-                status = "400";
-                message = "Invalid Phone!";
-                break;
-            default:
-                status = "200";
-                message = "Add Expert Successfully!";
-                break;
+        if(newUser!=null){
+            experts.setDescription(body.getDescription());
+            experts.setSpecialization(body.getSpecialization());
+            experts.setImageBase64(body.getImageBase64());
+            experts.setYearOfExperiences(body.getYearOfExperiences());
+            experts.setUsers(newUser);
+            _expertRepository.save(experts);
         }
 
-        return new ApiResponse<>(status,expertsDTO,message);
 
+        return new ApiResponse<>("200",body,"xxxx");
     }
 
-    @PutMapping("/update/{id}")
-    public ApiResponse<ExpertsDTO> update(@RequestBody ExpertsDTO expertsDTO,@PathVariable int id){
 
-        expertsDTO = _expertService.update(expertsDTO,id);
 
-        String status = "";
-        String message = "";
 
-        if (expertsDTO.getExpertId() == -1){
-            status = "404";
-            message = "Expert Not Found!";
-        }else{
-            status = "200";
-            message = "Update Successfully!";
-        }
-
-        expertsDTO.setExpertId(id);
-
-        return new ApiResponse<>(status,expertsDTO,message);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ApiResponse<ExpertsDTO> delete(@PathVariable int id){
-
-        ExpertsDTO expertsDTO = _expertService.delete(id);
-
-        String status = "";
-        String message = "";
-
-        if (expertsDTO.getExpertId() == -1){
-            status = "404";
-            message = "Expert Not Found!";
-        }else{
-            status = "200";
-            message = "Delete Successfully!";
-        }
-
-        expertsDTO.setExpertId(id);
-
-        return new ApiResponse<>(status,expertsDTO,message);
-    }
 
 }

@@ -1,40 +1,59 @@
 package com.example.be_swp.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+
+
+@Table(name = "expert_occupied_times")  // Đảm bảo đúng tên bảng
 public class ExpertOccupiedTimes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int expertOccupiedTimeId;
+    private Long expertOccupiedTimeId;
 
+    @Column(name = "date")
     private LocalDate date;
 
-    private LocalTime startAt;
+    @Column(name = "start_at")
+    private Long startAt;
 
-    private LocalTime endAt;
+    @Column(name = "end_at")
+    private Long endAt;
+
+    @JsonIgnore
+    @Nullable
+    @Column(name = "appointment_id")
+    private Long appointmentId;
 
     private int status;
 
-    private LocalDateTime created_at;
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updated_at;
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+    @JsonIgnore
 
-    @ManyToOne
-    @JoinColumn(name = "expert_id")
-    private Experts experts;
+    @Column(name = "expert_id")
+    private Long expertId;
 
 }

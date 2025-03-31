@@ -17,9 +17,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ExpertRatingDTO {
 
-    private int expertRatingId;
+    private Long expertRatingId;
 
-    private int appointmentId;
+    private Long appointmentId;
 
     private int customerId;
 

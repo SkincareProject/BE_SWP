@@ -20,9 +20,7 @@ public class Payments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int paymentId;
 
-    @OneToOne
-    @JoinColumn(name = "appointment_id")
-    private Appointments appointments;
+    private Long appointmentId;
 
     private int status;
 
@@ -33,6 +31,9 @@ public class Payments {
     private LocalDateTime created_at;
 
     private LocalDateTime updated_at;
+
+    @Column(name="user_id")
+    private Long userId;
 
     @ManyToOne
     @JoinColumn(name = "payment_method_id")

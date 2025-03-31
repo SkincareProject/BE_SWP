@@ -1,5 +1,7 @@
 package com.example.be_swp.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,11 +16,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Nullable
 public class Services {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int serviceId;
+    @Column(name = "service_id")
+    private Long serviceId;
 
     private String serviceName;
 
@@ -34,17 +38,22 @@ public class Services {
 
     private String skinType;
 
+    private String image;
+
+
     private LocalDateTime created_at;
 
     private LocalDateTime updated_at;
-  
-    @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     private List<Appointments> appointmentsList;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
     private List<ServiceRatings> serviceRatingsList;
   
-    public Services(String serviceName, double price, String description, int duration, int status, String type, String skinType, LocalDateTime created_at, LocalDateTime updated_at) {
+    public Services(String serviceName, double price, String description, int duration, int status, String type, String skinType, LocalDateTime created_at, LocalDateTime updated_at,String image) {
         this.serviceName = serviceName;
         this.price = price;
         this.description = description;
@@ -54,5 +63,6 @@ public class Services {
         this.skinType = skinType;
         this.created_at = created_at;
         this.updated_at = updated_at;
+        this.image = image;
     }
 }

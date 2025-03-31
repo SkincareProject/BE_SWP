@@ -17,7 +17,7 @@ public class ExpertRatings {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int expertRatingId;
+    private Long expertRatingId;
 
     @OneToOne
     @JoinColumn(name = "appointment_id")
@@ -31,7 +31,7 @@ public class ExpertRatings {
     @JoinColumn(name = "expert_id")
     private Experts experts;
 
-    private int rating;
+    private Long rating;
 
     private String feedback;
 
@@ -41,7 +41,7 @@ public class ExpertRatings {
 
     private LocalDateTime updated_at;
 
-    public ExpertRatings(Appointments appointments, Experts experts, Users users, int rating, String feedback, int status, LocalDateTime created_at, LocalDateTime updated_at) {
+    public ExpertRatings(Appointments appointments, Experts experts, Users users, Long rating, String feedback, int status, LocalDateTime created_at, LocalDateTime updated_at) {
         this.appointments = appointments;
         this.experts = experts;
         this.users = users;

@@ -1,6 +1,7 @@
 package com.example.be_swp.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -18,11 +19,13 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL) // Ignore null fields in JSON
+
 public class Users implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "username" )
     private String username;
@@ -55,9 +58,9 @@ public class Users implements UserDetails {
 
     @OneToOne(mappedBy = "users", cascade = CascadeType.ALL)
     private Experts experts;
-
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    private List<Appointments> appointmentsList;
+//
+//    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+//    private List<Appointments> appointmentsList;
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<ExpertRatings> expertRatingsList;

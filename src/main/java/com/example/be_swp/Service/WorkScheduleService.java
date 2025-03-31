@@ -119,7 +119,7 @@ public class WorkScheduleService {
 
     public WorkScheduleDTO add(WorkScheduleDTO workScheduleDTO, int expertId){
 
-        Optional<Experts> optionalExperts = _expertRepository.findById(expertId);
+        Optional<Experts> optionalExperts = _expertRepository.findById((long)expertId);
 
         boolean is_exist = false;
         List<WorkSchedule> workScheduleList = _workScheduleRepository.findAll();
@@ -179,8 +179,8 @@ public class WorkScheduleService {
             Optional<Experts> optionalExperts = _expertRepository.findById(workSchedule.getExperts().getExpertId());
             Experts experts = optionalExperts.get();
 
-            experts.getWorkScheduleList().remove(workSchedule);
-            experts.setUpdated_at(LocalDateTime.now());
+//            experts.getWorkScheduleList().remove(workSchedule);
+//            experts.setUpdated_at(LocalDateTime.now());
             _workScheduleRepository.delete(workSchedule);
 
         }

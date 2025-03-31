@@ -1,5 +1,7 @@
 package com.example.be_swp.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,17 +10,19 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Table(name="experts")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL) // Ignore null fields in JSON
 public class Experts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int expertId;
+    @Column(name="expert_id")
+    private Long expertId;
 
     private String specialization;
 
@@ -31,28 +35,22 @@ public class Experts {
 
     private int status;
 
-    private LocalDateTime created_at;
 
-    private LocalDateTime updated_at;
 
-    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
-    private List<WorkSchedule> workScheduleList;
 
-    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
-    private List<Appointments> appointmentsList;
 
-    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
-    private List<ExpertRatings> expertRatingsList;
 
-    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
-    private List<ExpertOccupiedTimes> expertOccupiedTimesList;
 
-    @OneToMany(mappedBy = "experts", cascade = CascadeType.ALL)
-    private List<Posts> postsList;
 
+
+
+
+
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id")
     private Users users;
+
 
 
     public Experts(String specialization, int yearOfExperiences, String description, String imageBase64, int status, LocalDateTime created_at, LocalDateTime updated_at) {
@@ -61,7 +59,6 @@ public class Experts {
         this.description = description;
         this.imageBase64 = imageBase64;
         this.status = status;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+
     }
 }

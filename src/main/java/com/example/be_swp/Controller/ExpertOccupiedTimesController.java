@@ -1,107 +1,94 @@
 package com.example.be_swp.Controller;
 
-import com.example.be_swp.DTOs.ExpertOccupiedTimesDTO;
+import com.example.be_swp.DTOs.Appointments.AppointmentsDTO;
+import com.example.be_swp.DTOs.ExpertsDTO;
+import com.example.be_swp.DTOs.Request.ExpertScheduleRequest;
 import com.example.be_swp.Models.ApiResponse;
+import com.example.be_swp.Models.Appointments;
+import com.example.be_swp.Models.ExpertOccupiedTimes;
+import com.example.be_swp.Models.Experts;
+import com.example.be_swp.Repository.AppointmentRepository;
+import com.example.be_swp.Repository.ExpertOccupiedTimeRepository;
 import com.example.be_swp.Service.ExpertOccupiedTimeService;
+import com.example.be_swp.mapper.appointment.AppointmentMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
-@RequestMapping("/api/occupiedTime")
+@RequestMapping("/api/expert")
+@AllArgsConstructor
 public class ExpertOccupiedTimesController {
 
     private final ExpertOccupiedTimeService _expertOccupiedTimeService;
+    private final AppointmentMapper appointmentMapper;
 
-    public ExpertOccupiedTimesController(ExpertOccupiedTimeService expertOccupiedTimeService) {
-        _expertOccupiedTimeService = expertOccupiedTimeService;
-    }
+    private ExpertOccupiedTimeRepository _expertOccupiedTimeRepository;
 
-    @GetMapping("/findAll")
-    public ApiResponse<List<ExpertOccupiedTimesDTO>> findAll(){
-        List<ExpertOccupiedTimesDTO> expertOccupiedTimesDTOList = _expertOccupiedTimeService.findAll();
+    private AppointmentRepository appointmentRepository;
 
-        String status = "";
-        String message = "";
+    @PostMapping("/availableTimes")
+    public ApiResponse<?> available(@RequestBody ExpertScheduleRequest request){
+        List<Long> availableTime = new ArrayList<>(List.of(8L, 9L, 10L, 11L, 12L, 13L, 14L, 15L, 16L, 17L));
 
-        if (expertOccupiedTimesDTOList.isEmpty()){
-            status = "404";
-            message = "No Occupied Time Found!";
-        }else{
-            status = "200";
-            message = "Get all occupied time successfully";
+        List<ExpertOccupiedTimes> expertOccupiedTimesList = _expertOccupiedTimeRepository.findByExpertIdAndDate(request.getExpertId(),request.getDate())    ;
+        if(expertOccupiedTimesList==null){
+            return  new ApiResponse<>("200", availableTime, "success");
         }
 
-        return new ApiResponse<>(status,expertOccupiedTimesDTOList,message);
+//        List<Long> emptyList =  new ArrayList<>();
+
+        Set<Long> occupiedTimes = expertOccupiedTimesList.stream()
+                .flatMap(expertOccupiedTimes -> {
+                    List<Long> tempList = new ArrayList<>();
+                    Long arr = expertOccupiedTimes.getStartAt();
+                    while (arr < expertOccupiedTimes.getEndAt()) {
+                        tempList.add(arr);
+                        arr++;
+                    }
+                    return tempList.stream();
+                })
+                .collect(Collectors.toCollection(LinkedHashSet::new)); // Đảm bảo khô
+
+        availableTime.removeAll(occupiedTimes);
+
+
+
+        return  new ApiResponse<>("200", availableTime, "success");
     }
 
-    @GetMapping("/findByExpertId/{id}")
-    public ApiResponse<List<ExpertOccupiedTimesDTO>> findByExpertId(@PathVariable int id){
-        List<ExpertOccupiedTimesDTO> expertOccupiedTimesDTOList = _expertOccupiedTimeService.findByExpertId(id);
 
-        String status = "";
-        String message = "";
+    @PostMapping("/schedule")
+    public ApiResponse<?> schedule(@RequestParam Long expertId){
 
-        if (expertOccupiedTimesDTOList.isEmpty()){
-            status = "404";
-            message = "No Occupied Time Found With Id: " + id + "!" ;
-        }else{
-            status = "200";
-            message = "Get all occupied time successfully with id: " +id + "!";
+        if(expertId==null){
+            throw new NullPointerException("expertId is null");
         }
 
-        return new ApiResponse<>(status,expertOccupiedTimesDTOList,message);
+        List<ExpertsDTO> expertsDTOList = appointmentRepository.findAllByExpertId(expertId).stream()
+                .map(appointment  ->{
+                    ExpertsDTO epx= appointmentMapper.mapToExpertDTO(appointment);
+                    return epx;
+                })
+                .toList();
+
+
+
+        return  new ApiResponse<>("200", expertsDTOList, "success");
+
+
     }
 
-    @GetMapping("/findAllToday")
-    public ApiResponse<List<ExpertOccupiedTimesDTO>> findAllToday(){
-        List<ExpertOccupiedTimesDTO> expertOccupiedTimesDTOList = _expertOccupiedTimeService.findAllToday();
 
-        String status = "";
-        String message = "";
-
-        if (expertOccupiedTimesDTOList.isEmpty()){
-            status = "404";
-            message = "No Occupied Time Found For Today!" ;
-        }else{
-            status = "200";
-            message = "Get all occupied time for today successfully!";
-        }
-
-        return new ApiResponse<>(status,expertOccupiedTimesDTOList,message);
-    }
-
-    @GetMapping("/findAllTodayByExpertId/{id}")
-    public ApiResponse<List<ExpertOccupiedTimesDTO>> findAllTodayByExpertId(@PathVariable int id){
-        List<ExpertOccupiedTimesDTO> expertOccupiedTimesDTOList = _expertOccupiedTimeService.findAllTodayByExpertId(id);
-
-        String status = "";
-        String message = "";
-
-        if (expertOccupiedTimesDTOList.isEmpty()){
-            status = "404";
-            message = "No Occupied Time Found For Today With Id: " + id + "!" ;
-        }else{
-            status = "200";
-            message = "Get all occupied time for today successfully with id: " +id + "!";
-        }
-
-        return new ApiResponse<>(status,expertOccupiedTimesDTOList,message);
-    }
-
-    @PostMapping
-    public ApiResponse<String> Post (){
-        return new ApiResponse<>("Not Sure","What To Do","Here Yet");
-    }
-
-    @PutMapping
-    public ApiResponse<String> Put (){
-        return new ApiResponse<>("Not Sure","What To Do","Here Yet");
-    }
-
-    @DeleteMapping
-    public ApiResponse<String> Delete (){
-        return new ApiResponse<>("Not Sure","What To Do","Here Yet");
-    }
 
 }
+
+

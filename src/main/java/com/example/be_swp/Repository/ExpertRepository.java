@@ -1,6 +1,10 @@
 package com.example.be_swp.Repository;
 
+import com.example.be_swp.DTOs.ExpertsDTO;
 import com.example.be_swp.Models.Experts;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -10,12 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ExpertRepository extends ListCrudRepository<Experts,Integer> {
+public interface ExpertRepository extends JpaRepository<Experts, Long>, JpaSpecificationExecutor<Experts> {
 
-    @Query(value = "SELECT e FROM Experts e WHERE e.users.id = ?1")
-    Optional<Experts> findByUserId(int user_id);
+    @EntityGraph(attributePaths = {"users"}) // Fetch users along with experts
+    List<Experts> findAll();
 
-    @Query(value = "SELECT ex FROM Experts ex WHERE ex.users.fullName LIKE %:name%")
-    List<Experts>findByName(@Param("name") String name);
 
+//
 }
