@@ -60,7 +60,7 @@ public class ServiceRatingService {
 //
 //    public ServiceRatingsDTO findByServiceId(int id){
 //        ServiceRatingsDTO serviceRatingsDTO = new ServiceRatingsDTO();
-//        Optional<ServiceRatings> optionalServiceRatings = _serviceRatingsRepository.findByServiceId(id);
+//        Optional<ServiceRatings> optionalServiceRatings = _serviceRatingsRepository.findByServiceIds(id);
 //        if (optionalServiceRatings.isEmpty()){
 //            serviceRatingsDTO.setServicesId(-1);
 //        } else {

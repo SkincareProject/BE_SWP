@@ -2,12 +2,10 @@ package com.example.be_swp.Controller;
 
 import com.example.be_swp.Bean.AppointmentBean;
 import com.example.be_swp.DTOs.Appointments.AppointmentsDTO;
+import com.example.be_swp.Data.RatingData;
 import com.example.be_swp.Data.UpdateStatusData;
-import com.example.be_swp.Models.ApiResponse;
-import com.example.be_swp.Models.Appointments;
-import com.example.be_swp.Models.ExpertOccupiedTimes;
-import com.example.be_swp.Repository.AppointmentRepository;
-import com.example.be_swp.Repository.ExpertOccupiedTimeRepository;
+import com.example.be_swp.Models.*;
+import com.example.be_swp.Repository.*;
 import com.example.be_swp.mapper.appointment.AppointmentMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +29,14 @@ public class AppointmentsController {
 
 
     private AppointmentMapper _appointmentMapper;
+    @Autowired
+    private ExpertRepository expertRepository;
+    @Autowired
+    private UsersRepository usersRepository;
+    @Autowired
+    private ServiceRatingsRepository serviceRatingsRepository;
+    @Autowired
+    private ExpertRatingsRepository expertRatingsRepository;
 
     @GetMapping("/getAll")
     public ApiResponse<?> getAllAppointments() {
@@ -195,6 +201,36 @@ public class AppointmentsController {
 
         return   new ApiResponse<>("200", appointments, null);
 
+
+    }
+
+    @PostMapping("/rating")
+    public ApiResponse<?> rating(@RequestBody RatingData serviceRatings){
+
+        Appointments appointments=_appointmentRepository.findByAppointmentId(serviceRatings.getAppointmentId());
+
+        if(appointments==null){
+            throw new NullPointerException("appointment not found");
+        }
+
+        ExpertRatings expertRatings=new ExpertRatings();
+
+        expertRatings.setRating(serviceRatings.getExpertRating());
+        expertRatings.setFeedback(serviceRatings.getExpertFeedback());
+        expertRatings.setUserId(appointments.getUserId());
+        expertRatings.setExpertId(appointments.getExpertId());
+
+
+        ServiceRatings service_rating=new ServiceRatings();
+        service_rating.setRating(serviceRatings.getServiceRating());
+        service_rating.setFeedback(serviceRatings.getServiceFeedback());
+        service_rating.setUserId(appointments.getUserId());
+
+
+        serviceRatingsRepository.save(service_rating);
+        expertRatingsRepository.save(expertRatings);
+
+        return   new ApiResponse<>("200", expertRatings, null);
 
     }
 }

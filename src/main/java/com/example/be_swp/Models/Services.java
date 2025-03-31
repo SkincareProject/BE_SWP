@@ -49,9 +49,7 @@ public class Services {
     @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
     private List<Appointments> appointmentsList;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
-    private List<ServiceRatings> serviceRatingsList;
+
   
     public Services(String serviceName, double price, String description, int duration, int status, String type, String skinType, LocalDateTime created_at, LocalDateTime updated_at,String image) {
         this.serviceName = serviceName;

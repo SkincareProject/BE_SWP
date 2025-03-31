@@ -16,9 +16,4 @@ import java.util.Optional;
 @Repository
 public interface ExpertRepository extends JpaRepository<Experts, Long>, JpaSpecificationExecutor<Experts> {
 
-    @EntityGraph(attributePaths = {"users"}) // Fetch users along with experts
-    List<Experts> findAll();
-
-
-//
 }
