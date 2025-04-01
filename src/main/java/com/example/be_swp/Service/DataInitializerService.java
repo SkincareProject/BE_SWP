@@ -104,9 +104,25 @@ public class DataInitializerService {
 
             Users usersStaff = new Users("staff", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Staff", "staff@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
-            Users usersExpert = new Users("expert", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Expert One", "expert@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+            Users usersExpert1 = new Users("expert1", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Expert One", "expert1@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
             Users usersExpert2 = new Users("expert2", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Expert Two", "expert2@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+
+            Users usersExpert3 = new Users("expert3", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Expert Three", "expert3@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+
+            Users usersExpert4 = new Users("expert4", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Expert Four", "expert4@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+
+            Users usersExpert5 = new Users("expert5", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Expert Five", "expert5@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+
+            Users usersExpert6 = new Users("expert6", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Expert Six", "expert6@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+
+            Users usersExpert7 = new Users("expert7", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Expert Seven", "expert7@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+
+            Users usersExpert8 = new Users("expert8", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Expert Eight", "expert8@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+
+            Users usersExpert9 = new Users("expert8", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Expert Nine", "expert9@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
+
+            Users usersExpert10 = new Users("expert10", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Expert Ten", "expert10@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
             Users usersCustomer = new Users("customer", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Customer", "customer@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
@@ -121,11 +137,27 @@ public class DataInitializerService {
             List<Users> staffList = new ArrayList<>();
             staffList.add(usersStaff);
 
-            usersExpert.setRoles(rolesExpert);
+            usersExpert1.setRoles(rolesExpert);
             usersExpert2.setRoles(rolesExpert);
+            usersExpert3.setRoles(rolesExpert);
+            usersExpert4.setRoles(rolesExpert);
+            usersExpert5.setRoles(rolesExpert);
+            usersExpert6.setRoles(rolesExpert);
+            usersExpert7.setRoles(rolesExpert);
+            usersExpert8.setRoles(rolesExpert);
+            usersExpert9.setRoles(rolesExpert);
+            usersExpert10.setRoles(rolesExpert);
             List<Users> expertList = new ArrayList<>();
-            expertList.add(usersExpert);
+            expertList.add(usersExpert1);
             expertList.add(usersExpert2);
+            expertList.add(usersExpert3);
+            expertList.add(usersExpert4);
+            expertList.add(usersExpert5);
+            expertList.add(usersExpert6);
+            expertList.add(usersExpert7);
+            expertList.add(usersExpert8);
+            expertList.add(usersExpert9);
+            expertList.add(usersExpert10);
 
             usersCustomer.setRoles(rolesCustomer);
             usersCustomer1.setRoles(rolesCustomer);
@@ -145,45 +177,113 @@ public class DataInitializerService {
 
             //Experts
             
-            Experts expert = new Experts("Facial Treatments", 6, "This is John Expert One, John can make your face more beautiful.", "https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg", 1, LocalDateTime.now(), LocalDateTime.now());
+            Experts expert1 = new Experts("Facial Treatments", 6, "This is John Expert One", "https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg", 1, LocalDateTime.now(), LocalDateTime.now());
 
-            Experts expert2 = new Experts("Massage", 5, "This is John Expert Two, John can make your fatigue go away.", "https://t4.ftcdn.net/jpg/07/07/89/33/360_F_707893394_5DEhlBjWOmse1nyu0rC9T7ZRvsAFDkYC.jpg", 1, LocalDateTime.now(), LocalDateTime.now());
+            Experts expert2 = new Experts("Facial Treatments", 5, "This is John Expert Two", "https://t4.ftcdn.net/jpg/07/07/89/33/360_F_707893394_5DEhlBjWOmse1nyu0rC9T7ZRvsAFDkYC.jpg", 1, LocalDateTime.now(), LocalDateTime.now());
+
+            Experts expert3 = new Experts("Back Treatments", 7, "This is John Expert Three", "https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg", 1, LocalDateTime.now(), LocalDateTime.now());
+
+            Experts expert4 = new Experts("Back Treatments", 5, "This is John Expert Four", "https://t4.ftcdn.net/jpg/07/07/89/33/360_F_707893394_5DEhlBjWOmse1nyu0rC9T7ZRvsAFDkYC.jpg", 1, LocalDateTime.now(), LocalDateTime.now());
+
+            Experts expert5 = new Experts("Legs & Arms Treatments", 8, "This is John Expert Five", "https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg", 1, LocalDateTime.now(), LocalDateTime.now());
+
+            Experts expert6 = new Experts("Legs & Arms Treatments", 10, "This is John Expert Six", "https://t4.ftcdn.net/jpg/07/07/89/33/360_F_707893394_5DEhlBjWOmse1nyu0rC9T7ZRvsAFDkYC.jpg", 1, LocalDateTime.now(), LocalDateTime.now());
+
+            Experts expert7 = new Experts("Hands & Feet Treatments", 3, "This is John Expert Seven", "https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg", 1, LocalDateTime.now(), LocalDateTime.now());
+
+            Experts expert8 = new Experts("Hands & Feet Treatments", 4, "This is John Expert Eight", "https://t4.ftcdn.net/jpg/07/07/89/33/360_F_707893394_5DEhlBjWOmse1nyu0rC9T7ZRvsAFDkYC.jpg", 1, LocalDateTime.now(), LocalDateTime.now());
+
+            Experts expert9 = new Experts("Full Body Treatments", 9, "This is John Expert Nine", "https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg", 1, LocalDateTime.now(), LocalDateTime.now());
+
+            Experts expert10 = new Experts("Full Body Treatments", 2, "This is John Expert Ten", "https://t4.ftcdn.net/jpg/07/07/89/33/360_F_707893394_5DEhlBjWOmse1nyu0rC9T7ZRvsAFDkYC.jpg", 1, LocalDateTime.now(), LocalDateTime.now());
 
             //Map User and Expert
 
-            expert.setUsers(usersExpert);
-            usersExpert.setExperts(expert);
-            _expertRepository.save(expert);
+            expert1.setUsers(usersExpert1);
+            usersExpert1.setExperts(expert1);
+            _expertRepository.save(expert1);
 
             expert2.setUsers(usersExpert2);
             usersExpert2.setExperts(expert2);
             _expertRepository.save(expert2);
 
+            expert3.setUsers(usersExpert3);
+            usersExpert3.setExperts(expert3);
+            _expertRepository.save(expert3);
+
+            expert4.setUsers(usersExpert4);
+            usersExpert4.setExperts(expert4);
+            _expertRepository.save(expert4);
+
+            expert5.setUsers(usersExpert5);
+            usersExpert5.setExperts(expert5);
+            _expertRepository.save(expert5);
+
+            expert6.setUsers(usersExpert6);
+            usersExpert6.setExperts(expert6);
+            _expertRepository.save(expert6);
+
+            expert7.setUsers(usersExpert7);
+            usersExpert7.setExperts(expert7);
+            _expertRepository.save(expert7);
+
+            expert8.setUsers(usersExpert8);
+            usersExpert8.setExperts(expert8);
+            _expertRepository.save(expert8);
+
+            expert9.setUsers(usersExpert9);
+            usersExpert9.setExperts(expert9);
+            _expertRepository.save(expert9);
+
+            expert10.setUsers(usersExpert10);
+            usersExpert10.setExperts(expert10);
+            _expertRepository.save(expert10);
+
             //Work Schedule
 
-            List<WorkSchedule> workScheduleList = new ArrayList<>();
+            List<WorkSchedule> workScheduleList1 = new ArrayList<>();
             List<WorkSchedule> workScheduleList2 = new ArrayList<>();
+            List<WorkSchedule> workScheduleList3 = new ArrayList<>();
+            List<WorkSchedule> workScheduleList4 = new ArrayList<>();
+            List<WorkSchedule> workScheduleList5 = new ArrayList<>();
+            List<WorkSchedule> workScheduleList6 = new ArrayList<>();
+            List<WorkSchedule> workScheduleList7 = new ArrayList<>();
+            List<WorkSchedule> workScheduleList8 = new ArrayList<>();
+            List<WorkSchedule> workScheduleList9 = new ArrayList<>();
+            List<WorkSchedule> workScheduleList10 = new ArrayList<>();
 
             for (int i = 0; i < 7; i++){
-                WorkSchedule scheduleMorning = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(11,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
-                WorkSchedule scheduleEvening = new WorkSchedule(LocalTime.of(13,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
-                WorkSchedule scheduleMorning2 = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(11,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
-                WorkSchedule scheduleEvening2 = new WorkSchedule(LocalTime.of(13,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
-                workScheduleList.add(scheduleMorning);
-                workScheduleList.add(scheduleEvening);
+                WorkSchedule scheduleMorning1 = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                WorkSchedule scheduleMorning2 = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                WorkSchedule scheduleMorning3 = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                WorkSchedule scheduleMorning4 = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                WorkSchedule scheduleMorning5 = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                WorkSchedule scheduleMorning6 = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                WorkSchedule scheduleMorning7 = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                WorkSchedule scheduleMorning8 = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                WorkSchedule scheduleMorning9 = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                WorkSchedule scheduleMorning10 = new WorkSchedule(LocalTime.of(7,0),LocalTime.of(17,0), LocalDate.now().plusDays(i),1,LocalDateTime.now(),LocalDateTime.now());
+                workScheduleList1.add(scheduleMorning1);
                 workScheduleList2.add(scheduleMorning2);
-                workScheduleList2.add(scheduleEvening2);
+                workScheduleList3.add(scheduleMorning3);
+                workScheduleList4.add(scheduleMorning4);
+                workScheduleList5.add(scheduleMorning5);
+                workScheduleList6.add(scheduleMorning6);
+                workScheduleList7.add(scheduleMorning7);
+                workScheduleList8.add(scheduleMorning8);
+                workScheduleList9.add(scheduleMorning9);
+                workScheduleList10.add(scheduleMorning10);
             }
 
             //Map Work Schedule with Expert
 
-            for (WorkSchedule workSchedule : workScheduleList) {
+            for (WorkSchedule workSchedule : workScheduleList1) {
                 if (workSchedule.getEnd_at().isBefore(LocalTime.now()) && (workSchedule.getWork_date().isEqual(LocalDate.now()) || workSchedule.getWork_date().isBefore(LocalDate.now()))) {
                     workSchedule.setStatus(4);
                 }else if(workSchedule.getWork_date().equals(LocalDate.now()) && workSchedule.getEnd_at().isAfter(LocalTime.now()) && workSchedule.getStart_at().isBefore(LocalTime.now())){
                     workSchedule.setStatus(3);
                 }
-                workSchedule.setExperts(expert);
+                workSchedule.setExperts(expert1);
             }
 
             for (WorkSchedule workSchedule : workScheduleList2) {
@@ -195,15 +295,127 @@ public class DataInitializerService {
                 workSchedule.setExperts(expert2);
             }
 
-            expert.setWorkScheduleList(workScheduleList);
+            for (WorkSchedule workSchedule : workScheduleList3) {
+                if (workSchedule.getEnd_at().isBefore(LocalTime.now()) && (workSchedule.getWork_date().isEqual(LocalDate.now()) || workSchedule.getWork_date().isBefore(LocalDate.now()))) {
+                    workSchedule.setStatus(4);
+                }else if(workSchedule.getWork_date().equals(LocalDate.now()) && workSchedule.getEnd_at().isAfter(LocalTime.now()) && workSchedule.getStart_at().isBefore(LocalTime.now())){
+                    workSchedule.setStatus(3);
+                }
+                workSchedule.setExperts(expert3);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList4) {
+                if (workSchedule.getEnd_at().isBefore(LocalTime.now()) && (workSchedule.getWork_date().isEqual(LocalDate.now()) || workSchedule.getWork_date().isBefore(LocalDate.now()))) {
+                    workSchedule.setStatus(4);
+                }else if(workSchedule.getWork_date().equals(LocalDate.now()) && workSchedule.getEnd_at().isAfter(LocalTime.now()) && workSchedule.getStart_at().isBefore(LocalTime.now())){
+                    workSchedule.setStatus(3);
+                }
+                workSchedule.setExperts(expert4);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList5) {
+                if (workSchedule.getEnd_at().isBefore(LocalTime.now()) && (workSchedule.getWork_date().isEqual(LocalDate.now()) || workSchedule.getWork_date().isBefore(LocalDate.now()))) {
+                    workSchedule.setStatus(4);
+                }else if(workSchedule.getWork_date().equals(LocalDate.now()) && workSchedule.getEnd_at().isAfter(LocalTime.now()) && workSchedule.getStart_at().isBefore(LocalTime.now())){
+                    workSchedule.setStatus(3);
+                }
+                workSchedule.setExperts(expert5);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList6) {
+                if (workSchedule.getEnd_at().isBefore(LocalTime.now()) && (workSchedule.getWork_date().isEqual(LocalDate.now()) || workSchedule.getWork_date().isBefore(LocalDate.now()))) {
+                    workSchedule.setStatus(4);
+                }else if(workSchedule.getWork_date().equals(LocalDate.now()) && workSchedule.getEnd_at().isAfter(LocalTime.now()) && workSchedule.getStart_at().isBefore(LocalTime.now())){
+                    workSchedule.setStatus(3);
+                }
+                workSchedule.setExperts(expert6);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList7) {
+                if (workSchedule.getEnd_at().isBefore(LocalTime.now()) && (workSchedule.getWork_date().isEqual(LocalDate.now()) || workSchedule.getWork_date().isBefore(LocalDate.now()))) {
+                    workSchedule.setStatus(4);
+                }else if(workSchedule.getWork_date().equals(LocalDate.now()) && workSchedule.getEnd_at().isAfter(LocalTime.now()) && workSchedule.getStart_at().isBefore(LocalTime.now())){
+                    workSchedule.setStatus(3);
+                }
+                workSchedule.setExperts(expert7);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList8) {
+                if (workSchedule.getEnd_at().isBefore(LocalTime.now()) && (workSchedule.getWork_date().isEqual(LocalDate.now()) || workSchedule.getWork_date().isBefore(LocalDate.now()))) {
+                    workSchedule.setStatus(4);
+                }else if(workSchedule.getWork_date().equals(LocalDate.now()) && workSchedule.getEnd_at().isAfter(LocalTime.now()) && workSchedule.getStart_at().isBefore(LocalTime.now())){
+                    workSchedule.setStatus(3);
+                }
+                workSchedule.setExperts(expert8);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList9) {
+                if (workSchedule.getEnd_at().isBefore(LocalTime.now()) && (workSchedule.getWork_date().isEqual(LocalDate.now()) || workSchedule.getWork_date().isBefore(LocalDate.now()))) {
+                    workSchedule.setStatus(4);
+                }else if(workSchedule.getWork_date().equals(LocalDate.now()) && workSchedule.getEnd_at().isAfter(LocalTime.now()) && workSchedule.getStart_at().isBefore(LocalTime.now())){
+                    workSchedule.setStatus(3);
+                }
+                workSchedule.setExperts(expert9);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList10) {
+                if (workSchedule.getEnd_at().isBefore(LocalTime.now()) && (workSchedule.getWork_date().isEqual(LocalDate.now()) || workSchedule.getWork_date().isBefore(LocalDate.now()))) {
+                    workSchedule.setStatus(4);
+                }else if(workSchedule.getWork_date().equals(LocalDate.now()) && workSchedule.getEnd_at().isAfter(LocalTime.now()) && workSchedule.getStart_at().isBefore(LocalTime.now())){
+                    workSchedule.setStatus(3);
+                }
+                workSchedule.setExperts(expert10);
+            }
+
+            expert1.setWorkScheduleList(workScheduleList1);
             expert2.setWorkScheduleList(workScheduleList2);
+            expert3.setWorkScheduleList(workScheduleList3);
+            expert4.setWorkScheduleList(workScheduleList4);
+            expert5.setWorkScheduleList(workScheduleList5);
+            expert6.setWorkScheduleList(workScheduleList6);
+            expert7.setWorkScheduleList(workScheduleList7);
+            expert8.setWorkScheduleList(workScheduleList8);
+            expert9.setWorkScheduleList(workScheduleList9);
+            expert10.setWorkScheduleList(workScheduleList10);
 
 
-            for (WorkSchedule workSchedule : workScheduleList) {
+            for (WorkSchedule workSchedule : workScheduleList1) {
                 _workScheduleRepository.save(workSchedule);
             }
 
             for (WorkSchedule workSchedule : workScheduleList2) {
+                _workScheduleRepository.save(workSchedule);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList3) {
+                _workScheduleRepository.save(workSchedule);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList4) {
+                _workScheduleRepository.save(workSchedule);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList5) {
+                _workScheduleRepository.save(workSchedule);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList6) {
+                _workScheduleRepository.save(workSchedule);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList7) {
+                _workScheduleRepository.save(workSchedule);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList8) {
+                _workScheduleRepository.save(workSchedule);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList9) {
+                _workScheduleRepository.save(workSchedule);
+            }
+
+            for (WorkSchedule workSchedule : workScheduleList10) {
                 _workScheduleRepository.save(workSchedule);
             }
 
@@ -253,14 +465,14 @@ public class DataInitializerService {
 
             appointments.setServices(regularFacial);
             appointments.setUsers(usersCustomer);
-            appointments.setExperts(expert);
+            appointments.setExperts(expert1);
 
             List<Appointments> appointmentsList = new ArrayList<>();
             appointmentsList.add(appointments);
 
             regularFacial.setAppointmentsList(appointmentsList);
             usersCustomer.setAppointmentsList(appointmentsList);
-            expert.setAppointmentsList(appointmentsList);
+            expert1.setAppointmentsList(appointmentsList);
 
             _appointmentRepository.save(appointments);
 
@@ -310,7 +522,7 @@ public class DataInitializerService {
             randomAppointment.setCreated_at(LocalDateTime.now());
             randomAppointment.setUpdated_at(LocalDateTime.now());
             randomAppointment.setServices(regularFacial);
-            randomAppointment.setExperts(expert);
+            randomAppointment.setExperts(expert1);
             randomAppointment.setUsers(usersCustomer1);
 
             List<Appointments> randomAppointmentsList = new ArrayList<>();
@@ -318,7 +530,7 @@ public class DataInitializerService {
             randomAppointmentsList.add(randomAppointment);
 
             usersCustomer1.setAppointmentsList(randomAppointmentsList);
-            expert.getAppointmentsList().add(randomAppointment);
+            expert1.getAppointmentsList().add(randomAppointment);
             regularFacial.getAppointmentsList().add(randomAppointment);
 
             _appointmentRepository.save(randomAppointment);
@@ -328,7 +540,7 @@ public class DataInitializerService {
 
             ExpertOccupiedTimes expertOccupiedTimes = new ExpertOccupiedTimes();
 
-            expertOccupiedTimes.setExperts(expert);
+            expertOccupiedTimes.setExperts(expert1);
             expertOccupiedTimes.setStartAt(appointments.getStart_at().toLocalTime());
             expertOccupiedTimes.setEndAt(appointments.getEnd_at().toLocalTime());
             expertOccupiedTimes.setDate(appointments.getStart_at().toLocalDate());
@@ -345,7 +557,7 @@ public class DataInitializerService {
             }
 
             expertOccupiedTimesList.add(expertOccupiedTimes);
-            expert.setExpertOccupiedTimesList(expertOccupiedTimesList);
+            expert1.setExpertOccupiedTimesList(expertOccupiedTimesList);
 
             _expertOccupiedTimeRepository.save(expertOccupiedTimes);
             //Occupied Time Done
@@ -370,7 +582,7 @@ public class DataInitializerService {
             //Occupied Time Random
             ExpertOccupiedTimes randomExpertOccupiedTimes = new ExpertOccupiedTimes();
 
-            randomExpertOccupiedTimes.setExperts(expert);
+            randomExpertOccupiedTimes.setExperts(expert1);
             randomExpertOccupiedTimes.setStartAt(randomAppointment.getStart_at().toLocalTime());
             randomExpertOccupiedTimes.setEndAt(randomAppointment.getEnd_at().toLocalTime());
             randomExpertOccupiedTimes.setDate(randomAppointment.getStart_at().toLocalDate());
@@ -385,7 +597,7 @@ public class DataInitializerService {
                 randomExpertOccupiedTimes.setStatus(4);
             }
 
-            expert.getExpertOccupiedTimesList().add(randomExpertOccupiedTimes);
+            expert1.getExpertOccupiedTimesList().add(randomExpertOccupiedTimes);
 
             _expertOccupiedTimeRepository.save(randomExpertOccupiedTimes);
 

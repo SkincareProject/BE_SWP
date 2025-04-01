@@ -46,18 +46,18 @@ public class ServicesService {
         return servicesDTO;
     }
 
-    public ServicesDTO findBySkinType(String skinType){
-        ServicesDTO servicesDTO = new ServicesDTO();
-        Optional<Services> optionalServices = _servicesRepository.findBySkinType(skinType);
-        if (optionalServices.isPresent()){
-            Services services = optionalServices.get();
-            servicesDTO = new ServicesDTO(services.getServiceId(),services.getServiceName()
-                    ,services.getPrice(),services.getDescription(),services.getDuration(),services.getStatus()
-                    ,services.getType(),services.getSkinType(), services.getServiceImage(),services.getCreated_at(),services.getUpdated_at());
-        }else{
-            servicesDTO.setServiceId(-1);
+    public List<ServicesDTO> findBySkinType(String skinType){
+        List<ServicesDTO> servicesDTOList = new ArrayList<>();
+        List<Services> servicesList = _servicesRepository.findBySkinType(skinType);
+        if (!servicesList.isEmpty()) {
+            for (Services services : servicesList) {
+                ServicesDTO servicesDTO = new ServicesDTO(services.getServiceId(), services.getServiceName()
+                        , services.getPrice(), services.getDescription(), services.getDuration(), services.getStatus()
+                        , services.getType(), services.getSkinType(), services.getServiceImage(), services.getCreated_at(), services.getUpdated_at());
+                servicesDTOList.add(servicesDTO);
+            }
         }
-        return servicesDTO;
+        return servicesDTOList;
     };
 
     public ServicesDTO add(ServicesDTO servicesDTO){

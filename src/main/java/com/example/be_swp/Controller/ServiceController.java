@@ -54,13 +54,13 @@ public class ServiceController {
     }
 
     @GetMapping("/findBySkinType")
-    public ApiResponse<ServicesDTO> findBySkinType(@RequestParam String skinType){
-        ServicesDTO servicesDTO = _servicesService.findBySkinType(skinType);
+    public ApiResponse<List<ServicesDTO>> findBySkinType(@RequestParam String skinType){
+        List<ServicesDTO> servicesDTOList = _servicesService.findBySkinType(skinType);
 
         String status = "";
         String message = "";
 
-        if (servicesDTO.getServiceId() == -1){
+        if (servicesDTOList.isEmpty()){
             status = "404";
             message = "Service Not Found!";
         } else {
@@ -68,7 +68,7 @@ public class ServiceController {
             message = "Services Found!";
         }
 
-        return new ApiResponse<>(status,servicesDTO,message);
+        return new ApiResponse<>(status,servicesDTOList,message);
     }
 
     @PostMapping("/add")
