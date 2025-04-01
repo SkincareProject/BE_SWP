@@ -46,7 +46,9 @@ public class SecurityConfig {
                 "http://localhost:3000",
                 "http://35.202.71.223:8080",
                 "http://localhost:3001",
-                "https://beauty.tamdeptrai.com"
+                "https://beauty.tamdeptrai.com",
+                "http://34.142.180.62:3001/",
+                "http://34.142.180.62:5173/"
 
                 ));
         // Explicitly list all allowed methods
