@@ -209,16 +209,33 @@ public class DataInitializerService {
 
             //Service
 
-            Services facialService = new Services("All Your Facial Treatments", 100000, "All of skincare for your face", 60, 1, "Facial Treatment", "Dry skin" , "https://img.skininc.com/files/base/allured/all/image/2023/09/AdobeStock_578418396.64fb63a284980.png?auto=format%2Ccompress&q=70&rect=0%2C347%2C5295%2C2979&w=700" , LocalDateTime.now(), LocalDateTime.now());
-            Services massageService = new Services("All Your Skin Treatments", 150000, "Make all of your fatigue go away", 60, 1, "Massage Treatment", "Sensitive skin" , "https://havispadanang.vn/wp-content/uploads/2024/03/Back-treatment-havi-spa.jpg" , LocalDateTime.now(), LocalDateTime.now());
+            Services regularFacial = new Services("Regular Facial", 100000, "A classic facial including cleansing, exfoliation, steam, and massage to maintain healthy skin", 60, 1, "Face Treatment", "Normal Skin" , "https://img.skininc.com/files/base/allured/all/image/2023/09/AdobeStock_578418396.64fb63a284980.png?auto=format%2Ccompress&q=70&rect=0%2C347%2C5295%2C2979&w=700" , LocalDateTime.now(), LocalDateTime.now());
+            Services backCleansingFacial = new Services("Back Cleansing Facial", 150000, "Deep cleansing, exfoliation, and hydration to keep back skin smooth and clear", 60, 1, "Back Treatment", "Normal Skin" , "https://havispadanang.vn/wp-content/uploads/2024/03/Back-treatment-havi-spa.jpg" , LocalDateTime.now(), LocalDateTime.now());
+            Services backAcneTreatment = new Services("Back Acne Treatment", 150000, "A deep pore cleansing treatment for acne-prone skin on the back", 60, 1, "Back Treatment", "Oily Skin" , "https://havispadanang.vn/wp-content/uploads/2024/03/Back-treatment-havi-spa.jpg" , LocalDateTime.now(), LocalDateTime.now());
+            Services exfoliatingScrubForOilControl = new Services("Exfoliating Scrub for Oil Control", 150000, "Removes dead skin and excess oil for smoother skin", 60, 1, "Legs & Arms Treatment", "Oily Skin", "https://media.istockphoto.com/id/1169634751/photo/close-up-on-a-woman-applying-cream-on-her-legs.jpg?s=612x612&w=0&k=20&c=fV6iWihoE1zpbyy4jI7Ecb5HqOheL2ES_LVm_-40Wgk=" , LocalDateTime.now(), LocalDateTime.now());
+            Services paraffinWaxTreatment = new Services("Paraffin Wax Treatment", 150000, "Softens and deeply moisturizes hands and feet", 60, 1, "Hands & Feet Treatment", "Dry Skin" , "https://ipalclinic.com/wp-content/uploads/2023/12/hand-and-foot-care.jpg" , LocalDateTime.now(), LocalDateTime.now());
+            Services steamTherapy = new Services("Steam Therapy", 150000, "Opens pores and allows better absorption of moisture", 60, 1, "Full Body Treatment", "Dry Skin" , "https://www.royalwellnesscentre.ca/uploads/files/Images/face%20and%20body/aroma-therapy.jpg" , LocalDateTime.now(), LocalDateTime.now());
+            Services hydrafacialBodyTreatment = new Services("Hydrafacial Body Treatment", 150000, "Uses water-based serums and suction for deep cleansing and", 60, 1, "Full Body Treatment", "Combination SKin" , "https://celestolite.com/wp-content/uploads/Celestolite-8-Body-Skin-Care-Tips-Legs.jpg" , LocalDateTime.now(), LocalDateTime.now());
+            Services customizedFacial = new Services("Customized Facial", 150000, "A tailored treatment that balances oily and dry areas", 60, 1, "Face Treatment", "Combination skin" , "https://img.skininc.com/files/base/allured/all/image/2023/09/AdobeStock_578418396.64fb63a284980.png?auto=format%2Ccompress&q=70&rect=0%2C347%2C5295%2C2979&w=700" , LocalDateTime.now(), LocalDateTime.now());
+            Services calmingFacial = new Services("Calming Facial", 150000, "Reduces inflammation and soothes sensitive skin", 60, 1, "Face Treatment", "Sensitive skin" , "https://img.skininc.com/files/base/allured/all/image/2023/09/AdobeStock_578418396.64fb63a284980.png?auto=format%2Ccompress&q=70&rect=0%2C347%2C5295%2C2979&w=700" , LocalDateTime.now(), LocalDateTime.now());
+            Services gentleHydratingBackFacial = new Services("Gentle Hydrating Back Facial", 150000, "Uses mild, fragrance-free products to cleanse and nourish.", 60, 1, "Back Treatment", "Sensitive skin" , "https://havispadanang.vn/wp-content/uploads/2024/03/Back-treatment-havi-spa.jpg" , LocalDateTime.now(), LocalDateTime.now());
 
-            _servicesRepository.save(facialService);
-            _servicesRepository.save(massageService);
+            _servicesRepository.save(regularFacial);
+            _servicesRepository.save(backCleansingFacial);
+            _servicesRepository.save(backAcneTreatment);
+            _servicesRepository.save(exfoliatingScrubForOilControl);
+            _servicesRepository.save(paraffinWaxTreatment);
+            _servicesRepository.save(steamTherapy);
+            _servicesRepository.save(hydrafacialBodyTreatment);
+            _servicesRepository.save(customizedFacial);
+            _servicesRepository.save(calmingFacial);
+            _servicesRepository.save(gentleHydratingBackFacial);
+
 
             //Appointment
             LocalDate today = LocalDate.now();
             LocalTime startTime = LocalTime.of(8, 0);
-            LocalTime endTime = startTime.plusMinutes(facialService.getDuration());
+            LocalTime endTime = startTime.plusMinutes(regularFacial.getDuration());
 
             Appointments appointments = new Appointments();
 
@@ -228,20 +245,20 @@ public class DataInitializerService {
                 appointments.setStatus(1);
             }
 
-            appointments.setTotal(facialService.getPrice());
+            appointments.setTotal(regularFacial.getPrice());
             appointments.setStart_at(LocalDateTime.of(today, startTime));
             appointments.setEnd_at(LocalDateTime.of(today, endTime));
             appointments.setCreated_at(LocalDateTime.now());
             appointments.setUpdated_at(LocalDateTime.now());
 
-            appointments.setServices(facialService);
+            appointments.setServices(regularFacial);
             appointments.setUsers(usersCustomer);
             appointments.setExperts(expert);
 
             List<Appointments> appointmentsList = new ArrayList<>();
             appointmentsList.add(appointments);
 
-            facialService.setAppointmentsList(appointmentsList);
+            regularFacial.setAppointmentsList(appointmentsList);
             usersCustomer.setAppointmentsList(appointmentsList);
             expert.setAppointmentsList(appointmentsList);
 
@@ -251,21 +268,21 @@ public class DataInitializerService {
 
             Appointments appointmentsDone = new Appointments();
 
-            appointmentsDone.setTotal(massageService.getPrice());
+            appointmentsDone.setTotal(backCleansingFacial.getPrice());
             appointmentsDone.setStart_at(LocalDateTime.of(today.minusDays(1), startTime));
             appointmentsDone.setEnd_at(LocalDateTime.of(today.minusDays(1), endTime));
             appointmentsDone.setStatus(4);
             appointmentsDone.setCreated_at(LocalDateTime.now());
             appointmentsDone.setUpdated_at(LocalDateTime.now());
 
-            appointmentsDone.setServices(massageService);
+            appointmentsDone.setServices(backCleansingFacial);
             appointmentsDone.setUsers(usersCustomer);
             appointmentsDone.setExperts(expert2);
 
             List<Appointments> appointmentsListDone = new ArrayList<>();
             appointmentsListDone.add(appointments);
 
-            massageService.setAppointmentsList(appointmentsListDone);
+            backCleansingFacial.setAppointmentsList(appointmentsListDone);
             usersCustomer.getAppointmentsList().add(appointmentsDone);
             expert2.setAppointmentsList(appointmentsListDone);
 
@@ -289,10 +306,10 @@ public class DataInitializerService {
 
             randomAppointment.setStart_at(LocalDateTime.of(randomDate,randomStartTime));
             randomAppointment.setEnd_at(LocalDateTime.of(randomDate,randomEndTime));
-            randomAppointment.setTotal(facialService.getPrice());
+            randomAppointment.setTotal(regularFacial.getPrice());
             randomAppointment.setCreated_at(LocalDateTime.now());
             randomAppointment.setUpdated_at(LocalDateTime.now());
-            randomAppointment.setServices(facialService);
+            randomAppointment.setServices(regularFacial);
             randomAppointment.setExperts(expert);
             randomAppointment.setUsers(usersCustomer1);
 
@@ -302,7 +319,7 @@ public class DataInitializerService {
 
             usersCustomer1.setAppointmentsList(randomAppointmentsList);
             expert.getAppointmentsList().add(randomAppointment);
-            facialService.getAppointmentsList().add(randomAppointment);
+            regularFacial.getAppointmentsList().add(randomAppointment);
 
             _appointmentRepository.save(randomAppointment);
             // Occupied Time
@@ -418,7 +435,7 @@ public class DataInitializerService {
 
             serviceRatingsDone.setAppointments(appointmentsDone);
             serviceRatingsDone.setUsers(usersCustomer);
-            serviceRatingsDone.setServices(massageService);
+            serviceRatingsDone.setServices(backCleansingFacial);
             serviceRatingsDone.setRating(5);
             serviceRatingsDone.setFeedback("Good Service!");
             serviceRatingsDone.setStatus(4);
@@ -430,7 +447,7 @@ public class DataInitializerService {
 
             appointmentsDone.setServiceRatings(serviceRatingsDone);
             usersCustomer.setServiceRatingsList(serviceRatingsListDone);
-            massageService.setServiceRatingsList(serviceRatingsListDone);
+            backCleansingFacial.setServiceRatingsList(serviceRatingsListDone);
 
             _serviceRatingsRepository.save(serviceRatingsDone);
 
