@@ -56,8 +56,6 @@ public class AppointmentsController {
     @PostMapping("/add")
     public ApiResponse<AppointmentsDTO> saveAppointment(@RequestBody AppointmentUserDTO appointmentUserDTO) {
 
-        appointmentUserDTO.getAppointmentsDTO().setStart_at(appointmentUserDTO.getAppointmentsDTO().getStart_at().plusHours(7));
-
         AppointmentsDTO appointmentsDTO = _appointmentsService.add(appointmentUserDTO);
         String status;
         String message;
