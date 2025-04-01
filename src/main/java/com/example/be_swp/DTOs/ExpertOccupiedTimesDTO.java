@@ -22,7 +22,13 @@ public class ExpertOccupiedTimesDTO {
 
     private int expertId;
 
+    private int appointmentId;
+
     private String expertName;
+
+    private String serviceName;
+
+    private String customerName;
 
     private LocalDate date;
 
