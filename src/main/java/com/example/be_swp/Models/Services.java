@@ -34,6 +34,8 @@ public class Services {
 
     private String skinType;
 
+    private String serviceImage;
+
     private LocalDateTime created_at;
 
     private LocalDateTime updated_at;
@@ -44,7 +46,7 @@ public class Services {
     @OneToMany(mappedBy = "services", cascade = CascadeType.ALL)
     private List<ServiceRatings> serviceRatingsList;
   
-    public Services(String serviceName, double price, String description, int duration, int status, String type, String skinType, LocalDateTime created_at, LocalDateTime updated_at) {
+    public Services(String serviceName, double price, String description, int duration, int status, String type, String skinType, String serviceImage, LocalDateTime created_at, LocalDateTime updated_at) {
         this.serviceName = serviceName;
         this.price = price;
         this.description = description;
@@ -52,6 +54,7 @@ public class Services {
         this.status = status;
         this.type = type;
         this.skinType = skinType;
+        this.serviceImage = serviceImage;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }

@@ -58,6 +58,25 @@ public class UsersController {
         return new ApiResponse<>(status,usersDTO,message);
     }
 
+    @PostMapping("/changeStatus/{id}")
+    public ApiResponse<UsersDTO> changeUserStatus(@PathVariable int id){
+        UsersDTO usersDTO = _userService.changeUserStatus(id);
+
+        String status = "";
+        String message = "";
+
+        if(usersDTO.getId() == -1){
+            status = "404";
+            message = "User Not Found!";
+        }else{
+            status = "200";
+            message = "Change Status Successfully!";
+        }
+
+        usersDTO.setId(id);
+        return new ApiResponse<>(status,usersDTO,message);
+    }
+
     @PutMapping("/update/{id}")
     public ApiResponse<UsersDTO> update(@RequestBody UsersDTO usersDTO,@PathVariable int id){
         usersDTO = _userService.update(usersDTO,id);

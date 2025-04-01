@@ -209,8 +209,8 @@ public class DataInitializerService {
 
             //Service
 
-            Services facialService = new Services("All Your Facial Treatments", 100000, "All of skincare for yo face", 60, 1, "Facial Treatment", "Dry skin" , LocalDateTime.now(), LocalDateTime.now());
-            Services massageService = new Services("All Your Skin Treatments", 150000, "Make all of your fatigue go away", 60, 1, "Massage Treatment", "Dry skin" , LocalDateTime.now(), LocalDateTime.now());
+            Services facialService = new Services("All Your Facial Treatments", 100000, "All of skincare for your face", 60, 1, "Facial Treatment", "Dry skin" , "https://img.skininc.com/files/base/allured/all/image/2023/09/AdobeStock_578418396.64fb63a284980.png?auto=format%2Ccompress&q=70&rect=0%2C347%2C5295%2C2979&w=700" , LocalDateTime.now(), LocalDateTime.now());
+            Services massageService = new Services("All Your Skin Treatments", 150000, "Make all of your fatigue go away", 60, 1, "Massage Treatment", "Sensitive skin" , "https://havispadanang.vn/wp-content/uploads/2024/03/Back-treatment-havi-spa.jpg" , LocalDateTime.now(), LocalDateTime.now());
 
             _servicesRepository.save(facialService);
             _servicesRepository.save(massageService);

@@ -25,7 +25,7 @@ public class ServicesService {
             for (Services services: servicesList){
                 ServicesDTO servicesDTO = new ServicesDTO(services.getServiceId(),services.getServiceName()
                         ,services.getPrice(),services.getDescription(),services.getDuration(),services.getStatus()
-                        ,services.getType(),services.getSkinType(),services.getCreated_at(),services.getUpdated_at());
+                        ,services.getType(),services.getSkinType(), services.getServiceImage(),services.getCreated_at(),services.getUpdated_at());
                 servicesDTOList.add(servicesDTO);
             }
         }
@@ -39,12 +39,26 @@ public class ServicesService {
             Services services = optionalServices.get();
             servicesDTO = new ServicesDTO(services.getServiceId(),services.getServiceName()
                     ,services.getPrice(),services.getDescription(),services.getDuration(),services.getStatus()
-                    ,services.getType(),services.getSkinType(),services.getCreated_at(),services.getUpdated_at());
+                    ,services.getType(),services.getSkinType(), services.getServiceImage(),services.getCreated_at(),services.getUpdated_at());
         }else{
             servicesDTO.setServiceId(-1);
         }
         return servicesDTO;
     }
+
+    public ServicesDTO findBySkinType(String skinType){
+        ServicesDTO servicesDTO = new ServicesDTO();
+        Optional<Services> optionalServices = _servicesRepository.findBySkinType(skinType);
+        if (optionalServices.isPresent()){
+            Services services = optionalServices.get();
+            servicesDTO = new ServicesDTO(services.getServiceId(),services.getServiceName()
+                    ,services.getPrice(),services.getDescription(),services.getDuration(),services.getStatus()
+                    ,services.getType(),services.getSkinType(), services.getServiceImage(),services.getCreated_at(),services.getUpdated_at());
+        }else{
+            servicesDTO.setServiceId(-1);
+        }
+        return servicesDTO;
+    };
 
     public ServicesDTO add(ServicesDTO servicesDTO){
         Services newServices = new Services();
@@ -88,7 +102,7 @@ public class ServicesService {
             Services services = optionalServices.get();
             servicesDTO = new ServicesDTO(services.getServiceId(),services.getServiceName()
                     ,services.getPrice(),services.getDescription(),services.getDuration(),services.getStatus()
-                    ,services.getType(),services.getSkinType(),services.getCreated_at(),services.getUpdated_at());
+                    ,services.getType(),services.getSkinType(), services.getServiceImage(),services.getCreated_at(),services.getUpdated_at());
             _servicesRepository.delete(services);
         }else{
             servicesDTO.setServiceId(-1);
