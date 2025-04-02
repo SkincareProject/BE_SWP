@@ -6,6 +6,9 @@ import com.example.be_swp.Models.ApiResponse;
 import com.example.be_swp.Service.AppointmentsService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @RestController
@@ -55,6 +58,17 @@ public class AppointmentsController {
 
     @PostMapping("/add")
     public ApiResponse<AppointmentsDTO> saveAppointment(@RequestBody AppointmentUserDTO appointmentUserDTO) {
+
+        LocalDateTime start = appointmentUserDTO.getAppointmentsDTO().getStart_at();
+
+        ZonedDateTime zoneUTC = start.atZone(ZoneId.of("UTC"));
+        ZonedDateTime zoneAsia = zoneUTC.withZoneSameInstant(ZoneId.of("Asia/Ho_Chi_Minh"));
+
+        LocalDateTime startTime = zoneAsia.toLocalDateTime();
+        LocalDateTime endTime = startTime.plusMinutes(appointmentUserDTO.getServicesDTO().getDuration());
+
+        appointmentUserDTO.getAppointmentsDTO().setStart_at(startTime);
+        appointmentUserDTO.getAppointmentsDTO().setEnd_at(endTime);
 
         AppointmentsDTO appointmentsDTO = _appointmentsService.add(appointmentUserDTO);
         String status;
