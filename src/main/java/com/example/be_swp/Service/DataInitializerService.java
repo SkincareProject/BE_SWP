@@ -128,6 +128,7 @@ public class DataInitializerService {
 
             Users usersCustomer1 = new Users("customer1", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "John Customer One", "customer@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
 
+            Users usersHello = new Users("hello", "$2a$10$svTTSTx1vX3sg5M5FBr18ef86ev.eVkNdOwuKlAk5bedbRqwJuXKG", "Hello", "hello@gmail.com", "0123456789", true, LocalDateTime.now(), LocalDateTime.now());
             //Map User and Role
             usersAdmin.setRoles(rolesAdmin);
             List<Users> adminList = new ArrayList<>();
@@ -161,9 +162,11 @@ public class DataInitializerService {
 
             usersCustomer.setRoles(rolesCustomer);
             usersCustomer1.setRoles(rolesCustomer);
+            usersHello.setRoles(rolesCustomer);
             List<Users> customerList = new ArrayList<>();
             customerList.add(usersCustomer);
             customerList.add(usersCustomer1);
+            customerList.add(usersHello);
 
             rolesAdmin.setUsers(adminList);
             rolesStaff.setUsers(staffList);

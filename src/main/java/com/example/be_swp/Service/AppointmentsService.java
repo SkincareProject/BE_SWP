@@ -6,6 +6,7 @@ import com.example.be_swp.Models.*;
 import com.example.be_swp.Repository.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -175,6 +176,18 @@ public class AppointmentsService {
         AppointmentsDTO appointmentsDTO = new AppointmentsDTO();
         if (optionalAppointments.isPresent()){
             Appointments appointments = optionalAppointments.get();
+
+            appointments.setStatus(0);
+            _appointmentsRepository.save(appointments);
+
+            Optional<ExpertOccupiedTimes> optionalExpertOccupiedTimes = _expertOccupiedTimeRepository.findByAppointment(appointments.getExperts().getExpertId(),appointments.getStart_at().toLocalTime(), appointments.getEnd_at().toLocalTime(), appointments.getStart_at().toLocalDate());
+
+            if (optionalExpertOccupiedTimes.isPresent()) {
+                ExpertOccupiedTimes expertOccupiedTimes = optionalExpertOccupiedTimes.get();
+                expertOccupiedTimes.setStatus(0);
+                _expertOccupiedTimeRepository.save(expertOccupiedTimes);
+            }
+
             appointmentsDTO = new AppointmentsDTO(appointments.getAppointmentId()
                     ,appointments.getUsers().getId()
                     ,appointments.getExperts().getExpertId()
@@ -187,11 +200,35 @@ public class AppointmentsService {
                     ,appointments.getStatus()
                     ,appointments.getCreated_at()
                     ,appointments.getUpdated_at());
-            _appointmentsRepository.delete(appointments);
+
+
         } else{
             appointmentsDTO.setAppointmentId(-1);
         }
         return appointmentsDTO;
+    }
+
+    public List<AppointmentsDTO> findAllToday(){
+        List<Appointments> appointmentsList = _appointmentsRepository.findAllToday(LocalDate.now());
+        List<AppointmentsDTO> AppointmentsDTOList = new ArrayList<>();
+        if (!appointmentsList.isEmpty()){
+            for (Appointments appointment: appointmentsList){
+                AppointmentsDTO appointmentsDTO = new AppointmentsDTO(appointment.getAppointmentId()
+                        ,appointment.getUsers().getId()
+                        ,appointment.getExperts().getExpertId()
+                        ,appointment.getExperts().getUsers().getFullName()
+                        ,appointment.getServices().getServiceId()
+                        ,appointment.getPayments() == null ? 0 : appointment.getPayments().getStatus()
+                        ,appointment.getTotal()
+                        ,appointment.getStart_at()
+                        ,appointment.getEnd_at()
+                        ,appointment.getStatus()
+                        ,appointment.getCreated_at()
+                        ,appointment.getUpdated_at());
+                AppointmentsDTOList.add(appointmentsDTO);
+            }
+        }
+        return AppointmentsDTOList;
     }
 
     public List<AppointmentsDTO> findByUserId(int userId) {

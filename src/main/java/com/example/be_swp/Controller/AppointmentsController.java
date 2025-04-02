@@ -56,6 +56,24 @@ public class AppointmentsController {
         return new ApiResponse<>(status,appointmentsDTO,message);
     }
 
+    @GetMapping("/findAllToday")
+    public ApiResponse<List<AppointmentsDTO>> findAllToday(){
+        List<AppointmentsDTO> appointmentsDTOList = _appointmentsService.findAllToday();
+
+        String status = "";
+        String message = "";
+
+        if (appointmentsDTOList.isEmpty()) {
+            status = "404";
+            message = "Appointment Not Found!";
+        } else {
+            status = "200";
+            message = "Appointment Found!";
+        }
+
+        return new ApiResponse<>(status,appointmentsDTOList,message);
+    }
+
     @PostMapping("/add")
     public ApiResponse<AppointmentsDTO> saveAppointment(@RequestBody AppointmentUserDTO appointmentUserDTO) {
 

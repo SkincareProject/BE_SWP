@@ -6,6 +6,7 @@ import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -20,4 +21,7 @@ public interface AppointmentRepository extends ListCrudRepository<Appointments, 
 
     @Query(value = "SELECT a FROM Appointments a WHERE a.start_at = :timeStart AND a.end_at = :timeEnd")
     Optional<Appointments> findByTime(@Param("timeStart")LocalDateTime timeStart, @Param("timeEnd") LocalDateTime timeEnd);
+
+    @Query(value = "SELECT a FROM Appointments a WHERE DATE(a.start_at) = :today")
+    List<Appointments> findAllToday(@Param("today")LocalDate today);
 }
