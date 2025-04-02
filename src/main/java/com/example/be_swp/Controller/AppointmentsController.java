@@ -59,16 +59,8 @@ public class AppointmentsController {
     @PostMapping("/add")
     public ApiResponse<AppointmentsDTO> saveAppointment(@RequestBody AppointmentUserDTO appointmentUserDTO) {
 
-        LocalDateTime start = appointmentUserDTO.getAppointmentsDTO().getStart_at();
-
-        ZonedDateTime zoneUTC = start.atZone(ZoneId.of("UTC"));
-        ZonedDateTime zoneAsia = zoneUTC.withZoneSameInstant(ZoneId.of("Asia/Ho_Chi_Minh"));
-
-        LocalDateTime startTime = zoneAsia.toLocalDateTime();
-        LocalDateTime endTime = startTime.plusMinutes(appointmentUserDTO.getServicesDTO().getDuration());
-
-        appointmentUserDTO.getAppointmentsDTO().setStart_at(startTime);
-        appointmentUserDTO.getAppointmentsDTO().setEnd_at(endTime);
+        appointmentUserDTO.getAppointmentsDTO().setEnd_at(appointmentUserDTO.getAppointmentsDTO().getEnd_at().plusDays(1));
+        appointmentUserDTO.getAppointmentsDTO().setStart_at(appointmentUserDTO.getAppointmentsDTO().getStart_at().plusDays(1));
 
         AppointmentsDTO appointmentsDTO = _appointmentsService.add(appointmentUserDTO);
         String status;
