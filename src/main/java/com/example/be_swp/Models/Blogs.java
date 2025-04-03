@@ -35,6 +35,8 @@ public class Blogs implements Serializable {
     @Column(name="content", columnDefinition = "TEXT")
     private String content;
 
+    private String image;
+
     @CreationTimestamp
     @Column(name="created_at", updatable = false)
     private Instant createdAt;
