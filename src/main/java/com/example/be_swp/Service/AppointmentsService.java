@@ -255,4 +255,67 @@ public class AppointmentsService {
 
         return appointmentsDTOList;
     }
+
+    public AppointmentsDTO checkIn(int id) {
+        AppointmentsDTO appointmentsDTO = new AppointmentsDTO();
+
+        Optional<Appointments> optionalAppointment = _appointmentsRepository.findById(id);
+
+        if (optionalAppointment.isEmpty()) {
+            appointmentsDTO.setAppointmentId(-1);
+            return appointmentsDTO;
+        }
+
+        Appointments appointment = optionalAppointment.get();
+
+        // Check if already checked in or checked out
+        if (appointment.getStatus() == 3) {
+            appointmentsDTO.setAppointmentId(-3);
+            return appointmentsDTO;
+        }
+
+        if (appointment.getStatus() == 4) {
+            appointmentsDTO.setAppointmentId(-4);
+            return appointmentsDTO;
+        }
+
+        // Perform check-in
+        appointment.setStatus(3);
+        appointment.setUpdated_at(LocalDateTime.now());
+        _appointmentsRepository.save(appointment);
+
+        return appointmentsDTO;
+    }
+
+    public AppointmentsDTO checkOut(int id) {
+        AppointmentsDTO appointmentsDTO = new AppointmentsDTO();
+
+        Optional<Appointments> optionalAppointment = _appointmentsRepository.findById(id);
+
+        if (optionalAppointment.isEmpty()) {
+            appointmentsDTO.setAppointmentId(-1);
+            return appointmentsDTO;
+        }
+
+        Appointments appointment = optionalAppointment.get();
+
+        // Check if not checked in
+        if (appointment.getStatus() != 3) {
+            appointmentsDTO.setAppointmentId(-3);
+            return appointmentsDTO;
+        }
+
+        // Check if already checked out
+        if (appointment.getStatus() == 4) {
+            appointmentsDTO.setAppointmentId(-4);
+            return appointmentsDTO;
+        }
+
+        // Perform check-out
+        appointment.setStatus(4);
+        appointment.setUpdated_at(LocalDateTime.now());
+        _appointmentsRepository.save(appointment);
+
+        return appointmentsDTO;
+    }
 }

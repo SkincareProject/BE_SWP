@@ -167,4 +167,62 @@ public class AppointmentsController {
 
         return new ApiResponse<>(status, appointmentsDTOList, message);
     }
+
+    @PostMapping("/checkIn/{id}")
+    public ApiResponse<AppointmentsDTO> checkInAppointment(@PathVariable int id) {
+        AppointmentsDTO appointmentsDTO = _appointmentsService.checkIn(id);
+
+        String status;
+        String message;
+
+        switch (appointmentsDTO.getAppointmentId()) {
+            case -1:
+                status = "404";
+                message = "Appointment Not Found!";
+                break;
+            case -3:
+                status = "403";
+                message = "This Appointment Is Already Checked In!";
+                break;
+//            case -4:
+//                status = "403";
+//                message = "This Appointment Is Already Checked Out!";
+//                break;
+            default:
+                status = "200";
+                message = "Check In Successfully! At: " + LocalDateTime.now();
+        }
+
+        appointmentsDTO.setAppointmentId(id);
+        return new ApiResponse<>(status, appointmentsDTO, message);
+    }
+
+    @PostMapping("/checkOut/{id}")
+    public ApiResponse<AppointmentsDTO> checkOutAppointment(@PathVariable int id) {
+        AppointmentsDTO appointmentsDTO = _appointmentsService.checkOut(id);
+
+        String status;
+        String message;
+
+        switch (appointmentsDTO.getAppointmentId()) {
+            case -1:
+                status = "404";
+                message = "Appointment Not Found!";
+                break;
+            case -3:
+                status = "403";
+                message = "This Appointment Is Not Checked In Yet!";
+                break;
+            case -4:
+                status = "403";
+                message = "This Appointment Is Already Checked Out!";
+                break;
+            default:
+                status = "200";
+                message = "Check Out Successfully! At: " + LocalDateTime.now();
+        }
+
+        appointmentsDTO.setAppointmentId(id);
+        return new ApiResponse<>(status, appointmentsDTO, message);
+    }
 }
