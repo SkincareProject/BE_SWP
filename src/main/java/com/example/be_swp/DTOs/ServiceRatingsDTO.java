@@ -22,7 +22,11 @@ public class ServiceRatingsDTO {
 
     private int usersId;
 
+    private String customerName;
+
     private int servicesId;
+
+    private String serviceName;
 
     private int rating;
 

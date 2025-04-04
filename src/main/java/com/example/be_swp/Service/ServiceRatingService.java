@@ -6,6 +6,7 @@ import com.example.be_swp.Repository.AppointmentRepository;
 import com.example.be_swp.Repository.ServiceRatingsRepository;
 import com.example.be_swp.Repository.ServicesRepository;
 import com.example.be_swp.Repository.UsersRepository;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -33,9 +34,11 @@ public class ServiceRatingService {
         List<ServiceRatingsDTO> serviceRatingsDTOList = new ArrayList<>();
         if (!serviceRatingsList.isEmpty()){
             for (ServiceRatings serviceRatings: serviceRatingsList){
+
                 ServiceRatingsDTO serviceRatingsDTO = new ServiceRatingsDTO(serviceRatings.getServiceRatingId()
                         ,serviceRatings.getAppointments().getAppointmentId(),serviceRatings.getUsers().getId()
-                        ,serviceRatings.getServices().getServiceId(),serviceRatings.getRating(),serviceRatings.getFeedback()
+                        , serviceRatings.getUsers().getFullName(),serviceRatings.getServices().getServiceId()
+                        , serviceRatings.getServices().getServiceName(),serviceRatings.getRating(),serviceRatings.getFeedback()
                         ,serviceRatings.getStatus(),serviceRatings.getCreated_at(),serviceRatings.getUpdated_at());
                 serviceRatingsDTOList.add(serviceRatingsDTO);
             }
@@ -52,7 +55,8 @@ public class ServiceRatingService {
             ServiceRatings serviceRatings = optionalServiceRatings.get();
             serviceRatingsDTO = new ServiceRatingsDTO(serviceRatings.getServiceRatingId()
                     ,serviceRatings.getAppointments().getAppointmentId(),serviceRatings.getUsers().getId()
-                    ,serviceRatings.getServices().getServiceId(),serviceRatings.getRating(),serviceRatings.getFeedback()
+                    , serviceRatings.getUsers().getFullName(),serviceRatings.getServices().getServiceId()
+                    , serviceRatings.getServices().getServiceName(),serviceRatings.getRating(),serviceRatings.getFeedback()
                     ,serviceRatings.getStatus(),serviceRatings.getCreated_at(),serviceRatings.getUpdated_at());
         }
         return serviceRatingsDTO;
@@ -67,7 +71,8 @@ public class ServiceRatingService {
             ServiceRatings serviceRatings = optionalServiceRatings.get();
             serviceRatingsDTO = new ServiceRatingsDTO(serviceRatings.getServiceRatingId()
                     ,serviceRatings.getAppointments().getAppointmentId(),serviceRatings.getUsers().getId()
-                    ,serviceRatings.getServices().getServiceId(),serviceRatings.getRating(),serviceRatings.getFeedback()
+                    , serviceRatings.getUsers().getFullName(),serviceRatings.getServices().getServiceId()
+                    , serviceRatings.getServices().getServiceName(),serviceRatings.getRating(),serviceRatings.getFeedback()
                     ,serviceRatings.getStatus(),serviceRatings.getCreated_at(),serviceRatings.getUpdated_at());
         }
         return serviceRatingsDTO;
