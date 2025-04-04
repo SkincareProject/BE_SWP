@@ -160,7 +160,6 @@ public class UserService implements UserDetailsService{
             }else{
                 Users users = optionalUsers.get();
                 users.setUsername(usersDTO.getUsername());
-                users.setPassword(usersDTO.getPassword());
                 users.setFullName(usersDTO.getFullName());
                 users.setEmail(usersDTO.getEmail());
                 users.setPhone(usersDTO.getPhone());
