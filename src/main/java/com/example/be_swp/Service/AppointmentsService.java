@@ -284,6 +284,12 @@ public class AppointmentsService {
         appointment.setUpdated_at(LocalDateTime.now());
         _appointmentsRepository.save(appointment);
 
+        Optional<ExpertOccupiedTimes> optionalExpertOccupiedTimes = _expertOccupiedTimeRepository.findByAppointment(appointment.getExperts().getExpertId(),appointment.getStart_at().toLocalTime(),appointment.getEnd_at().toLocalTime(),appointment.getStart_at().toLocalDate());
+        ExpertOccupiedTimes expertOccupiedTimes = optionalExpertOccupiedTimes.get();
+        expertOccupiedTimes.setStatus(3);
+        expertOccupiedTimes.setUpdated_at(LocalDateTime.now());
+        _expertOccupiedTimeRepository.save(expertOccupiedTimes);
+
         return appointmentsDTO;
     }
 
@@ -315,6 +321,12 @@ public class AppointmentsService {
         appointment.setStatus(4);
         appointment.setUpdated_at(LocalDateTime.now());
         _appointmentsRepository.save(appointment);
+
+        Optional<ExpertOccupiedTimes> optionalExpertOccupiedTimes = _expertOccupiedTimeRepository.findByAppointment(appointment.getExperts().getExpertId(),appointment.getStart_at().toLocalTime(),appointment.getEnd_at().toLocalTime(),appointment.getStart_at().toLocalDate());
+        ExpertOccupiedTimes expertOccupiedTimes = optionalExpertOccupiedTimes.get();
+        expertOccupiedTimes.setStatus(4);
+        expertOccupiedTimes.setUpdated_at(LocalDateTime.now());
+        _expertOccupiedTimeRepository.save(expertOccupiedTimes);
 
         return appointmentsDTO;
     }
