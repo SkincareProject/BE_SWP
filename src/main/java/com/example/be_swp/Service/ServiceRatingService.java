@@ -91,9 +91,7 @@ public class ServiceRatingService {
             Services services = optionalServices.get();
             Appointments appointments = optionalAppointments.get();
 
-            ServiceRatings serviceRatings = new ServiceRatings(serviceRatingsDTO.getServicesId(), appointments, users
-                    , services, serviceRatingsDTO.getRating(), serviceRatingsDTO.getFeedback(), serviceRatingsDTO.getStatus()
-                    , serviceRatingsDTO.getCreated_at(), serviceRatingsDTO.getUpdated_at());
+            ServiceRatings serviceRatings = new ServiceRatings(appointments, users, services, serviceRatingsDTO.getRating(), serviceRatingsDTO.getFeedback(), 1, LocalDateTime.now(), LocalDateTime.now());
             users.getServiceRatingsList().add(serviceRatings);
             services.getServiceRatingsList().add(serviceRatings);
             appointments.setServiceRatings(serviceRatings);
