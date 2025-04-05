@@ -24,19 +24,7 @@ import java.util.Optional;
 @Component
 public class AppointmentMapper {
 
-//    private Long appointmentId;
-//
-//    private String expertsName;
-//
-//    private String serviceName;
-//
-//    private Long total;
-//
-//    private Long start_at;
-//
-//    private Long end_at;
-//
-//    private Long status;
+
 
     private ServicesRepository servicesRepository;
     private AppointmentRepository appointmentRepository;
@@ -47,6 +35,9 @@ public class AppointmentMapper {
         AppointmentsDTO appointmentsDTO = new AppointmentsDTO();
 
         Services services = servicesRepository.findByServiceId(appointments.getServiceId());
+        if(services==null){
+            services = new Services();
+        }
         Optional<Users> users = usersRepository.findById(appointments.getUserId());
         ExpertOccupiedTimes expertOccupiedTimes = expertOccupiedTimeRepository.findByAppointmentId(appointments.getAppointmentId());
 
@@ -54,7 +45,7 @@ public class AppointmentMapper {
         Long expertScheduleId = (expertOccupiedTimes != null) ? expertOccupiedTimes.getExpertOccupiedTimeId() : 0;
 
         return appointmentsDTO.builder()
-                .serviceName(services.getServiceName())
+                .serviceName(services.getServiceName()!=null ?services.getServiceName():"")
                 .expertsName(users.map(Users::getFullName).orElse("N/A")) // Tránh lỗi nếu user không tồn tại
                 .total(appointments.getTotal())
                 .serviceId(services.getServiceId())

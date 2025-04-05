@@ -45,22 +45,7 @@ public class Services {
 
     private LocalDateTime updated_at;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "serviceId", cascade = CascadeType.ALL)
-    private List<Appointments> appointmentsList;
 
 
-  
-    public Services(String serviceName, double price, String description, int duration, int status, String type, String skinType, LocalDateTime created_at, LocalDateTime updated_at,String image) {
-        this.serviceName = serviceName;
-        this.price = price;
-        this.description = description;
-        this.duration = duration;
-        this.status = status;
-        this.type = type;
-        this.skinType = skinType;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.image = image;
-    }
+
 }

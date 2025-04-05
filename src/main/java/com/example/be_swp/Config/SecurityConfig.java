@@ -52,6 +52,7 @@ public class SecurityConfig {
 
                 ));
         // Explicitly list all allowed methods
+        configuration.setAllowCredentials(true);
         configuration.setAllowedMethods(List.of(
                 "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT"
         ));

@@ -147,7 +147,7 @@ public class PaymentService {
         int random_id = rand.nextInt(1000000);
 
         Map<String, Object> embed_data = new HashMap<>();
-        embed_data.put("redirecturl", "http://localhost:3000/success");
+        embed_data.put("redirecturl", "http://localhost:3001/success");
 
         embed_data.put("paymentId", paymentID);
 
