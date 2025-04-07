@@ -10,8 +10,7 @@ public class RatingData {
     private Long appointmentId;
 
     private String serviceFeedback;
-    private String expertFeedback;
+
 
     private Long serviceRating;
-    private Long expertRating;
 }

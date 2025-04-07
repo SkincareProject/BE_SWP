@@ -2,22 +2,30 @@ package com.example.be_swp.Controller;
 
 import com.example.be_swp.DTOs.ServicesDTO;
 import com.example.be_swp.Models.ApiResponse;
+import com.example.be_swp.Models.ServiceRatings;
 import com.example.be_swp.Models.Services;
+import com.example.be_swp.Models.Users;
 import com.example.be_swp.Repository.ServiceRatingsRepository;
 import com.example.be_swp.Repository.ServicesRepository;
+import com.example.be_swp.Repository.UsersRepository;
 import com.example.be_swp.Service.ServicesService;
 import lombok.AllArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.http.server.RequestPath;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/services")
 @AllArgsConstructor
 public class ServiceController {
 
+    private final UsersRepository usersRepository;
     private ServicesRepository servicesRepository;
     private ServiceRatingsRepository serviceRatingsRepository;
 //    private Ser servicesService;
@@ -88,6 +96,38 @@ public class ServiceController {
         }
         return  new ApiResponse<>("200", service, "find success");
 
+    }
+
+    @GetMapping("/rating/{id}")
+    public ApiResponse<?> findRating(@PathVariable Long id){
+
+        if(id==null || id==0) {
+            return new ApiResponse<>("404", null,null);
+
+        }
+        Services services   = servicesRepository.findByServiceId(id);
+
+        List<?> serviceRatingsList = serviceRatingsRepository.findAllByServiceId(id)
+                .stream().map(rating-> {
+                    Users user =usersRepository.findById(rating.getUserId()).orElse(null);
+                    if(user==null) {return null;}
+                    HashMap<String, Object> object =new HashMap<>();
+                    object.put("createdAt",rating.getCreatedAt());
+                    object.put("serviceId",services.getServiceId());
+                    object.put("userId",user.getId());
+                    object.put("userName",user.getUsername());
+                    object.put("rating",rating.getRating());
+                    object.put("comment",rating.getFeedback());
+
+
+
+                    return object;
+                })
+                .collect(Collectors.toList());
+
+
+
+        return  new ApiResponse<>("200", serviceRatingsList, "find success");
     }
 
 

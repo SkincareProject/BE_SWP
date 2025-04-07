@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Builder
@@ -24,8 +25,10 @@ public class ServiceRatings {
 
     private String feedback;
 
-    @Column(name="user_id")
+    @Column(name="customer_id")
     private Long userId;
+
+    private Date createdAt=new Date();
 
 
     @Column(name="service_id")

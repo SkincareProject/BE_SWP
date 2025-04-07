@@ -213,24 +213,26 @@ public class AppointmentsController {
             throw new NullPointerException("appointment not found");
         }
 
-        ExpertRatings expertRatings=new ExpertRatings();
-
-        expertRatings.setRating(serviceRatings.getExpertRating());
-        expertRatings.setFeedback(serviceRatings.getExpertFeedback());
-        expertRatings.setUserId(appointments.getUserId());
-        expertRatings.setExpertId(appointments.getExpertId());
+//        ExpertRatings expertRatings=new ExpertRatings();
+//
+//        expertRatings.setRating(serviceRatings.getExpertRating());
+//        expertRatings.setFeedback(serviceRatings.getExpertFeedback());
+//        expertRatings.setUserId(appointments.getUserId());
+//        expertRatings.setExpertId(appointments.getExpertId());
 
 
         ServiceRatings service_rating=new ServiceRatings();
         service_rating.setRating(serviceRatings.getServiceRating());
         service_rating.setFeedback(serviceRatings.getServiceFeedback());
         service_rating.setUserId(appointments.getUserId());
+        service_rating.setServiceId(appointments.getServiceId());
+
 
 
         serviceRatingsRepository.save(service_rating);
-        expertRatingsRepository.save(expertRatings);
+//        expertRatingsRepository.save(expertRatings);
 
-        return   new ApiResponse<>("200", expertRatings, null);
+        return   new ApiResponse<>("200", service_rating, null);
 
     }
 }
