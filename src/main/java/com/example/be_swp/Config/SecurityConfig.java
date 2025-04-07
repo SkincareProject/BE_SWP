@@ -24,7 +24,7 @@ public class SecurityConfig {
     @Order(0)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors((cors) -> cors.configurationSource(corsConfigurationSource()))
+//                .cors((cors) -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()
@@ -41,6 +41,7 @@ public class SecurityConfig {
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3001",
+
                 "http://34.142.180.62:3001",
                 "http://localhost:5173"));
 
