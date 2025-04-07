@@ -40,7 +40,10 @@ public class SecurityConfig {
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3001",
+                "http://34.142.180.62:3001",
+                "http://localhost:5173"));
+
 
         // Explicitly list all allowed methods
         configuration.setAllowCredentials(true);
