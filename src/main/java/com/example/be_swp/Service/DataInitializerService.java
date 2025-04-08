@@ -34,9 +34,10 @@ public class DataInitializerService {
     private final QuizResultsRepository _quizResultsRepository;
     private final ServiceRatingsRepository _serviceRatingsRepository;
     private final ExpertRatingsRepository _expertRatingsRepository;
+    private final BlogsRepository _blogsRepository;
 
 
-    public DataInitializerService(RolesRepository _rolesRepository, UsersRepository _usersRepository, WorkScheduleRepository _workScheduleRepository, PaymentMethodRepository _paymentMethodRepository, PaymentRepository _paymentRepository, ExpertRepository _expertRepository, AppointmentRepository _appointmentRepository, ServicesRepository _servicesRepository, ExpertOccupiedTimeRepository _expertOccupiedTimeRepository, QuizzesRepository _quizzesRepository, QuestionsRepository _questionsRepository, AnswersRepository _answersRepository, QuizResultsRepository _quizResultsRepository, ServiceRatingsRepository _serviceRatingsRepository, ExpertRatingsRepository _expertRatingsRepository) {
+    public DataInitializerService(RolesRepository _rolesRepository, UsersRepository _usersRepository, WorkScheduleRepository _workScheduleRepository, PaymentMethodRepository _paymentMethodRepository, PaymentRepository _paymentRepository, ExpertRepository _expertRepository, AppointmentRepository _appointmentRepository, ServicesRepository _servicesRepository, ExpertOccupiedTimeRepository _expertOccupiedTimeRepository, QuizzesRepository _quizzesRepository, QuestionsRepository _questionsRepository, AnswersRepository _answersRepository, QuizResultsRepository _quizResultsRepository, ServiceRatingsRepository _serviceRatingsRepository, ExpertRatingsRepository _expertRatingsRepository, BlogsRepository _blogsRepository) {
         this._rolesRepository = _rolesRepository;
         this._usersRepository = _usersRepository;
         this._workScheduleRepository = _workScheduleRepository;
@@ -52,6 +53,7 @@ public class DataInitializerService {
         this._quizResultsRepository = _quizResultsRepository;
         this._serviceRatingsRepository = _serviceRatingsRepository;
         this._expertRatingsRepository = _expertRatingsRepository;
+        this._blogsRepository = _blogsRepository;
     }
 
     @PostConstruct
@@ -824,6 +826,21 @@ public class DataInitializerService {
 
             _quizResultsRepository.save(quizResults1);
 
+            // Blogs
+            Blogs blogs1 = new Blogs();
+            blogs1.setTitle("Skincare 101: Expert Tips for Glowing, Healthy Skin");
+            blogs1.setAuthorId(1);
+            blogs1.setContent("We all want that fresh, radiant glow—but with so many products and routines out there, skincare can quickly feel overwhelming. At Beauty Booking, we believe great skin starts with the right knowledge. Here are our top skincare tips to help you build a healthy routine and keep your skin looking its best every day.");
+            blogs1.setImage("https://havispadanang.vn/wp-content/uploads/2023/02/facial-skincare.jpg");
+
+            Blogs blogs2 = new Blogs();
+            blogs2.setTitle("Know Your Skin Type");
+            blogs2.setAuthorId(2);
+            blogs2.setContent("Before you buy another product, take a moment to really understand your skin. Is it oily, dry, combination, or sensitive? The right skincare routine starts with choosing products that support your skin’s unique needs. Our experts offer personalized consultations to help you identify your skin type and find the perfect match.");
+            blogs2.setImage("https://codeskin.in/cdn/shop/articles/Skin_type.jpg?v=1732683865&width=2500");
+
+            _blogsRepository.save(blogs1);
+            _blogsRepository.save(blogs2);
         }
     }
 
