@@ -47,6 +47,7 @@ public class BlogController {
         newBlog.setTitle(data.getTitle());
         newBlog.setContent(data.getContent());
         newBlog.setAuthorId(data.getAuthorId());
+        newBlog.setImage(data.getImage());
 
         // Save to repository
         newBlog = repository.save(newBlog);
