@@ -70,6 +70,7 @@ public class ServicesService {
         newServices.setType(servicesDTO.getType());
         newServices.setCreated_at(LocalDateTime.now());
         newServices.setUpdated_at(LocalDateTime.now());
+        newServices.setServiceImage(servicesDTO.getServiceImage());
 
         _servicesRepository.save(newServices);
         servicesDTO.setServiceId(newServices.getServiceId());
