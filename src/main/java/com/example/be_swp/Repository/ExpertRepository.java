@@ -16,4 +16,5 @@ import java.util.Optional;
 @Repository
 public interface ExpertRepository extends JpaRepository<Experts, Long>, JpaSpecificationExecutor<Experts> {
 
+    Experts findByExpertId(Long expertId);
 }

@@ -3,14 +3,8 @@ package com.example.be_swp.mapper.appointment;
 
 import com.example.be_swp.DTOs.Appointments.AppointmentsDTO;
 import com.example.be_swp.DTOs.ExpertsDTO;
-import com.example.be_swp.Models.Appointments;
-import com.example.be_swp.Models.ExpertOccupiedTimes;
-import com.example.be_swp.Models.Services;
-import com.example.be_swp.Models.Users;
-import com.example.be_swp.Repository.AppointmentRepository;
-import com.example.be_swp.Repository.ExpertOccupiedTimeRepository;
-import com.example.be_swp.Repository.ServicesRepository;
-import com.example.be_swp.Repository.UsersRepository;
+import com.example.be_swp.Models.*;
+import com.example.be_swp.Repository.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +19,7 @@ import java.util.Optional;
 public class AppointmentMapper {
 
 
-
+    private final ExpertRepository expertRepository;
     private ServicesRepository servicesRepository;
     private AppointmentRepository appointmentRepository;
     private UsersRepository usersRepository;
@@ -38,7 +32,11 @@ public class AppointmentMapper {
         if(services==null){
             services = new Services();
         }
-        Optional<Users> users = usersRepository.findById(appointments.getUserId());
+
+        Experts expert=expertRepository.findByExpertId(appointments.getExpertId());
+        Optional<Users> users = usersRepository.findById(expert.getUsers().getId());
+
+
         ExpertOccupiedTimes expertOccupiedTimes = expertOccupiedTimeRepository.findByAppointmentId(appointments.getAppointmentId());
 
         // Bypass nếu expertOccupiedTimes là null
